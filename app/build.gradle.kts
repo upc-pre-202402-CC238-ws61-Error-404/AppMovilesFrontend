@@ -33,10 +33,14 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures.buildConfig = true
 }
 
 dependencies {
-    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    implementation("io.github.cdimascio:dotenv-kotlin:6.4.2")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
