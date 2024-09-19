@@ -3,17 +3,20 @@ package com.example.chaquitaclla_appmovil_android
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.TextView
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-class MainActivity : AppCompatActivity() {
+class ProductsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        enableEdgeToEdge()
+        setContentView(R.layout.activity_products)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -28,12 +31,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun showPopup(anchorView: View) {
         val popupMenu = PopupMenu(this, anchorView)
-        val inflater = popupMenu.menuInflater
+        val inflater: MenuInflater = popupMenu.menuInflater
         inflater.inflate(R.menu.popup_menu, popupMenu.menu)
-        popupMenu.setOnMenuItemClickListener { item ->
+        popupMenu.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {
                 R.id.menu_crop_care -> {
-                    startActivity(Intent(this, MainActivity::class.java))
+                    startActivity(Intent(this, CropCareActivity::class.java))
                     true
                 }
                 R.id.menu_controls -> {

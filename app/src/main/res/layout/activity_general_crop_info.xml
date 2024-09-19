@@ -7,11 +7,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    tools:context=".GeneralCropInfo">
 
     <TextView
-        android:id="@+id/titleTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -44,8 +42,8 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp" />
 
+
     <LinearLayout
-        android:baselineAligned="false"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="66dp">
@@ -60,45 +58,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/name_of_crop"
-                android:textColor="@android:color/white"
-                android:textSize="16sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="66dp"
-            android:layout_weight="1"
-            android:background="@drawable/cornered_background_right"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Rice"
-                android:textColor="@android:color/white"
-                android:textSize="16sp" />
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:baselineAligned="false"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="66dp">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="66dp"
-            android:layout_weight="1"
-            android:background="@drawable/cornered_background_left"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/date_created"
+                android:text="Left Text"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
         </LinearLayout>
@@ -118,10 +78,10 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
+
     </LinearLayout>
 
     <LinearLayout
-        android:baselineAligned="false"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="66dp">
@@ -136,7 +96,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/planted_area"
+                android:text="Left Text"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
         </LinearLayout>
@@ -156,18 +116,46 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="66dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="66dp"
+            android:layout_weight="1"
+            android:background="@drawable/cornered_background_left"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Left Text"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="66dp"
+            android:layout_weight="1"
+            android:background="@drawable/cornered_background_right"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Right Text"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/popupTriggerTextView"
-        android:layout_width="170dp"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="@drawable/rounded_background"
-        android:text="Crop care"
-        android:textColor="#FFFFFF"
-        android:gravity="center"
-        android:layout_marginTop="20dp"/>
+
 
 </LinearLayout>
