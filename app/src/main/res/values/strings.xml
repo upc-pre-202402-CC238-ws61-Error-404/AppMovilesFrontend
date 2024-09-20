@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Chaquitaclla_appmovil_android</string>
+    <string name="title_forum_management">Consultation Forum</string>
+    <string name="delete_question">Delete Question</string>
+    <string name="edit_question">Edit Question</string>
+    <string name="see_question">See Question</string>
 </resources>
