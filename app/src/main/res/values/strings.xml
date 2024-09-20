@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Chaquitaclla_appmovil_android</string>
+    <string name="item_label">User Type</string>
+
+    <style name="GreenAutoCompleteTextView" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="endIconTint">#005F40</item>
+    </style>
+
 </resources>
+

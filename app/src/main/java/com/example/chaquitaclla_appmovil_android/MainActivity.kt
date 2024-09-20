@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         // Botón para ir a LogInActivity
         val button: Button = findViewById(R.id.buttonLogin)
         button.setOnClickListener {
+            println("entre al boton")
             startActivity(goLogin(this))
         }
 
