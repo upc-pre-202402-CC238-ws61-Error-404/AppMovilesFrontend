@@ -20,21 +20,21 @@
         android:layout_width="240dp"
         android:layout_height="140dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="150dp"
         android:background="@drawable/plans_b_background" />
 
     <ImageView
         android:layout_width="240dp"
         android:layout_height="140dp"
         android:layout_centerInParent="true"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="0dp"
         android:background="@drawable/plans_r_background" />
 
     <ImageView
         android:layout_width="240dp"
         android:layout_height="140dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="452dp"
+        android:layout_marginTop="469dp"
         android:background="@drawable/plans_p_background" />
 
     <LinearLayout
@@ -57,7 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="13dp"
             android:fontFamily="@font/poppins"
             android:text="Basic"
             android:textStyle="bold"
@@ -225,7 +225,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="33dp"
+            android:layout_marginTop="35dp"
             android:fontFamily="@font/poppins"
             android:text="Premium"
             android:textStyle="bold"

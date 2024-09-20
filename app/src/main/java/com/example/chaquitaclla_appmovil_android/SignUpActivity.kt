@@ -1,10 +1,14 @@
 package com.example.chaquitaclla_appmovil_android
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.chaquitaclla_appmovil_android.MainActivity.Companion.GoSignup
 import com.example.chaquitaclla_appmovil_android.`interface`.AuthService
 import com.example.chaquitaclla_appmovil_android.io.RetrofitClient
 import com.example.chaquitaclla_appmovil_android.model.SignUpRequest
@@ -14,7 +18,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class SignUpActivity : AppCompatActivity() {
-
+    @SuppressLint("MissingInflatedId")
     private lateinit var authService: AuthService
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +33,7 @@ class SignUpActivity : AppCompatActivity() {
             val password = findViewById<EditText>(R.id.edtPassword).text.toString()
             if (username.isNotEmpty() && password.isNotEmpty()) {
                 signUp(username, password)
+                startActivity(GoPlans(this))
             } else {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_LONG).show()
             }
@@ -55,5 +60,10 @@ class SignUpActivity : AppCompatActivity() {
                 Toast.makeText(this@SignUpActivity, "Error: ${t.message}", Toast.LENGTH_LONG).show()
             }
         })
+    }
+    companion object {
+        fun GoPlans(context: Context): Intent {
+            return Intent(context, PlansActivity::class.java)
+        }
     }
 }
