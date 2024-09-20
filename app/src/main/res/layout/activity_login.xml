@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LogInActivity"
+    android:background="#D9D9D9">
+
+    <ImageView
+        android:layout_width="329dp"
+        android:layout_height="440dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/login_background" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="329dp"
+        android:layout_height="440dp"
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/poppins"
+            android:text="LogIn"
+            android:textColor="#000000"
+            android:textSize="25dp" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/login_picture_24"/>
+
+        <EditText
+            android:id="@+id/edtUser"
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/login_edit_text_background"
+            android:hint="User"/>
+
+        <EditText
+            android:id="@+id/edtPassword"
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/login_edit_text_background"
+            android:hint="Password"
+            android:inputType="textPassword"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="70dp"
+            android:fontFamily="@font/poppins"
+            android:text="Forgot Password?"
+            android:textColor="#3958FB"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:id="@+id/chkRemember"
+                android:checked="false"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:buttonTint="#005F40" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins"
+                android:text="Remember me"
+                android:textColor="#000000"
+                android:textSize="15dp"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="160dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/poppins"
+            android:text="LogIn"
+            android:textSize="18dp"
+            android:backgroundTint="#005F40"
+            app:cornerRadius="10dp"/>
+
+        <Button
+            android:id="@+id/btnSignUp"
+            android:layout_width="160dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/poppins"
+            android:text="SignUp"
+            android:textSize="18dp"
+            android:backgroundTint="#005F40"
+            app:cornerRadius="10dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
