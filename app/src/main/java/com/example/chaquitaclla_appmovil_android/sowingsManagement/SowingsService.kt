@@ -1,6 +1,9 @@
+// SowingsService.kt
 package com.example.chaquitaclla_appmovil_android.sowingsManagement
 
 import android.util.Log
+import com.example.chaquitaclla_appmovil_android.sowingsManagement.beans.SowingDos
+import com.example.chaquitaclla_appmovil_android.sowingsManagement.beans.Crop
 import com.example.chaquitaclla_appmovil_android.sowingsManagement.beans.Sowing
 import com.example.chaquitaclla_appmovil_android.sowingsManagement.interfaces.SowingsApi
 import okhttp3.OkHttpClient
@@ -19,6 +22,7 @@ class SowingsService {
     private val token = dotenv["BEARER_TOKEN"]
 
     init {
+        Log.d("SowingsService", "Initializing SowingsService")
         val client = OkHttpClient.Builder().addInterceptor { chain ->
             val original = chain.request()
             val requestBuilder: Request.Builder = original.newBuilder()
@@ -34,13 +38,13 @@ class SowingsService {
             .build()
 
         api = retrofit.create(SowingsApi::class.java)
+        Log.d("SowingsService", "SowingsService initialized")
     }
 
-    // This method should call http://localhost:5138/api/v1/crops-management/sowings
-    // and return all the sowings
     suspend fun getAllSowings(): List<Sowing> {
+        Log.d("SowingsService", "Fetching all sowings")
         return try {
-            val sowings = api.getCrops()
+            val sowings = api.getAllSowings()
             Log.d("SowingsService", "Raw JSON response: $sowings")
             sowings
         } catch (e: SocketException) {
@@ -49,5 +53,39 @@ class SowingsService {
         }
     }
 
+    suspend fun getCropById(id: Int): Crop? {
+        Log.d("SowingsService", "Fetching crop with ID: $id")
+        return try {
+            val crop = api.getCropById(id)
+            Log.d("SowingsService", "Raw JSON response: $crop")
+            crop
+        } catch (e: SocketException) {
+            Log.e("SowingsService", "SocketException: ${e.message}")
+            null
+        }
+    }
 
+    suspend fun getAllCrops(): List<Crop> {
+        Log.d("SowingsService", "Fetching all crops")
+        return try {
+            val crops = api.getAllCrops()
+            Log.d("SowingsService", "Raw JSON response: $crops")
+            crops
+        } catch (e: SocketException) {
+            Log.e("SowingsService", "SocketException: ${e.message}")
+            emptyList()
+        }
+    }
+
+    suspend fun addSowing(sowing: SowingDos) {
+        Log.d("SowingsService", "Adding new sowing with payload: ${sowing.toString()}")
+        try {
+            val response = api.addSowing(sowing)
+            Log.d("SowingsService", "Sowing added successfully, response: $response")
+        } catch (e: SocketException) {
+            Log.e("SowingsService", "SocketException: ${e.message}")
+        } catch (e: Exception) {
+            Log.e("SowingsService", "Error adding sowing: ${e.message}")
+        }
+    }
 }
