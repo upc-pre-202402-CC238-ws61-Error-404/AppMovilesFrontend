@@ -1,58 +1,57 @@
+// app/src/main/java/com/example/chaquitaclla_appmovil_android/ControlsActivity.kt
 package com.example.chaquitaclla_appmovil_android
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.MenuInflater
-import android.view.View
-import android.widget.LinearLayout
-import android.widget.PopupMenu
-import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.chaquitaclla_appmovil_android.crops_details.ControlService
+import com.example.chaquitaclla_appmovil_android.crops_details.adapters.ControlAdapter
+import com.example.chaquitaclla_appmovil_android.crops_details.beans.Controls
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ControlsActivity : AppCompatActivity() {
+    private lateinit var controlRecyclerView: RecyclerView
+    private lateinit var controlService: ControlService
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_controls)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
 
-        val popupTriggerTextView = findViewById<TextView>(R.id.popupTriggerTextView)
-        popupTriggerTextView.setOnClickListener {
-            showPopup(it)
+        controlRecyclerView = findViewById(R.id.controlRecyclerView)
+        controlRecyclerView.layoutManager = LinearLayoutManager(this)
+
+        controlService = ControlService()
+
+        fetchControlsBySowingId(1) // Example sowingId
+    }
+
+    private fun fetchControlsBySowingId(sowingId: Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val controlsList = controlService.getControlsBySowingId(sowingId)
+                withContext(Dispatchers.Main) {
+                    controlRecyclerView.adapter = ControlAdapter(controlsList, ::onEditClick, ::onDeleteClick)
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@ControlsActivity, "Failed to load controls", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
-    private fun showPopup(anchorView: View) {
-        val popupMenu = PopupMenu(this, anchorView)
-        val inflater = popupMenu.menuInflater
-        inflater.inflate(R.menu.popup_menu, popupMenu.menu)
-        popupMenu.setOnMenuItemClickListener { item ->
-            when (item.itemId) {
-                R.id.menu_crop_care -> {
-                    startActivity(Intent(this, MainActivity::class.java))
-                    true
-                }
-                R.id.menu_controls -> {
-                    startActivity(Intent(this, ControlsActivity::class.java))
-                    true
-                }
-                R.id.menu_diseases -> {
-                    startActivity(Intent(this, DiseasesActivity::class.java))
-                    true
-                }
-                R.id.menu_products -> {
-                    startActivity(Intent(this, ProductsActivity::class.java))
-                    true
-                }
-                else -> false
-            }
-        }
-        popupMenu.show()
+    private fun onEditClick(control: Controls) {
+        // Handle edit action
+        Toast.makeText(this, "Edit ${control.condition}", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun onDeleteClick(control: Controls) {
+        // Handle delete action
+        Toast.makeText(this, "Delete ${control.condition}", Toast.LENGTH_SHORT).show()
     }
 }

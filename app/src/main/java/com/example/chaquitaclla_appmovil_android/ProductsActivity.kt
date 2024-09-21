@@ -1,59 +1,57 @@
+// app/src/main/java/com/example/chaquitaclla_appmovil_android/ProductsActivity.kt
 package com.example.chaquitaclla_appmovil_android
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.widget.PopupMenu
-import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.chaquitaclla_appmovil_android.crops_details.ProductService
+import com.example.chaquitaclla_appmovil_android.crops_details.adapters.ProductAdapter
+import com.example.chaquitaclla_appmovil_android.crops_details.beans.Product
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ProductsActivity : AppCompatActivity() {
+    private lateinit var productRecyclerView: RecyclerView
+    private lateinit var productService: ProductService
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_products)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
 
-        val popupTriggerTextView = findViewById<TextView>(R.id.popupTriggerTextView)
-        popupTriggerTextView.setOnClickListener {
-            showPopup(it)
+        productRecyclerView = findViewById(R.id.productRecyclerView)
+        productRecyclerView.layoutManager = LinearLayoutManager(this)
+
+        productService = ProductService(this)
+
+        fetchProductsByCropId(1) // Example cropId
+    }
+
+    private fun fetchProductsByCropId(cropId: Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val productsList = productService.getProductsByCropId(cropId)
+                withContext(Dispatchers.Main) {
+                    productRecyclerView.adapter = ProductAdapter(productsList, ::onEditClick, ::onDeleteClick)
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@ProductsActivity, "Failed to load products", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
-    private fun showPopup(anchorView: View) {
-        val popupMenu = PopupMenu(this, anchorView)
-        val inflater: MenuInflater = popupMenu.menuInflater
-        inflater.inflate(R.menu.popup_menu, popupMenu.menu)
-        popupMenu.setOnMenuItemClickListener { item: MenuItem ->
-            when (item.itemId) {
-                R.id.menu_crop_care -> {
-                    startActivity(Intent(this, CropCareActivity::class.java))
-                    true
-                }
-                R.id.menu_controls -> {
-                    startActivity(Intent(this, ControlsActivity::class.java))
-                    true
-                }
-                R.id.menu_diseases -> {
-                    startActivity(Intent(this, DiseasesActivity::class.java))
-                    true
-                }
-                R.id.menu_products -> {
-                    startActivity(Intent(this, ProductsActivity::class.java))
-                    true
-                }
-                else -> false
-            }
-        }
-        popupMenu.show()
+    private fun onEditClick(product: Product) {
+        // Handle edit action
+        Toast.makeText(this, "Edit ${product.name}", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun onDeleteClick(product: Product) {
+        // Handle delete action
+        Toast.makeText(this, "Delete ${product.name}", Toast.LENGTH_SHORT).show()
     }
 }

@@ -1,67 +1,69 @@
+// app/src/main/java/com/example/chaquitaclla_appmovil_android/DiseasesActivity.kt
 package com.example.chaquitaclla_appmovil_android
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.LinearLayout
-import android.widget.PopupMenu
-import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.chaquitaclla_appmovil_android.crops_details.DiseaseService
+import com.example.chaquitaclla_appmovil_android.crops_details.PestService
+import com.example.chaquitaclla_appmovil_android.crops_details.adapters.PestAdapter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class DiseasesActivity : AppCompatActivity() {
+    private lateinit var diseaseRecyclerView: RecyclerView
+    private lateinit var pestRecyclerView: RecyclerView
+    private lateinit var diseaseService: DiseaseService
+    private lateinit var pestService: PestService
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_diseases)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
 
-        val popupTriggerTextView = findViewById<TextView>(R.id.popupTriggerTextView)
-        popupTriggerTextView.setOnClickListener {
-            showPopup(it)
-        }
+        diseaseRecyclerView = findViewById(R.id.diseaseRecyclerView)
+        diseaseRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        val cardView1 = findViewById<CardView>(R.id.cardView1)
-        val cardDetailLayout1 = findViewById<LinearLayout>(R.id.cardDetailLayout1)
-        cardView1.setOnClickListener {
-            if (cardDetailLayout1.visibility == View.GONE) {
-                cardDetailLayout1.visibility = View.VISIBLE
-            } else {
-                cardDetailLayout1.visibility = View.GONE
+        pestRecyclerView = findViewById(R.id.pestRecyclerView)
+        pestRecyclerView.layoutManager = LinearLayoutManager(this)
+
+        diseaseService = DiseaseService(this)
+        pestService = PestService(this)
+
+        fetchDiseasesByCropId(1) // Example cropId
+        fetchPestsByCropId(1) // Example cropId
+    }
+
+    private fun fetchDiseasesByCropId(cropId: Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val diseasesList = diseaseService.getDiseasesByCropId(cropId)
+                withContext(Dispatchers.Main) {
+                    diseaseRecyclerView.adapter = DiseaseAdapter(diseasesList)
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@DiseasesActivity, "Failed to load diseases", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
 
-    private fun showPopup(anchorView: View) {
-        val popupMenu = PopupMenu(this, anchorView)
-        val inflater = popupMenu.menuInflater
-        inflater.inflate(R.menu.popup_menu, popupMenu.menu)
-        popupMenu.setOnMenuItemClickListener { item ->
-            when (item.itemId) {
-                R.id.menu_crop_care -> {
-                    startActivity(Intent(this, MainActivity::class.java))
-                    true
+    private fun fetchPestsByCropId(cropId: Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val pestsList = pestService.getPestsByCropId(cropId)
+                withContext(Dispatchers.Main) {
+                    pestRecyclerView.adapter = PestAdapter(pestsList)
                 }
-                R.id.menu_controls -> {
-                    startActivity(Intent(this, ControlsActivity::class.java))
-                    true
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@DiseasesActivity, "Failed to load pests", Toast.LENGTH_SHORT).show()
                 }
-                R.id.menu_diseases -> {
-                    startActivity(Intent(this, DiseasesActivity::class.java))
-                    true
-                }
-                R.id.menu_products -> {
-                    startActivity(Intent(this, ProductsActivity::class.java))
-                    true
-                }
-                else -> false
             }
         }
-        popupMenu.show()
     }
 }

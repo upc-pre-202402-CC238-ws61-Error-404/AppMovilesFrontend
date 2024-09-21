@@ -1,66 +1,44 @@
+// app/src/main/java/com/example/chaquitaclla_appmovil_android/CropCaresActivity.kt
 package com.example.chaquitaclla_appmovil_android
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
-import android.view.View
-import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.chaquitaclla_appmovil_android.crops_details.CropCaresService
+import com.example.chaquitaclla_appmovil_android.crops_details.beans.Crop
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class CropCareActivity : AppCompatActivity() {
+    private lateinit var recyclerView: RecyclerView
+    private val cropCaresService = CropCaresService()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_crop_care)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
 
-        val popupTriggerTextView = findViewById<View>(R.id.popupTriggerTextView)
-        popupTriggerTextView.setOnClickListener {
-            showPopupMenu(it)
-        }
+        recyclerView = findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        fetchCaresByCropId(1) // Example cropId
     }
 
-    private fun showPopupMenu(view: View) {
-        val popupMenu = PopupMenu(this, view)
-        popupMenu.menuInflater.inflate(R.menu.popup_menu, popupMenu.menu)
-        popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
-            when (menuItem.itemId) {
-                R.id.menu_crop_care -> {
-                    startActivity(Intent(this, CropCareActivity::class.java))
-                    true
+    private fun fetchCaresByCropId(cropId: Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val caresList = cropCaresService.getCaresByCropId(cropId)
+                withContext(Dispatchers.Main) {
+                    recyclerView.adapter = CropCareAdapter(caresList)
                 }
-                R.id.menu_controls -> {
-                    startActivity(Intent(this, ControlsActivity::class.java))
-                    true
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@CropCareActivity, "Failed to load cares", Toast.LENGTH_SHORT).show()
                 }
-                R.id.menu_diseases -> {
-                    startActivity(Intent(this, DiseasesActivity::class.java))
-                    true
-                }
-                R.id.menu_products -> {
-                    startActivity(Intent(this, ProductsActivity::class.java))
-                    true
-                }
-                else -> false
             }
         }
-
-        try {
-            val fieldPopup = PopupMenu::class.java.getDeclaredField("mPopup")
-            fieldPopup.isAccessible = true
-            val menuPopupHelper = fieldPopup.get(popupMenu)
-            val classPopupHelper = Class.forName(menuPopupHelper.javaClass.name)
-            val setPopupStyle = classPopupHelper.getMethod("setPopupStyle", Int::class.java)
-            setPopupStyle.invoke(menuPopupHelper, R.style.PopupMenuStyle)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        popupMenu.show()
     }
 }

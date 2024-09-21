@@ -10,11 +10,14 @@ android {
     defaultConfig {
         applicationId = "com.example.chaquitaclla_appmovil_android"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "API_URL", "\"http://10.0.2.2:5138/api/v1/\"")
+        buildConfigField("String", "BEARER_TOKEN", "\"your-bearer-token\"")
     }
 
     buildTypes {
@@ -24,6 +27,12 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "API_URL", "\"https://your-release-api-url.com/\"")
+            buildConfigField("String", "BEARER_TOKEN", "\"your-release-bearer-token\"")
+        }
+        debug {
+            buildConfigField("String", "API_URL", "\"https://your-debug-api-url.com/\"")
+            buildConfigField("String", "BEARER_TOKEN", "\"your-debug-bearer-token\"")
         }
     }
     compileOptions {
@@ -33,11 +42,13 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildToolsVersion = "34.0.0"
+    buildFeatures.buildConfig = true
 }
 
 dependencies {
-
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    implementation("io.github.cdimascio:dotenv-kotlin:6.4.2")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
