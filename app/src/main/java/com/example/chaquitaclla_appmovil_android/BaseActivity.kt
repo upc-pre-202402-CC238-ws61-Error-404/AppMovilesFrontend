@@ -1,5 +1,6 @@
 package com.example.chaquitaclla_appmovil_android
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -29,7 +30,8 @@ open class BaseActivity : AppCompatActivity() {
                     true
                 }
                 R.id.navigation_statistics -> {
-                    // Respond to navigation item 5 click
+                    val intent = Intent(this, StatisticsActivity::class.java)
+                    startActivity(intent)
                     true
                 }
                 else -> false

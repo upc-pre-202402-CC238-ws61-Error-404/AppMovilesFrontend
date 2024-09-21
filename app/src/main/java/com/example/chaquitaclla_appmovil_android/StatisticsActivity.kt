@@ -4,7 +4,8 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.example.chaquitaclla_appmovil_android.statistics.StatisticsService
 import com.example.chaquitaclla_appmovil_android.statistics.beans.StatisticBar
@@ -20,7 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class StatisticsActivity : AppCompatActivity() {
+class StatisticsActivity : BaseActivity() {
     private lateinit var statisticsService: StatisticsService
     private lateinit var barChart: BarChart
     private lateinit var pieChart: PieChart
@@ -28,7 +29,7 @@ class StatisticsActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_statistics)
+        layoutInflater.inflate(R.layout.activity_statistics, findViewById(R.id.container))
 
         statisticsService = StatisticsService()
         barChart = findViewById(R.id.bar_chart)
@@ -49,12 +50,6 @@ class StatisticsActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * Setup the Bar Chart with the given StatisticBars
-     * @param statisticBars List of StatisticBars
-     * @see StatisticBar
-     * This function allows to setup the Bar Chart with the given StatisticBars
-     */
     private fun setupBarChart(statisticBars: List<StatisticBar>) {
         val entries = statisticBars.mapIndexed { index, statisticBar ->
             BarEntry(index.toFloat(), statisticBar.value)
@@ -70,14 +65,6 @@ class StatisticsActivity : AppCompatActivity() {
         barChart.invalidate() // Refresh the chart
     }
 
-
-    /**
-     * Setup the Pie Chart with the given PieEntries
-     * @param pieEntries List of PieEntries
-     * @see PieEntry
-     * This function allows to setup the Pie Chart with the given PieEntries
-     * TODO: The name of sowings(crops) is determined by their ID.
-     */
     private fun setupPieChart(pieEntries: List<PieEntry>) {
         val dataSet = PieDataSet(pieEntries, "Controls per Sowing")
 
