@@ -59,7 +59,6 @@ class ForumManagementActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val questions = questionsService.getAllQuestions()
-                println(questions)
                 withContext(Dispatchers.Main){
                     displayQuestionsCommunity(questions)
                 }
@@ -70,13 +69,13 @@ class ForumManagementActivity : AppCompatActivity() {
     }
 
     private fun displayQuestionsCommunity(questions: List<Question>){
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerViewComm)
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerViewQuestions)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = AdapterQuestionCommunity(questions)
 
     }
     private fun clearQuestions() {
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerViewComm)
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerViewQuestions)
         recyclerView.adapter = AdapterQuestionCommunity(emptyList())
     }
 
@@ -95,7 +94,7 @@ class ForumManagementActivity : AppCompatActivity() {
     }
 
     private fun displayQuestionsUser(questions: List<Question>){
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerViewComm)
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerViewQuestions)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = AdapterQuestionUser(questions)
 
