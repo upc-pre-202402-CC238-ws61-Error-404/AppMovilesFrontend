@@ -2,11 +2,13 @@
 package com.example.chaquitaclla_appmovil_android.sowingsManagement
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.example.chaquitaclla_appmovil_android.GeneralCropInfo
 import com.example.chaquitaclla_appmovil_android.R
 import com.example.chaquitaclla_appmovil_android.sowingsManagement.beans.Crop
 import com.example.chaquitaclla_appmovil_android.sowingsManagement.beans.Sowing
@@ -103,8 +105,8 @@ class SowingsManagementActivity : AppCompatActivity() {
                 textSize = 14f
             }
 
-            val trashIcon = ImageView(this).apply {
-                setImageResource(android.R.drawable.ic_delete)
+            val iconContainer = LinearLayout(this).apply {
+                orientation = LinearLayout.HORIZONTAL
                 layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
@@ -113,11 +115,40 @@ class SowingsManagementActivity : AppCompatActivity() {
                 }
             }
 
+            val trashIcon = ImageView(this).apply {
+                setImageResource(android.R.drawable.ic_delete)
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+            }
+
+            val viewIcon = ImageView(this).apply {
+                setImageResource(android.R.drawable.ic_menu_view)
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    setMargins(16, 0, 0, 0)
+                }
+                setOnClickListener {
+                    val intent = Intent(this@SowingsManagementActivity, GeneralCropInfo::class.java).apply {
+                        putExtra("CROP_NAME", cropMap[sowing.cropId]?.name ?: "Unknown")
+                        putExtra("START_DATE", sowing.startDate)
+                        putExtra("AREA", sowing.areaLand)
+                    }
+                    startActivity(intent)
+                }
+            }
+
+            iconContainer.addView(trashIcon)
+            iconContainer.addView(viewIcon)
+
             textContainer.addView(cropName)
             textContainer.addView(startDate)
             textContainer.addView(endDate)
             textContainer.addView(area)
-            textContainer.addView(trashIcon)
+            textContainer.addView(iconContainer)
             card.addView(imageView)
             card.addView(textContainer)
             sowingsContainer.addView(card)

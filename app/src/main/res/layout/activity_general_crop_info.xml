@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!-- res/layout/activity_general_crop_info.xml -->
 <LinearLayout
     android:padding="20dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -40,13 +40,16 @@
         android:layout_height="1dp"
         android:background="@android:color/black"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp" />
-
+        android:layout_marginBottom="20dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp" />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="66dp">
+        android:layout_height="66dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -58,8 +61,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Left Text"
-                android:textColor="@android:color/white"
+                android:text="Name of crop"
+                android:textColor="@android:color/black"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -71,20 +74,21 @@
             android:gravity="center">
 
             <TextView
+                android:id="@+id/right_text_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Right Text"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
         </LinearLayout>
-
-
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="66dp">
+        android:layout_height="66dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -96,8 +100,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Left Text"
-                android:textColor="@android:color/white"
+                android:text="Date Created"
+                android:textColor="@android:color/black"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -109,19 +113,21 @@
             android:gravity="center">
 
             <TextView
+                android:id="@+id/right_text_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Right Text"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
         </LinearLayout>
-
-
     </LinearLayout>
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="66dp">
+        android:layout_height="66dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -133,8 +139,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Left Text"
-                android:textColor="@android:color/white"
+                android:text="Planted area (m^2)"
+                android:textColor="@android:color/black"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -146,16 +152,12 @@
             android:gravity="center">
 
             <TextView
+                android:id="@+id/right_text_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Right Text"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
         </LinearLayout>
-
-
     </LinearLayout>
-
-
-
 </LinearLayout>
