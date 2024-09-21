@@ -103,10 +103,21 @@ class SowingsManagementActivity : AppCompatActivity() {
                 textSize = 14f
             }
 
+            val trashIcon = ImageView(this).apply {
+                setImageResource(android.R.drawable.ic_delete)
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    setMargins(0, 16, 0, 0)
+                }
+            }
+
             textContainer.addView(cropName)
             textContainer.addView(startDate)
             textContainer.addView(endDate)
             textContainer.addView(area)
+            textContainer.addView(trashIcon)
             card.addView(imageView)
             card.addView(textContainer)
             sowingsContainer.addView(card)
