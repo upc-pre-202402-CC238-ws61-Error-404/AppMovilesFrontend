@@ -4,7 +4,6 @@ package com.example.chaquitaclla_appmovil_android.sowingsManagement
 import android.util.Log
 import com.example.chaquitaclla_appmovil_android.sowingsManagement.beans.SowingDos
 import com.example.chaquitaclla_appmovil_android.sowingsManagement.beans.Crop
-import com.example.chaquitaclla_appmovil_android.sowingsManagement.beans.Sowing
 import com.example.chaquitaclla_appmovil_android.sowingsManagement.interfaces.SowingsApi
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -41,17 +40,6 @@ class SowingsService {
         Log.d("SowingsService", "SowingsService initialized")
     }
 
-    suspend fun getAllSowings(): List<Sowing> {
-        Log.d("SowingsService", "Fetching all sowings")
-        return try {
-            val sowings = api.getAllSowings()
-            Log.d("SowingsService", "Raw JSON response: $sowings")
-            sowings
-        } catch (e: SocketException) {
-            Log.e("SowingsService", "SocketException: ${e.message}")
-            emptyList()
-        }
-    }
 
     suspend fun getCropById(id: Int): Crop? {
         Log.d("SowingsService", "Fetching crop with ID: $id")

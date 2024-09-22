@@ -1,6 +1,8 @@
 // SowingsManagementActivity.kt
 package com.example.chaquitaclla_appmovil_android.sowingsManagement
 
+import DB.AppDataBase
+import Entities.Sowing
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
@@ -11,12 +13,11 @@ import com.bumptech.glide.Glide
 import com.example.chaquitaclla_appmovil_android.GeneralCropInfo
 import com.example.chaquitaclla_appmovil_android.R
 import com.example.chaquitaclla_appmovil_android.sowingsManagement.beans.Crop
-import com.example.chaquitaclla_appmovil_android.sowingsManagement.beans.Sowing
-import com.example.chaquitaclla_appmovil_android.sowingsManagement.beans.SowingDos
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.Date
 
 class SowingsManagementActivity : AppCompatActivity() {
 
@@ -24,6 +25,7 @@ class SowingsManagementActivity : AppCompatActivity() {
     private lateinit var sowingsContainer: LinearLayout
     private lateinit var addCropButton: Button
     private lateinit var crops: List<Crop>
+    private lateinit var appDB: AppDataBase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +34,8 @@ class SowingsManagementActivity : AppCompatActivity() {
         sowingsService = SowingsService()
         sowingsContainer = findViewById(R.id.sowings_container)
         addCropButton = findViewById(R.id.button_add_crop)
+
+        appDB = AppDataBase.getDatabase(this)
 
         fetchAndDisplaySowings()
 
@@ -43,7 +47,7 @@ class SowingsManagementActivity : AppCompatActivity() {
     private fun fetchAndDisplaySowings() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val sowings = sowingsService.getAllSowings()
+                val sowings = appDB.sowingDAO().getAllSowings()
                 crops = sowingsService.getAllCrops()
                 val cropMap = crops.associateBy { it.id }
                 withContext(Dispatchers.Main) {
@@ -56,7 +60,7 @@ class SowingsManagementActivity : AppCompatActivity() {
     }
 
     private fun displaySowings(sowings: List<Sowing>, cropMap: Map<Int, Crop>) {
-        sowingsContainer.removeAllViews() // Clear the container before adding new views
+        sowingsContainer.removeAllViews()
         sowings.forEach { sowing ->
             val card = LinearLayout(this).apply {
                 orientation = LinearLayout.HORIZONTAL
@@ -194,8 +198,18 @@ class SowingsManagementActivity : AppCompatActivity() {
     private fun addSowing(cropId: Int, area: Int) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val newSowing = SowingDos(cropId = cropId, areaLand = area)
-                sowingsService.addSowing(newSowing)
+                val newSowing = Sowing(
+                    id = 0,
+                    startDate = Date(),
+                    endDate = Date(),
+                    areaLand = area,
+                    status = true,
+                    phenologicalPhase = 0,
+                    cropId = cropId,
+                    phenologicalPhaseName = "",
+                    favourite = false
+                )
+                appDB.sowingDAO().insertSowing(newSowing)
                 fetchAndDisplaySowings()
             } catch (e: Exception) {
                 Log.e("SowingsManagement", "Error adding sowing: ${e.message}")
