@@ -11,4 +11,6 @@
         <item>Products Used</item>
     </string-array>
     <string name="select_crop">Select Crop</string>
+    <string name="description_add_sowing">Enter the name and cultivated area. The start date will be recorded as the current date</string>
+    <string name="title_add_sowing">Add Crop</string>
 </resources>

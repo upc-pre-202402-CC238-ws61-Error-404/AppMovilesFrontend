@@ -64,16 +64,4 @@ class SowingsService {
             emptyList()
         }
     }
-
-    suspend fun addSowing(sowing: SowingDos) {
-        Log.d("SowingsService", "Adding new sowing with payload: ${sowing.toString()}")
-        try {
-            val response = api.addSowing(sowing)
-            Log.d("SowingsService", "Sowing added successfully, response: $response")
-        } catch (e: SocketException) {
-            Log.e("SowingsService", "SocketException: ${e.message}")
-        } catch (e: Exception) {
-            Log.e("SowingsService", "Error adding sowing: ${e.message}")
-        }
-    }
 }
