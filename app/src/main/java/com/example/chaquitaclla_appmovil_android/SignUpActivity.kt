@@ -8,11 +8,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.chaquitaclla_appmovil_android.MainActivity.Companion.GoSignup
-import com.example.chaquitaclla_appmovil_android.`interface`.AuthService
-import com.example.chaquitaclla_appmovil_android.io.RetrofitClient
-import com.example.chaquitaclla_appmovil_android.model.SignUpRequest
-import com.example.chaquitaclla_appmovil_android.model.SignUpResponse
+import com.example.chaquitaclla_appmovil_android.utils.`interface`.AuthService
+import com.example.chaquitaclla_appmovil_android.utils.RetrofitClient
+import com.example.chaquitaclla_appmovil_android.utils.model.UserRequest
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -41,7 +39,7 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun signUp(username: String, password: String) {
-        val request = SignUpRequest(username, password)
+        val request = UserRequest(username, password)
         authService.signUp(request).enqueue(object : Callback<SignUpResponse> {
             override fun onResponse(call: Call<SignUpResponse>, response: Response<SignUpResponse>) {
                 if (response.isSuccessful) {

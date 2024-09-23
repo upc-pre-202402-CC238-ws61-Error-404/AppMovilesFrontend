@@ -18,10 +18,13 @@
             android:name=".LogInActivity"
             android:exported="true" />
         <activity
+            android:name=".SignUpActivity"
+            android:exported="true" />
+        <activity
             android:name=".PlansActivity"
             android:exported="true" />
         <activity
-            android:name=".SignUpActivity"
+            android:name=".PayActivity"
             android:exported="true" />
         <activity
             android:name=".MainActivity"
