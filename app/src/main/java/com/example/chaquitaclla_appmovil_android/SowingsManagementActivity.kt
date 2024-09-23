@@ -4,6 +4,7 @@ package com.example.chaquitaclla_appmovil_android.sowingsManagement
 import DB.AppDataBase
 import Entities.Sowing
 import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -75,6 +76,8 @@ class SowingsManagementActivity : AppCompatActivity() {
             val txtArea = cardView.findViewById<TextView>(R.id.txtArea)
             val imgTrashIcon = cardView.findViewById<ImageView>(R.id.imgTrashIcon)
             val imgViewIcon = cardView.findViewById<ImageView>(R.id.imgViewIcon)
+            val imgEditIcon = cardView.findViewById<ImageView>(R.id.imgEditIcon)
+            val imgPhaseIcon = cardView.findViewById<ImageView>(R.id.imgPhaseIcon)
 
             val crop = cropMap[sowing.cropId]
             if (crop != null) {
@@ -96,6 +99,18 @@ class SowingsManagementActivity : AppCompatActivity() {
                     putExtra("SOWING_ID", sowing.id)
                 }
                 startActivity(intent)
+            }
+
+            imgTrashIcon.setOnClickListener {
+                showDeleteSowingDialog(sowing.id)
+            }
+
+            imgEditIcon.setOnClickListener {
+                showUpdateSowingDialog(sowing)
+            }
+
+            imgPhaseIcon.setOnClickListener {
+                showUpdatePhenologicalPhaseDialog(sowing.id)
             }
 
             sowingsContainer.addView(cardView)
@@ -136,6 +151,162 @@ class SowingsManagementActivity : AppCompatActivity() {
         }
 
         dialog.show()
+    }
+
+    private fun showDeleteSowingDialog(sowingId: Int) {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_delete_sowing, null)
+        val yesButton: Button = dialogView.findViewById(R.id.button_yes)
+        val noButton: Button = dialogView.findViewById(R.id.button_no)
+
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .create()
+
+        yesButton.setOnClickListener {
+            deleteSowing(sowingId)
+            dialog.dismiss()
+        }
+
+        noButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+    private fun showUpdateSowingDialog(sowing: Sowing) {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_update_sowing, null)
+        val cropSpinner: Spinner = dialogView.findViewById(R.id.spinner_crop_names)
+        val areaEditText: EditText = dialogView.findViewById(R.id.edittext_area)
+        val startDateButton: Button = dialogView.findViewById(R.id.button_start_date)
+        val cancelButton: Button = dialogView.findViewById(R.id.button_cancel)
+        val updateButton: Button = dialogView.findViewById(R.id.button_update)
+
+        val cropNames = crops.map { it.name }
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, cropNames)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        cropSpinner.adapter = adapter
+
+        val selectedCrop = crops.find { it.id == sowing.cropId }
+        cropSpinner.setSelection(cropNames.indexOf(selectedCrop?.name))
+        areaEditText.setText(sowing.areaLand.toString())
+
+        val calendar = Calendar.getInstance().apply {
+            time = sowing.startDate
+        }
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        startDateButton.text = dateFormat.format(calendar.time)
+
+        startDateButton.setOnClickListener {
+            val datePickerDialog = DatePickerDialog(this, { _, year, month, dayOfMonth ->
+                calendar.set(year, month, dayOfMonth)
+                startDateButton.text = dateFormat.format(calendar.time)
+            }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
+            datePickerDialog.show()
+        }
+
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .create()
+
+        cancelButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        updateButton.setOnClickListener {
+            val selectedCropName = cropSpinner.selectedItem.toString()
+            val selectedCrop = crops.find { it.name == selectedCropName }
+            val area = areaEditText.text.toString().toIntOrNull()
+
+            if (selectedCrop != null && area != null) {
+                val startDate = calendar.time
+                val endDate = Calendar.getInstance().apply {
+                    time = startDate
+                    add(Calendar.MONTH, 6)
+                }.time
+
+                val updatedSowing = sowing.copy(
+                    cropId = selectedCrop.id,
+                    areaLand = area,
+                    startDate = startDate,
+                    endDate = endDate
+                )
+                updateSowing(updatedSowing)
+                dialog.dismiss()
+            } else {
+                Toast.makeText(this, "Please select a crop and enter a valid area", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        dialog.show()
+    }
+
+    private fun showUpdatePhenologicalPhaseDialog(sowingId: Int) {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_update_phenological_phase, null)
+        val yesButton: Button = dialogView.findViewById(R.id.button_yes)
+        val noButton: Button = dialogView.findViewById(R.id.button_no)
+
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .create()
+
+        yesButton.setOnClickListener {
+            updatePhenologicalPhaseBySowingId(sowingId)
+            dialog.dismiss()
+        }
+
+        noButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+    private fun updatePhenologicalPhaseBySowingId(sowingId: Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val sowing = appDB.sowingDAO().getSowingById(sowingId)
+                if (sowing != null) {
+                    val updatedSowing = sowing.copy(
+                        phenologicalPhase = (sowing.phenologicalPhase + 1) % 5,
+                        phenologicalPhaseName = when ((sowing.phenologicalPhase + 1) % 5) {
+                            0 -> "Germination"
+                            1 -> "Seedling"
+                            2 -> "Vegetative Growth"
+                            3 -> "Flowering"
+                            4 -> "Harvest Ready"
+                            else -> sowing.phenologicalPhaseName
+                        }
+                    )
+                    appDB.sowingDAO().updateSowing(updatedSowing)
+                    fetchAndDisplaySowings()
+                }
+            } catch (e: Exception) {
+                Log.e("SowingsManagement", "Error updating phenological phase: ${e.message}")
+            }
+        }
+    }
+
+    private fun deleteSowing(sowingId: Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                appDB.sowingDAO().deleteSowingById(sowingId)
+                fetchAndDisplaySowings()
+            } catch (e: Exception) {
+                Log.e("SowingsManagement", "Error deleting sowing: ${e.message}")
+            }
+        }
+    }
+
+    private fun updateSowing(sowing: Sowing) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                appDB.sowingDAO().updateSowing(sowing)
+                fetchAndDisplaySowings()
+            } catch (e: Exception) {
+                Log.e("SowingsManagement", "Error updating sowing: ${e.message}")
+            }
+        }
     }
 
     private fun addSowing(cropId: Int, area: Int) {
