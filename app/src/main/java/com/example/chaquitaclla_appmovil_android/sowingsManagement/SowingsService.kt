@@ -13,15 +13,19 @@ import java.net.SocketException
 import io.github.cdimascio.dotenv.dotenv
 
 class SowingsService {
-    val dotenv = dotenv() {
+    private val dotenv = dotenv {
         directory = "/assets"
         filename = "env"
     }
     private val api: SowingsApi
-    private val token = dotenv["BEARER_TOKEN"]
+    private val token: String? = dotenv["BEARER_TOKEN"]
 
     init {
         Log.d("SowingsService", "Initializing SowingsService")
+        if (token.isNullOrEmpty()) {
+            throw IllegalArgumentException("Bearer token is missing or empty")
+        }
+
         val client = OkHttpClient.Builder().addInterceptor { chain ->
             val original = chain.request()
             val requestBuilder: Request.Builder = original.newBuilder()
@@ -39,7 +43,6 @@ class SowingsService {
         api = retrofit.create(SowingsApi::class.java)
         Log.d("SowingsService", "SowingsService initialized")
     }
-
 
     suspend fun getCropById(id: Int): Crop? {
         Log.d("SowingsService", "Fetching crop with ID: $id")

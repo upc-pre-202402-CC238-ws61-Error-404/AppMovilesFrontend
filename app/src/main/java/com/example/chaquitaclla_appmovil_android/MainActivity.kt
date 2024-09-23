@@ -31,10 +31,14 @@ class MainActivity : AppCompatActivity() {
             startActivity(newIntent(this))
         }
 
-        // Botón para ir a SowingsManagementActivity
         val buttonSowings: Button = findViewById(R.id.button_sowings)
         buttonSowings.setOnClickListener {
             startActivity(newIntentSowings(this))
+        }
+
+        val buttonSowingsHistory: Button = findViewById(R.id.button_sowings_history)
+        buttonSowingsHistory.setOnClickListener {
+            startActivity(newIntentSowingsHistory(this))
         }
     }
 
@@ -46,6 +50,11 @@ class MainActivity : AppCompatActivity() {
         // Nueva función para ir a SowingsManagementActivity
         fun newIntentSowings(context: Context): Intent {
             return Intent(context, SowingsManagementActivity::class.java)
+        }
+
+        // Nueva función para ir a SowingsHistoryActivity
+        fun newIntentSowingsHistory(context: Context): Intent {
+            return Intent(context, SowingsHistoryActivity::class.java)
         }
     }
 }

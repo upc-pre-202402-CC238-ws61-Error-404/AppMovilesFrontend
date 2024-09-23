@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.chaquitaclla_appmovil_android"
-        minSdk = 26
+        minSdk = 28
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -39,6 +39,7 @@ android {
 
 dependencies {
 
+    implementation(libs.car.ui.lib)
     val room_version = "2.5.0"
 
 

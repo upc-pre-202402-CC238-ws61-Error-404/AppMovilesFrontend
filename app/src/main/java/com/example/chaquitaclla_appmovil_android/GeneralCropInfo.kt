@@ -1,4 +1,3 @@
-// GeneralCropInfo.kt
 package com.example.chaquitaclla_appmovil_android
 
 import android.os.Bundle
