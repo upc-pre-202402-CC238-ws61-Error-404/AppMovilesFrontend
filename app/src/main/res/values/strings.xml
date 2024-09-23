@@ -1,16 +1,16 @@
 <resources>
     <string name="app_name">Chaquitaclla_appmovil_android</string>
-    <string name="disease_3">Disease 3</string>
-    <string name="demasiada_informacion">Demasiada información</string>
-    <string name="disease_2">Disease 2</string>
-    <string name="pasum_quina_cuanta_informacion">Pasumáquina cuanta información</string>
-    <string name="disease_1">Disease 1</string>
-    <string name="search_by_name">Search by name</string>
-    <string name="diseases_or_pests">Diseases or pests</string>
-    <string name="crop_information">Crop Information</string>
-    <string name="mucha_informacion">Mucha información</string>
-    <string name="title_crop_information">Crop Information\n</string>
-    <string name="name_of_crop">Name of crop</string>
-    <string name="date_created">Date created</string>
-    <string name="planted_area">Planted area</string>
+    <string name="title_statical_reports">Statical Reports</string>
+    <string name="title_list_of_crops_in_progress">List of Crops in Progress</string>
+    <string name="title_crop_information">Crop Information</string>
+    <string-array name="crop_info_options">
+        <item>General Information</item>
+        <item>Crop Care</item>
+        <item>Controls</item>
+        <item>Diseases or Pest</item>
+        <item>Products Used</item>
+    </string-array>
+    <string name="select_crop">Select Crop</string>
+    <string name="description_add_sowing">Enter the name and cultivated area. The start date will be recorded as the current date</string>
+    <string name="title_add_sowing">Add Crop</string>
 </resources>

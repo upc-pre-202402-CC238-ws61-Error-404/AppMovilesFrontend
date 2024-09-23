@@ -1,56 +1,51 @@
 package com.example.chaquitaclla_appmovil_android
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.MenuInflater
-import android.view.View
-import android.widget.PopupMenu
-import android.widget.TextView
+import android.widget.Button
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.chaquitaclla_appmovil_android.sowingsManagement.SowingsManagementActivity
 
 class MainActivity : AppCompatActivity() {
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+
+        // Ajustar el padding para los system bars
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        val popupTriggerTextView = findViewById<TextView>(R.id.popupTriggerTextView)
-        popupTriggerTextView.setOnClickListener {
-            showPopup(it)
+        // Botón para ir a StatisticsActivity
+        val button: Button = findViewById(R.id.button)
+        button.setOnClickListener {
+            startActivity(newIntent(this))
+        }
+
+        // Botón para ir a SowingsManagementActivity
+        val buttonSowings: Button = findViewById(R.id.button_sowings)
+        buttonSowings.setOnClickListener {
+            startActivity(newIntentSowings(this))
         }
     }
 
-    private fun showPopup(anchorView: View) {
-        val popupMenu = PopupMenu(this, anchorView)
-        val inflater = popupMenu.menuInflater
-        inflater.inflate(R.menu.popup_menu, popupMenu.menu)
-        popupMenu.setOnMenuItemClickListener { item ->
-            when (item.itemId) {
-                R.id.menu_crop_care -> {
-                    startActivity(Intent(this, MainActivity::class.java))
-                    true
-                }
-                R.id.menu_controls -> {
-                    startActivity(Intent(this, ControlsActivity::class.java))
-                    true
-                }
-                R.id.menu_diseases -> {
-                    startActivity(Intent(this, DiseasesActivity::class.java))
-                    true
-                }
-                R.id.menu_products -> {
-                    startActivity(Intent(this, ProductsActivity::class.java))
-                    true
-                }
-                else -> false
-            }
+    companion object {
+        fun newIntent(context: Context): Intent {
+            return Intent(context, StatisticsActivity::class.java)
         }
-        popupMenu.show()
+
+        // Nueva función para ir a SowingsManagementActivity
+        fun newIntentSowings(context: Context): Intent {
+            return Intent(context, SowingsManagementActivity::class.java)
+        }
     }
 }
