@@ -1,6 +1,7 @@
 package com.example.chaquitaclla_appmovil_android.forum.beans
 
 import java.io.Serializable
+import java.util.Date
 
 /**{
  "questionId": 1,
@@ -16,6 +17,22 @@ class Question(
         var categoryId: Int,
         var questionText: String,
         var date: String
+) : Serializable {
+
+}
+
+class QuestionPost(
+        var authorId: Int,
+        var categoryId: Int,
+        var questionText: String,
+        var date: String
+) : Serializable {
+
+}
+
+class QuestionPut(
+        var categoryId: Int,
+        var questionText: String
 ) : Serializable {
 
 }

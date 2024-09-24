@@ -1,7 +1,9 @@
-package com.example.chaquitaclla_appmovil_android.forum
+package com.example.chaquitaclla_appmovil_android.forum.services
 
 import android.util.Log
 import com.example.chaquitaclla_appmovil_android.forum.beans.Question
+import com.example.chaquitaclla_appmovil_android.forum.beans.QuestionPost
+import com.example.chaquitaclla_appmovil_android.forum.beans.QuestionPut
 import com.example.chaquitaclla_appmovil_android.forum.interfaces.ForumApi
 import io.github.cdimascio.dotenv.dotenv
 import okhttp3.OkHttpClient
@@ -48,4 +50,41 @@ class QuestionsService {
         }
     }
 
+    suspend fun getQuestionsByAuthorId(authorId: Int): List<Question> {
+        return try {
+            val questions = api.getQuestionsByAuthorId(authorId)
+            Log.d("QuestionsService","Raw JSON response: $questions")
+            questions
+        } catch (e: SocketException){
+            Log.e("QuestionsService", "Error: ${e.message}")
+            emptyList()
+        }
+    }
+
+    suspend fun addQuestion(question: QuestionPost) {
+        try {
+            api.addQuestion(question)
+            Log.d("QuestionsService", "Question added successfully")
+        } catch (e: Exception) {
+            Log.e("QuestionsService", "Error: ${e.message}")
+        }
+    }
+
+    suspend fun updateQuestion(questionId: Int, question: QuestionPut) {
+        try {
+            api.updateQuestion(questionId, question)
+            Log.d("QuestionsService", "Question updated successfully")
+        } catch (e: Exception) {
+            Log.e("QuestionsService", "Error: ${e.message}")
+        }
+    }
+
+    suspend fun deleteQuestion(questionId: Int) {
+        try {
+            api.deleteQuestion(questionId)
+            Log.d("QuestionsService", "Question deleted successfully")
+        } catch (e: Exception) {
+            Log.e("QuestionsService", "Error: ${e.message}")
+        }
+    }
 }

@@ -33,19 +33,27 @@
         android:textColor="@android:color/white"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:id="@+id/btnAddQuestion"/>
         />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
         >
         <AutoCompleteTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/spinnerForum"
-            android:inputType="none"/>
+            android:inputType="none"
+            android:backgroundTint="@color/green"
+            android:popupBackground="@color/green"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            />
 
     </com.google.android.material.textfield.TextInputLayout>
 
