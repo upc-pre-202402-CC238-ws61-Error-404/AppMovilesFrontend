@@ -1,8 +1,9 @@
-package com.example.chaquitaclla_appmovil_android
+package com.example.chaquitaclla_appmovil_android.forum.viewholders
 
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.chaquitaclla_appmovil_android.R
 import com.example.chaquitaclla_appmovil_android.forum.beans.Answer
 
 class AnswerViewHolder(view: View): RecyclerView.ViewHolder(view) {

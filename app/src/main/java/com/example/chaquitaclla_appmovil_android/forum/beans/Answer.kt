@@ -16,3 +16,11 @@ class Answer(
 ) {
 
 }
+
+class AnswerPost(
+        var authorId: Int,
+        var questionId: Int,
+        var answerText: String
+) {
+
+}

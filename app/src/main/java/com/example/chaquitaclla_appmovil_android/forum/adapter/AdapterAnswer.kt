@@ -1,8 +1,10 @@
-package com.example.chaquitaclla_appmovil_android
+package com.example.chaquitaclla_appmovil_android.forum.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.chaquitaclla_appmovil_android.forum.viewholders.AnswerViewHolder
+import com.example.chaquitaclla_appmovil_android.R
 import com.example.chaquitaclla_appmovil_android.forum.beans.Answer
 
 class AdapterAnswer(val answersList: List<Answer>): RecyclerView.Adapter<AnswerViewHolder>() {

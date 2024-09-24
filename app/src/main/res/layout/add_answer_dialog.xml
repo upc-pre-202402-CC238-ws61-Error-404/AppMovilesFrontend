@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="----------"
+        android:fontFamily="@font/poppins_semibold"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:id="@+id/answerDialogTitle"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Enter the answer to the question"
+        android:textSize="20sp"
+        android:fontFamily="@font/poppins_semibold"
+        android:textStyle="bold"/>
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:hint="Answer content"
+        android:textColor="@color/black"
+        android:backgroundTint="#D9D9D9"
+        android:id="@+id/editTextAnswer"
+        android:longClickable="false"
+        android:textIsSelectable="false"
+        android:inputType="textMultiLine"
+        android:scrollHorizontally="false"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <Button
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="---"
+            android:id="@+id/btnAddAnswer"
+            android:backgroundTint="#006D18"
+            />
+
+        <Button
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Cancel"
+            android:textColor="@color/black"
+            android:id="@+id/btnCancelAnswer"
+            android:backgroundTint="#D9D9D9"/>
+    </LinearLayout>
+
+</LinearLayout>

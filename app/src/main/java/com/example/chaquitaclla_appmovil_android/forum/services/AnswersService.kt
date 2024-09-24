@@ -1,7 +1,8 @@
-package com.example.chaquitaclla_appmovil_android.forum
+package com.example.chaquitaclla_appmovil_android.forum.services
 
 import android.util.Log
 import com.example.chaquitaclla_appmovil_android.forum.beans.Answer
+import com.example.chaquitaclla_appmovil_android.forum.beans.AnswerPost
 import com.example.chaquitaclla_appmovil_android.forum.interfaces.ForumApi
 import io.github.cdimascio.dotenv.dotenv
 import okhttp3.OkHttpClient
@@ -46,4 +47,13 @@ class AnswersService {
             emptyList()
         }
     }
+
+    suspend fun addAnswer(answer: AnswerPost) {
+        try {
+            api.addAnswer(answer)
+        } catch (e: SocketException){
+            Log.e("AnswersService", "Error: ${e.message}")
+        }
+    }
+
 }
