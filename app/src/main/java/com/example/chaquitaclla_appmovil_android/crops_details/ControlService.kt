@@ -1,8 +1,8 @@
 // app/src/main/java/com/example/chaquitaclla_appmovil_android/crops_details/ControlService.kt
 package com.example.chaquitaclla_appmovil_android.crops_details
 
+import Entities.Control
 import com.example.chaquitaclla_appmovil_android.crops_details.interfaces.ControlApi
-import com.example.chaquitaclla_appmovil_android.crops_details.beans.Controls
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -18,11 +18,11 @@ class ControlService {
         api = retrofit.create(ControlApi::class.java)
     }
 
-    suspend fun getControlsBySowingId(sowingId: Int): List<Controls> {
+    suspend fun getControlsBySowingId(sowingId: Int): List<Control> {
         return api.getControlsBySowingId(sowingId)
     }
 
-    suspend fun getControlById(sowingId: Int, controlId: Int): Controls {
+    suspend fun getControlById(sowingId: Int, controlId: Int): Control {
         return api.getControlById(sowingId, controlId)
     }
 
@@ -30,15 +30,15 @@ class ControlService {
         api.deleteControl(sowingId, controlId)
     }
 
-    suspend fun getAllControls(): List<Controls> {
+    suspend fun getAllControls(): List<Control> {
         return api.getAllControls()
     }
 
-    suspend fun updateControl(sowingId: Int, controlId: Int, control: Controls) {
+    suspend fun updateControl(sowingId: Int, controlId: Int, control: Control) {
         api.updateControl(sowingId, controlId, control)
     }
 
-    suspend fun createControl(sowingId: Int, control: Controls): Controls {
+    suspend fun createControl(sowingId: Int, control: Control): Control {
         return api.createControl(sowingId, control)
     }
 }

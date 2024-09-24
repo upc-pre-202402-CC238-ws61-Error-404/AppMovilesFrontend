@@ -1,7 +1,7 @@
 // app/src/main/java/com/example/chaquitaclla_appmovil_android/crops_details/interfaces/ProductApi.kt
 package com.example.chaquitaclla_appmovil_android.crops_details.interfaces
 
-import com.example.chaquitaclla_appmovil_android.crops_details.beans.Product
+import Entities.Product
 import retrofit2.http.GET
 import retrofit2.http.Path
 

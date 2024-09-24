@@ -1,14 +1,18 @@
 package com.example.chaquitaclla_appmovil_android.crops_details
 
+import CustomDateTypeAdapter
 import android.util.Log
 import com.example.chaquitaclla_appmovil_android.crops_details.beans.Cares
 import com.example.chaquitaclla_appmovil_android.crops_details.interfaces.CropCaresApi
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import io.github.cdimascio.dotenv.dotenv
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.net.SocketException
-import io.github.cdimascio.dotenv.dotenv
+import java.util.Date
 
 class CropCaresService {
     val dotenv = dotenv {
@@ -27,10 +31,14 @@ class CropCaresService {
             chain.proceed(request)
         }.build()
 
+        val gson: Gson = GsonBuilder()
+            .registerTypeAdapter(Date::class.java, CustomDateTypeAdapter())
+            .create()
+
         val retrofit = Retrofit.Builder()
             .baseUrl(dotenv["API_URL"])
             .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
 
         api = retrofit.create(CropCaresApi::class.java)

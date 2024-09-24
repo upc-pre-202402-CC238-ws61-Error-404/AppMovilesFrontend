@@ -1,16 +1,20 @@
-// app/src/main/java/com/example/chaquitaclla_appmovil_android/crops_details/adapters/ControlAdapter.kt
+// ControlAdapter.kt
 package com.example.chaquitaclla_appmovil_android.crops_details.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chaquitaclla_appmovil_android.R
-import com.example.chaquitaclla_appmovil_android.crops_details.beans.Controls
+import Entities.Control
 
-class ControlAdapter(private val controls: List<Controls>, private val onEditClick: (Controls) -> Unit, private val onDeleteClick: (Controls) -> Unit) : RecyclerView.Adapter<ControlAdapter.ControlViewHolder>() {
+class ControlAdapter(
+    private val controls: List<Control>,
+    private val onEditClick: (Control) -> Unit,
+    private val onDeleteClick: (Control) -> Unit
+) : RecyclerView.Adapter<ControlAdapter.ControlViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ControlViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_control, parent, false)
@@ -19,24 +23,22 @@ class ControlAdapter(private val controls: List<Controls>, private val onEditCli
 
     override fun onBindViewHolder(holder: ControlViewHolder, position: Int) {
         val control = controls[position]
-        holder.bind(control, onEditClick, onDeleteClick)
+        holder.bind(control)
     }
 
-    override fun getItemCount(): Int {
-        return controls.size
-    }
+    override fun getItemCount(): Int = controls.size
 
-    class ControlViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ControlViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val sowingConditionTextView: TextView = itemView.findViewById(R.id.sowingConditionTextView)
         private val stemConditionTextView: TextView = itemView.findViewById(R.id.stemConditionTextView)
         private val soilMoistureTextView: TextView = itemView.findViewById(R.id.soilMoistureTextView)
-        private val editButton: Button = itemView.findViewById(R.id.editButton)
-        private val deleteButton: Button = itemView.findViewById(R.id.deleteButton)
+        private val editButton: ImageView = itemView.findViewById(R.id.editButton)
+        private val deleteButton: ImageView = itemView.findViewById(R.id.deleteButton)
 
-        fun bind(control: Controls, onEditClick: (Controls) -> Unit, onDeleteClick: (Controls) -> Unit) {
-            sowingConditionTextView.text = control.condition.toString()
-            stemConditionTextView.text = control.stemCondition.toString()
-            soilMoistureTextView.text = control.soilMoisture.toString()
+        fun bind(control: Control) {
+            sowingConditionTextView.text = control.sowingCondition
+            stemConditionTextView.text = control.stemCondition
+            soilMoistureTextView.text = control.sowingSoilMoisture
 
             editButton.setOnClickListener { onEditClick(control) }
             deleteButton.setOnClickListener { onDeleteClick(control) }

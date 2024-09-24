@@ -4,7 +4,7 @@ package com.example.chaquitaclla_appmovil_android.crops_details
 import android.content.Context
 import android.util.Log
 import com.example.chaquitaclla_appmovil_android.EnvUtils
-import com.example.chaquitaclla_appmovil_android.crops_details.beans.Product
+import Entities.Product
 import com.example.chaquitaclla_appmovil_android.crops_details.interfaces.ProductApi
 import okhttp3.OkHttpClient
 import okhttp3.Request

@@ -1,12 +1,14 @@
-// app/src/main/java/com/example/chaquitaclla_appmovil_android/CropCareAdapter.kt
-package com.example.chaquitaclla_appmovil_android
+package com.example.chaquitaclla_appmovil_android.crops_details.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.chaquitaclla_appmovil_android.R
 import com.example.chaquitaclla_appmovil_android.crops_details.beans.Cares
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class CropCareAdapter(private val caresList: List<Cares>) : RecyclerView.Adapter<CropCareAdapter.CropCareViewHolder>() {
 
@@ -20,15 +22,18 @@ class CropCareAdapter(private val caresList: List<Cares>) : RecyclerView.Adapter
         holder.bind(care)
     }
 
-    override fun getItemCount(): Int = caresList.size
+    override fun getItemCount(): Int {
+        return caresList.size
+    }
 
     class CropCareViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val nameTextView: TextView = itemView.findViewById(R.id.nameTextView)
-        private val descriptionTextView: TextView = itemView.findViewById(R.id.descriptionTextView)
+        private val suggestionTextView: TextView = itemView.findViewById(R.id.suggestionTextView)
+        private val dateTextView: TextView = itemView.findViewById(R.id.dateTextView)
+        private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
         fun bind(care: Cares) {
-            nameTextView.text = care.description
-            descriptionTextView.text = care.description
+            suggestionTextView.text = care.suggestion
+            dateTextView.text = dateFormat.format(care.date)
         }
     }
 }

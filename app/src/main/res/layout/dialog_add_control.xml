@@ -1,0 +1,56 @@
+<!-- res/layout/dialog_add_control.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/edittext_sowing_condition"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Sowing Condition"
+        android:inputType="text"
+        android:padding="10dp" />
+
+    <EditText
+        android:id="@+id/edittext_stem_condition"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Stem Condition"
+        android:inputType="text"
+        android:padding="10dp" />
+
+    <EditText
+        android:id="@+id/edittext_soil_moisture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Soil Moisture"
+        android:inputType="text"
+        android:padding="10dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="16dp">
+
+        <Button
+            android:id="@+id/button_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add"
+            android:backgroundTint="#116811"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/button_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:backgroundTint="#D3D3D3"
+            android:textColor="#000000"
+            android:layout_marginStart="16dp" />
+    </LinearLayout>
+</LinearLayout>

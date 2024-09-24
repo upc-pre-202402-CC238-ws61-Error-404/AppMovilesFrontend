@@ -1,4 +1,3 @@
-// app/src/main/java/com/example/chaquitaclla_appmovil_android/crops_details/DiseaseService.kt
 package com.example.chaquitaclla_appmovil_android.crops_details
 
 import android.content.Context
@@ -47,6 +46,9 @@ class DiseaseService(context: Context) {
             api.getDiseasesByCropId(cropId)
         } catch (e: SocketException) {
             Log.e("DiseaseService", "SocketException: ${e.message}")
+            emptyList()
+        } catch (e: Exception) {
+            Log.e("DiseaseService", "Unexpected error: ${e.message}")
             emptyList()
         }
     }

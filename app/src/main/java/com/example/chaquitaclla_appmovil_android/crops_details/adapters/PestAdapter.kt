@@ -1,3 +1,4 @@
+// PestAdapter.kt
 package com.example.chaquitaclla_appmovil_android.crops_details.adapters
 
 import android.view.LayoutInflater
@@ -25,12 +26,14 @@ class PestAdapter(private val pests: List<Pest>) : RecyclerView.Adapter<PestAdap
     }
 
     class PestViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val pestNameTextView: TextView = itemView.findViewById(R.id.pestTitleTextView)
-        private val pestDescriptionTextView: TextView = itemView.findViewById(R.id.pestDescriptionTextView)
+        private val nameTextView: TextView = itemView.findViewById(R.id.pestNameTextView)
+        private val descriptionTextView: TextView = itemView.findViewById(R.id.pestDescriptionTextView)
+        private val solutionTextView: TextView = itemView.findViewById(R.id.pestSolutionTextView)
 
         fun bind(pest: Pest) {
-            pestNameTextView.text = pest.name
-            pestDescriptionTextView.text = pest.description
+            nameTextView.text = pest.name
+            descriptionTextView.text = pest.description
+            solutionTextView.text = pest.solution
         }
     }
 }
