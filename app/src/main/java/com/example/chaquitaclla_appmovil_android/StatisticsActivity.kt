@@ -11,12 +11,14 @@ import com.example.chaquitaclla_appmovil_android.statistics.StatisticsService
 import com.example.chaquitaclla_appmovil_android.statistics.beans.StatisticBar
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -67,7 +69,16 @@ class StatisticsActivity : BaseActivity() {
         val dataSet = BarDataSet(entries, "Crops")
         dataSet.colors = colors
         val barData = BarData(dataSet)
+
+        val xAxis = barChart.xAxis
+        xAxis.valueFormatter = IndexAxisValueFormatter(statisticBars.map { it.name })
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.granularity = 1f
+        xAxis.setDrawLabels(true)
+
         barChart.data = barData
+        barChart.description.isEnabled = false // Disable the description label
+        barChart.setFitBars(true) // Make the x-axis fit exactly all bars
         barChart.invalidate() // Refresh the chart
     }
 
