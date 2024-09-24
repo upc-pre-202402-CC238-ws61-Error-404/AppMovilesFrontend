@@ -14,23 +14,25 @@ open class BaseActivity : AppCompatActivity() {
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
-                    // Respond to navigation item 1 click
+                    //TODO: Call intent to go to HomeActivity(Register Sowing)
                     true
                 }
                 R.id.navigation_forum -> {
-                    // Respond to navigation item 2 click
+                    //TODO:Call intent to go to ForumActivity
                     true
                 }
                 R.id.navigation_profile -> {
-                    // Respond to navigation item 3 click
+                    //TODO: Call intent to go to ProfileActivity
                     true
                 }
                 R.id.navigation_history -> {
-                    // Respond to navigation item 4 click
+                    //TODO: Call intent to go to HistoryActivity
                     true
                 }
                 R.id.navigation_statistics -> {
                     val intent = Intent(this, StatisticsActivity::class.java)
+                    //Here we are using FLAG_ACTIVITY_REORDER_TO_FRONT to avoid creating a new instance of the activity
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                     startActivity(intent)
                     true
                 }
