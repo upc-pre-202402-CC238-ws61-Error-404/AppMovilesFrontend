@@ -11,9 +11,11 @@ import android.view.LayoutInflater
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.example.chaquitaclla_appmovil_android.BaseActivity
 import com.example.chaquitaclla_appmovil_android.GeneralCropInfo
 import com.example.chaquitaclla_appmovil_android.R
 import com.example.chaquitaclla_appmovil_android.sowingsManagement.beans.Crop
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,7 +23,7 @@ import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 
-class SowingsManagementActivity : AppCompatActivity() {
+class SowingsManagementActivity : BaseActivity() {
 
     private lateinit var sowingsService: SowingsService
     private lateinit var sowingsContainer: LinearLayout
@@ -31,7 +33,11 @@ class SowingsManagementActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sowings_management)
+        layoutInflater.inflate(R.layout.activity_sowings_management, findViewById(R.id.container))
+
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView.selectedItemId = R.id.navigation_home
+
 
         sowingsService = SowingsService()
         sowingsContainer = findViewById(R.id.sowings_container)
