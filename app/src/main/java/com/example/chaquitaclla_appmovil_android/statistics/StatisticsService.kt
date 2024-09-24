@@ -39,18 +39,26 @@ class StatisticsService {
     }
 
 
-    //TODO: This method should call http://localhost:5138/api/v1/crops-management/sowings' \
-    //and return all the sowings and the respective CropId
-    //After that, we should call other service to get the CropName by the CropId
+    /**
+     * This method call api/v1/crops-management/sowings
+     * return an array with all the sowings and the crop referent to the cropId
+     * only use the cropId to calculate the quantity of crops
+     * and call api/v1/crops-management/crops/{cropId} to get the name of the crop
+     * This function returns a list of StatisticBar with the quantity of crops
+     */
     suspend fun getQuantityOfCrops(): List<StatisticBar> {
         return try {
-            val crops = api.getCrops()
-            Log.d("StatisticsService", "Raw JSON response: $crops")
+            val sowings = api.getSowings()
+            Log.d("StatisticsService", "Raw JSON response: $sowings")
 
             val quantityOfCrops = mutableMapOf<String, Int>()
-            for (crop in crops) {
+
+            for(sowing in sowings) {
+                val cropId = sowing.cropId
+                val crop = api.getCropName(cropId)
                 quantityOfCrops[crop.name] = quantityOfCrops.getOrDefault(crop.name, 0) + 1
             }
+
             val statisticBars = quantityOfCrops.map { StatisticBar(it.key, it.value.toFloat()) }
             Log.d("StatisticsService", "Converted data: $statisticBars")
             statisticBars
@@ -61,7 +69,7 @@ class StatisticsService {
     }
 
     /**
-     * This method call http://localhost:5138/api/v1/crops-management/sowings/controls
+     * This method call api/v1/crops-management/sowings/controls
      * return an array with all the controls and the control referent to the sowingId
      * and calculate the quantity of controls by sowingId
      * This function returns a list of PieEntries with the quantity of controls by sowingId
