@@ -221,7 +221,7 @@ class ProductsActivity : AppCompatActivity() {
             }
         }
 
-        val productsPosition = resources.getStringArray(R.array.crop_info_options).indexOf("Products")
+        val productsPosition = resources.getStringArray(R.array.crop_info_options).indexOf("Prodcuts")
         spinner.setSelection(productsPosition)
     }
 
