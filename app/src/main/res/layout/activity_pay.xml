@@ -28,9 +28,121 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/poppins"
-            android:text="SignUp"
+            android:text="Payment"
             android:textColor="#000000"
             android:textSize="25dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/poppins"
+            android:text="Card number:"
+            android:textColor="#000000"
+            android:textSize="15dp" />
+
+        <EditText
+            android:id="@+id/edtCardNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/poppins"
+            android:background="@drawable/pay_background"
+            android:inputType="number"
+            android:paddingLeft="10dp"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/poppins"
+                android:textSize="15dp"
+                android:text="Due Date:"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="80dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/poppins"
+                android:textSize="15dp"
+                android:text="Security code:"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+            <EditText
+                android:id="@+id/edtDueDate"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:textColor="#000000"
+                android:fontFamily="@font/poppins"
+                android:background="@drawable/pay_background"
+                android:inputType="number"
+                android:paddingLeft="10dp"/>
+
+            <EditText
+                android:id="@+id/edtSecuCode"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:textColor="#000000"
+                android:fontFamily="@font/poppins"
+                android:background="@drawable/pay_background"
+                android:inputType="number"
+                android:paddingLeft="10dp"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/poppins"
+            android:text="Email:"
+            android:textColor="#000000"
+            android:textSize="15dp" />
+
+        <EditText
+            android:id="@+id/edtEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/poppins"
+            android:inputType="textEmailAddress"
+            android:background="@drawable/pay_background"
+            android:paddingLeft="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:fontFamily="@font/poppins"
+            android:text="Name:"
+            android:textColor="#000000"
+            android:textSize="15dp" />
+
+        <EditText
+            android:id="@+id/edtName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/poppins"
+            android:background="@drawable/pay_background"
+            android:paddingLeft="10dp"/>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardButton"
@@ -137,6 +249,17 @@
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
+
+        <Button
+            android:id="@+id/btnPay"
+            android:layout_width="160dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/poppins"
+            android:text="Pay"
+            android:textSize="18dp"
+            android:backgroundTint="#005F40"
+            app:cornerRadius="10dp"/>
 
     </LinearLayout>
 

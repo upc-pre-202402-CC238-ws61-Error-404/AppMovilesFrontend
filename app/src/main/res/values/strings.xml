@@ -5,6 +5,7 @@
     <style name="GreenAutoCompleteTextView" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
         <item name="endIconTint">#005F40</item>
     </style>
+    <string name="title_activity_create_profile">CreateProfileActivity</string>
 
 </resources>
 

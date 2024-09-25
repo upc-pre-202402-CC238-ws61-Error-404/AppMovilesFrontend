@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rlSignup"
+    android:id="@+id/rlCreateProfile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SignUpActivity"
@@ -34,33 +34,38 @@
             android:textSize="25dp" />
 
         <EditText
-            android:id="@+id/edtEmail"
+            android:id="@+id/edtName"
             android:layout_width="260dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/login_edit_text_background"
-            android:hint="Email"/>
+            android:hint="Firts Name"/>
 
         <EditText
-            android:id="@+id/edtPassword"
+            android:id="@+id/edtLastName"
             android:layout_width="260dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/login_edit_text_background"
-            android:hint="Password"
-            android:inputType="textPassword"/>
+            android:hint="Last Name"/>
 
-        <EditText
-            android:id="@+id/edtConfPassword"
+        <Spinner
+            android:id="@+id/spinnerCountry"
             android:layout_width="260dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
-            android:background="@drawable/login_edit_text_background"
-            android:hint="Confirm Password"
-            android:inputType="textPassword" />
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/login_edit_text_background" />
+
+        <Spinner
+            android:id="@+id/spinnerCity"
+            android:layout_width="260dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/login_edit_text_background" />
 
         <Button
             android:id="@+id/btnSignUp"

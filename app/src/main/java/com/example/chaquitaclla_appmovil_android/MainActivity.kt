@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity() {
         // Botón para ir a LogInActivity
         val button: Button = findViewById(R.id.buttonLogin)
         button.setOnClickListener {
-            println("entre al boton")
             startActivity(goLogin(this))
         }
 
@@ -39,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         fun goLogin(context: Context): Intent {
-            return Intent(context, LogInActivity::class.java)
+            return Intent(context, SignInActivity::class.java)
         }
 
         fun GoSignup(context: Context): Intent {

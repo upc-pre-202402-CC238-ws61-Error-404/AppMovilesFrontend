@@ -1,10 +1,19 @@
 package com.example.chaquitaclla_appmovil_android
 
 import android.annotation.SuppressLint
+import android.app.DatePickerDialog
+import android.content.Context
+import android.content.Intent
+import android.icu.util.Calendar
 import android.os.Bundle
-import android.widget.TextView
+import android.text.Editable
+import android.text.InputFilter
+import android.text.TextWatcher
+import android.widget.Button
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.card.MaterialCardView
+import com.example.chaquitaclla_appmovil_android.MainActivity.Companion.goLogin
+import java.util.regex.Pattern
 
 class PayActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
@@ -12,28 +21,90 @@ class PayActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pay)
 
-        // Recibe los datos del Intent
-        val title = intent.getStringExtra("title")
-        val cost = intent.getStringExtra("cost")
-        val text1 = intent.getStringExtra("text1")
-        val text2 = intent.getStringExtra("text2")
+        val btnPay: Button = findViewById(R.id.btnPay)
+        btnPay.setOnClickListener {
+            startActivity(goProfile(this))
+        }
 
-        // Muestra los datos en la interfaz de usuario
-        findViewById<TextView>(R.id.payTitle).text = title
-        findViewById<TextView>(R.id.payCost).text = cost
-        findViewById<TextView>(R.id.payText1).text = text1
-        findViewById<TextView>(R.id.payText2).text = text2
+        val edtSecuCode: EditText = findViewById(R.id.edtSecuCode)
+        edtSecuCode.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(3))
 
-        // Obtén la referencia al MaterialCardView
-        val cardButton: MaterialCardView = findViewById(R.id.cardButton)
+        val edtDueDate: EditText = findViewById(R.id.edtDueDate)
+        edtDueDate.addTextChangedListener(object : TextWatcher {
+            private var current = ""
+            private val ddmmyyyy = "DDMM"
+            private val cal = Calendar.getInstance()
 
-        // Cambia el backgroundTint del cardButton si el título es "Basic"
-        if (title == "Basic") {
-            cardButton.setCardBackgroundColor(resources.getColor(R.color.basic))
-        } else if (title == "Regular") {
-            cardButton.setCardBackgroundColor(resources.getColor(R.color.regular))
-        } else if (title == "Premium") {
-            cardButton.setCardBackgroundColor(resources.getColor(R.color.premium))
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                if (s.toString() != current) {
+                    val userInput = s.toString().replace(Regex("[^\\d]"), "")
+                    if (userInput.length <= 4) {
+                        val sb = StringBuilder(userInput)
+                        if (userInput.length > 2) {
+                            sb.insert(2, "/")
+                        }
+                        current = sb.toString()
+                        edtDueDate.setText(current)
+                        edtDueDate.setSelection(current.length)
+                    } else {
+                        edtDueDate.setText(current)
+                        edtDueDate.setSelection(current.length)
+                    }
+                }
+            }
+        })
+
+        val edtCardNumber: EditText = findViewById(R.id.edtCardNumber)
+        edtCardNumber.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(19))
+        edtCardNumber.addTextChangedListener(object : TextWatcher {
+            private var isFormatting: Boolean = false
+            private val space = ' '
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                if (isFormatting) return
+
+                isFormatting = true
+                val formatted = StringBuilder()
+                val digits = s.toString().replace(" ", "")
+                for (i in digits.indices) {
+                    if (i > 0 && i % 4 == 0) {
+                        formatted.append(space)
+                    }
+                    formatted.append(digits[i])
+                }
+                edtCardNumber.setText(formatted.toString())
+                edtCardNumber.setSelection(formatted.length)
+                isFormatting = false
+            }
+        })
+
+        val edtEmail: EditText = findViewById(R.id.edtEmail)
+        edtEmail.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                val emailPattern = Pattern.compile(
+                    "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
+                )
+                if (!emailPattern.matcher(s.toString()).matches()) {
+                    edtEmail.error = "Invalid email format"
+                }
+            }
+        })
+    }
+    companion object {
+        fun goProfile(context: Context): Intent {
+            return Intent(context, ProfileActivity::class.java)
         }
     }
 }

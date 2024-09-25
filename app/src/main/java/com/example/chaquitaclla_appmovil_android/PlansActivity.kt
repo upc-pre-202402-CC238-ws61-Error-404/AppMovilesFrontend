@@ -24,7 +24,7 @@ class PlansActivity : AppCompatActivity() {
             val text1B = findViewById<TextView>(R.id.cardText1B).text.toString()
             val text2B = findViewById<TextView>(R.id.cardText2B).text.toString()
 
-            val intent = Intent(this, PayActivity::class.java).apply {
+            val intent = Intent(this, CreateProfileActivity::class.java).apply {
                 putExtra("title", titleB)
                 putExtra("cost", costB)
                 putExtra("text1", text1B)
@@ -38,7 +38,7 @@ class PlansActivity : AppCompatActivity() {
             val text1R = findViewById<TextView>(R.id.cardText1R).text.toString()
             val text2R = findViewById<TextView>(R.id.cardText2R).text.toString()
 
-            val intent = Intent(this, PayActivity::class.java).apply {
+            val intent = Intent(this, CreateProfileActivity::class.java).apply {
                 putExtra("title", titleR)
                 putExtra("cost", costR)
                 putExtra("text1", text1R)
@@ -52,7 +52,7 @@ class PlansActivity : AppCompatActivity() {
             val text1P = findViewById<TextView>(R.id.cardText1P).text.toString()
             val text2P = findViewById<TextView>(R.id.cardText2P).text.toString()
 
-            val intent = Intent(this, PayActivity::class.java).apply {
+            val intent = Intent(this, CreateProfileActivity::class.java).apply {
                 putExtra("title", titleP)
                 putExtra("cost", costP)
                 putExtra("text1", text1P)
