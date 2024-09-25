@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.ProgressBar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
@@ -28,6 +30,7 @@ class StatisticsActivity : BaseActivity() {
     private lateinit var statisticsService: StatisticsService
     private lateinit var barChart: BarChart
     private lateinit var pieChart: PieChart
+    private lateinit var progressBar: ProgressBar
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,20 +45,36 @@ class StatisticsActivity : BaseActivity() {
         statisticsService = StatisticsService()
         barChart = findViewById(R.id.bar_chart)
         pieChart = findViewById(R.id.pie_chart)
+        progressBar = findViewById(R.id.progressBar)
 
+        fetchData()
+    }
+
+    private fun fetchData() {
+        showLoading(true)
         lifecycleScope.launch {
-            val statisticBars = withContext(Dispatchers.IO) {
-                statisticsService.getQuantityOfCrops()
-            }
-            Log.d("com.example.chaquitaclla_appmovil_android.StaticsActivity", "Statistic Bars: $statisticBars")
-            setupBarChart(statisticBars)
+            try {
+                val statisticBars = withContext(Dispatchers.IO) {
+                    statisticsService.getQuantityOfCrops()
+                }
+                Log.d("com.example.chaquitaclla_appmovil_android.StaticsActivity", "Statistic Bars: $statisticBars")
+                setupBarChart(statisticBars)
 
-            val pieEntries = withContext(Dispatchers.IO) {
-                statisticsService.getQuantityOfControlsBySowingId()
+                val pieEntries = withContext(Dispatchers.IO) {
+                    statisticsService.getQuantityOfControlsBySowingId()
+                }
+                Log.d("com.example.chaquitaclla_appmovil_android.StaticsActivity", "Pie Entries: $pieEntries")
+                setupPieChart(pieEntries)
+            } catch (e: Exception) {
+                Log.e("com.example.chaquitaclla_appmovil_android.StaticsActivity", "Error loading data", e)
+            } finally {
+                showLoading(false)
             }
-            Log.d("com.example.chaquitaclla_appmovil_android.StaticsActivity", "Pie Entries: $pieEntries")
-            setupPieChart(pieEntries)
         }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     private fun setupBarChart(statisticBars: List<StatisticBar>) {
