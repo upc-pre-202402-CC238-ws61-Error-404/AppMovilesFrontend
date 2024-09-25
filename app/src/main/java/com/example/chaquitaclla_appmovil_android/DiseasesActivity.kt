@@ -8,6 +8,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,12 +16,13 @@ import com.example.chaquitaclla_appmovil_android.crops_details.DiseaseService
 import com.example.chaquitaclla_appmovil_android.crops_details.PestService
 import com.example.chaquitaclla_appmovil_android.crops_details.adapters.PestAdapter
 import com.example.chaquitaclla_appmovil_android.crops_details.adapters.DiseaseAdapter
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class DiseasesActivity : AppCompatActivity() {
+class DiseasesActivity : BaseActivity() {
 
     private lateinit var diseaseService: DiseaseService
     private lateinit var pestService: PestService
@@ -31,7 +33,8 @@ class DiseasesActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_diseases)
+        layoutInflater.inflate(R.layout.activity_diseases, findViewById(R.id.container))
+        enableEdgeToEdge()
 
         diseaseService = DiseaseService(this)
         pestService = PestService(this)

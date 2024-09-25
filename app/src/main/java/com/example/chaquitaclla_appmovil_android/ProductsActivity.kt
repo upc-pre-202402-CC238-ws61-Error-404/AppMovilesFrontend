@@ -18,20 +18,24 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
+import androidx.activity.enableEdgeToEdge
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Date
 
-class ProductsActivity : AppCompatActivity() {
+class ProductsActivity : BaseActivity() {
     private lateinit var productRecyclerView: RecyclerView
     private lateinit var productAdapter: ProductAdapter
     private lateinit var appDB: AppDataBase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_products)
+        layoutInflater.inflate(R.layout.activity_products, findViewById(R.id.container))
+
+        enableEdgeToEdge()
 
         productRecyclerView = findViewById(R.id.productRecyclerView)
         productRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -86,7 +90,7 @@ class ProductsActivity : AppCompatActivity() {
             .create()
 
         addProductButton.setOnClickListener {
-            val sowingId = intent.getIntExtra("SOWING_ID", 7)
+            val sowingId = intent.getIntExtra("SOWING_ID", 1)
             val productName = productNameEditText.text.toString()
             val productQuantity = productQuantityEditText.text.toString()
             if (productQuantity.toFloatOrNull() == null) {

@@ -8,9 +8,9 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,14 +20,14 @@ import com.example.chaquitaclla_appmovil_android.sowingsManagement.SowingsServic
 import java.text.SimpleDateFormat
 import java.util.*
 
-class GeneralCropInfo : AppCompatActivity() {
+class GeneralCropInfo : BaseActivity() {
     private lateinit var appDB: AppDataBase
     private lateinit var sowingsService: SowingsService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        layoutInflater.inflate(R.layout.activity_general_crop_info, findViewById(R.id.container))
         enableEdgeToEdge()
-        setContentView(R.layout.activity_general_crop_info)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)

@@ -18,6 +18,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
+import androidx.activity.enableEdgeToEdge
 import com.example.chaquitaclla_appmovil_android.crops_details.SowingCondition
 import com.example.chaquitaclla_appmovil_android.crops_details.SowingSoilMoisture
 import com.example.chaquitaclla_appmovil_android.crops_details.StemCondition
@@ -27,14 +28,15 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Date
 
-class ControlsActivity : AppCompatActivity() {
+class ControlsActivity : BaseActivity() {
     private lateinit var controlRecyclerView: RecyclerView
     private lateinit var controlAdapter: ControlAdapter
     private lateinit var appDB: AppDataBase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_controls)
+        layoutInflater.inflate(R.layout.activity_controls, findViewById(R.id.container))
+        enableEdgeToEdge()
 
         controlRecyclerView = findViewById(R.id.controlRecyclerView)
         controlRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -95,7 +97,7 @@ class ControlsActivity : AppCompatActivity() {
             .create()
 
         addControlButton.setOnClickListener {
-            val sowingId = intent.getIntExtra("SOWING_ID", 7)
+            val sowingId = intent.getIntExtra("SOWING_ID", 1)
             val sowingCondition = SowingCondition.valueOf(sowingConditionSpinner.selectedItem.toString())
             val stemCondition = StemCondition.valueOf(stemConditionSpinner.selectedItem.toString())
             val soilMoisture = SowingSoilMoisture.valueOf(soilMoistureSpinner.selectedItem.toString())
