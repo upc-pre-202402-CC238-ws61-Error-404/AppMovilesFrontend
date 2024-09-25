@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chaquitaclla_appmovil_android.R
 import Entities.Control
+import android.text.Html.fromHtml
 
 class ControlAdapter(
     private val controls: List<Control>,
@@ -36,10 +37,10 @@ class ControlAdapter(
         private val deleteButton: ImageView = itemView.findViewById(R.id.deleteButton)
 
         fun bind(control: Control) {
-            sowingConditionTextView.text = control.sowingCondition
-            stemConditionTextView.text = control.stemCondition
-            soilMoistureTextView.text = control.sowingSoilMoisture
-            dateTextView.text = control.date.toString()
+            sowingConditionTextView.text = fromHtml("<b>Leaves: </b> ${control.sowingCondition}")
+            stemConditionTextView.text = fromHtml("<b>Stem: </b> ${control.stemCondition}")
+            soilMoistureTextView.text = fromHtml("<b>Soil Moisture: </b> ${control.sowingSoilMoisture}")
+            dateTextView.text = fromHtml("<b>Date: </b> ${control.date}")
 
             editButton.setOnClickListener { onEditClick(control) }
             deleteButton.setOnClickListener { onDeleteClick(control) }

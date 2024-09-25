@@ -23,14 +23,14 @@
             android:id="@+id/descriptionTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Description"
+            android:text="Description: "
             android:visibility="gone" />
 
         <TextView
             android:id="@+id/solutionTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Solution"
+            android:text="Solution: "
             android:visibility="gone" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

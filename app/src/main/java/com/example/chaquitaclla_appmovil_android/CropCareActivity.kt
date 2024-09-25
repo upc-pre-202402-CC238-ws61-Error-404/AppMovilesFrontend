@@ -38,7 +38,14 @@ class CropCareActivity : AppCompatActivity() {
         cropCareSpinner = findViewById(R.id.dropdown_menu)
         setupSpinner()
 
-        fetchCaresByCropId(1) // Example cropId
+        val cropId = intent.getIntExtra("CROP_ID", 5)
+        Log.d("CropCareActivity", "Received cropId from intent: $cropId")
+        if (cropId != -1) {
+            fetchCaresByCropId(cropId)
+        } else {
+            Log.e("CropCareActivity", "Invalid crop ID")
+            Toast.makeText(this, "Invalid crop ID", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun setupSpinner() {
@@ -54,6 +61,7 @@ class CropCareActivity : AppCompatActivity() {
 
         var isFirstSelection = true
 
+        // CropCareActivity.kt
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: android.view.View?, position: Int, id: Long) {
                 if (isFirstSelection) {
@@ -61,7 +69,8 @@ class CropCareActivity : AppCompatActivity() {
                     return
                 }
                 view?.let {
-                    val sowingId = intent.getIntExtra("SOWING_ID", -1)
+                    val sowingId = intent.getIntExtra("SOWING_ID", 7)
+                    Log.d("CropCareActivity", "Spinner item selected, sowingId: $sowingId")
                     when (position) {
                         0 -> startActivity(Intent(this@CropCareActivity, GeneralCropInfo::class.java).apply {
                             putExtra("SOWING_ID", sowingId)

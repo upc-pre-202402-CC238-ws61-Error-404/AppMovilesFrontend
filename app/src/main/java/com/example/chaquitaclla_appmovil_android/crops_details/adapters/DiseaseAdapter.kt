@@ -1,5 +1,7 @@
 package com.example.chaquitaclla_appmovil_android.crops_details.adapters
 
+import android.text.Html
+import android.text.Html.fromHtml
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,8 +31,8 @@ class DiseaseAdapter(private val diseases: List<Disease>) : RecyclerView.Adapter
 
         fun bind(disease: Disease) {
             nameTextView.text = disease.name
-            descriptionTextView.text = disease.description
-            solutionTextView.text = disease.solution
+            descriptionTextView.text = fromHtml("<b>Description:</b> ${disease.description}")
+            solutionTextView.text = fromHtml("<b>Solution:</b> ${disease.solution}")
 
             nameTextView.setOnClickListener {
                 if (descriptionTextView.visibility == View.GONE) {

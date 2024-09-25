@@ -1,4 +1,3 @@
-// ProductAdapter.kt
 package com.example.chaquitaclla_appmovil_android.crops_details.adapters
 
 import android.view.LayoutInflater

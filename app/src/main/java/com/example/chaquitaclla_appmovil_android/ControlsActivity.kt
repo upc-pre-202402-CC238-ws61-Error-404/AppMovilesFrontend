@@ -18,6 +18,9 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
+import com.example.chaquitaclla_appmovil_android.crops_details.SowingCondition
+import com.example.chaquitaclla_appmovil_android.crops_details.SowingSoilMoisture
+import com.example.chaquitaclla_appmovil_android.crops_details.StemCondition
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -45,9 +48,8 @@ class ControlsActivity : AppCompatActivity() {
         } else {
             Log.e("ControlsActivity", "Invalid sowing ID")
             Toast.makeText(this, "Invalid sowing ID", Toast.LENGTH_SHORT).show()
+            finish() // Close the activity if the sowing ID is invalid
         }
-
-        setupSpinner()
 
         findViewById<Button>(R.id.addControlButton).setOnClickListener {
             showAddControlDialog()
@@ -73,19 +75,19 @@ class ControlsActivity : AppCompatActivity() {
 
     private fun showAddControlDialog() {
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_control, null)
-        val sowingConditionEditText = dialogView.findViewById<EditText>(R.id.edittext_sowing_condition)
-        val stemConditionEditText = dialogView.findViewById<EditText>(R.id.edittext_stem_condition)
-        val soilMoistureEditText = dialogView.findViewById<EditText>(R.id.edittext_soil_moisture)
+        val sowingConditionSpinner = dialogView.findViewById<Spinner>(R.id.spinner_sowing_condition)
+        val stemConditionSpinner = dialogView.findViewById<Spinner>(R.id.spinner_stem_condition)
+        val soilMoistureSpinner = dialogView.findViewById<Spinner>(R.id.spinner_soil_moisture)
         val addControlButton = dialogView.findViewById<Button>(R.id.button_add)
         val cancelButton = dialogView.findViewById<Button>(R.id.button_cancel)
 
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.crop_info_options,
-            R.layout.spinner_item_white_text
-        ).also { adapter ->
-            adapter.setDropDownViewResource(R.layout.spinner_item_white_text)
-        }
+        val conditions = SowingCondition.entries.map { it.name }
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, conditions)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        sowingConditionSpinner.adapter = adapter
+        stemConditionSpinner.adapter = adapter
+        soilMoistureSpinner.adapter = adapter
 
         val dialog = AlertDialog.Builder(this)
             .setView(dialogView)
@@ -93,12 +95,13 @@ class ControlsActivity : AppCompatActivity() {
             .create()
 
         addControlButton.setOnClickListener {
-            val sowingId = intent.getIntExtra("SOWING_ID", -1)
-            val sowingCondition = sowingConditionEditText.text.toString()
-            val stemCondition = stemConditionEditText.text.toString()
-            val soilMoisture = soilMoistureEditText.text.toString()
+            val sowingId = intent.getIntExtra("SOWING_ID", 7)
+            val sowingCondition = SowingCondition.valueOf(sowingConditionSpinner.selectedItem.toString())
+            val stemCondition = StemCondition.valueOf(stemConditionSpinner.selectedItem.toString())
+            val soilMoisture = SowingSoilMoisture.valueOf(soilMoistureSpinner.selectedItem.toString())
             val date = Date()
-            addControl(sowingId, sowingCondition, stemCondition, soilMoisture, date)
+            addControl(sowingId, sowingCondition.toString(),
+                stemCondition.toString(), soilMoisture.toString(), date)
             dialog.dismiss()
         }
 
@@ -113,7 +116,7 @@ class ControlsActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val newControl = Control(
-                    id = 0, // 0 because it will be auto-generated
+                    id = 0,
                     sowingId = sowingId,
                     sowingCondition = sowingCondition,
                     stemCondition = stemCondition,
@@ -133,9 +136,9 @@ class ControlsActivity : AppCompatActivity() {
 
     private fun onEditClick(control: Control) {
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_control, null)
-        val sowingConditionEditText = dialogView.findViewById<EditText>(R.id.edittext_sowing_condition)
-        val stemConditionEditText = dialogView.findViewById<EditText>(R.id.edittext_stem_condition)
-        val soilMoistureEditText = dialogView.findViewById<EditText>(R.id.edittext_soil_moisture)
+        val sowingConditionEditText = dialogView.findViewById<EditText>(R.id.spinner_sowing_condition)
+        val stemConditionEditText = dialogView.findViewById<EditText>(R.id.spinner_stem_condition)
+        val soilMoistureEditText = dialogView.findViewById<EditText>(R.id.spinner_soil_moisture)
         val addControlButton = dialogView.findViewById<Button>(R.id.button_add)
         val cancelButton = dialogView.findViewById<Button>(R.id.button_cancel)
 
@@ -243,6 +246,5 @@ class ControlsActivity : AppCompatActivity() {
 
         val controlPosition = resources.getStringArray(R.array.crop_info_options).indexOf("Controls")
         spinner.setSelection(controlPosition)
-
     }
 }

@@ -1,6 +1,6 @@
-// PestAdapter.kt
 package com.example.chaquitaclla_appmovil_android.crops_details.adapters
 
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,19 +21,27 @@ class PestAdapter(private val pests: List<Pest>) : RecyclerView.Adapter<PestAdap
         holder.bind(pest)
     }
 
-    override fun getItemCount(): Int {
-        return pests.size
-    }
+    override fun getItemCount(): Int = pests.size
 
-    class PestViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class PestViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val nameTextView: TextView = itemView.findViewById(R.id.pestNameTextView)
         private val descriptionTextView: TextView = itemView.findViewById(R.id.pestDescriptionTextView)
         private val solutionTextView: TextView = itemView.findViewById(R.id.pestSolutionTextView)
 
         fun bind(pest: Pest) {
             nameTextView.text = pest.name
-            descriptionTextView.text = pest.description
-            solutionTextView.text = pest.solution
+            descriptionTextView.text = Html.fromHtml("<b>Description:</b> ${pest.description}")
+            solutionTextView.text = Html.fromHtml("<b>Solution:</b> ${pest.solution}")
+
+            nameTextView.setOnClickListener {
+                if (descriptionTextView.visibility == View.GONE) {
+                    descriptionTextView.visibility = View.VISIBLE
+                    solutionTextView.visibility = View.VISIBLE
+                } else {
+                    descriptionTextView.visibility = View.GONE
+                    solutionTextView.visibility = View.GONE
+                }
+            }
         }
     }
 }

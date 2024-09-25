@@ -152,7 +152,7 @@ class SowingsManagementActivity : AppCompatActivity() {
                 addSowing(selectedCrop.id, area)
                 dialog.dismiss()
             } else {
-                Toast.makeText(this, "Please select a crop and enter a valid area", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Please select a valid crop and enter a valid area.", Toast.LENGTH_SHORT).show()
             }
         }
 

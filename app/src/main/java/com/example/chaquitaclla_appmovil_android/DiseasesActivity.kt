@@ -48,8 +48,8 @@ class DiseasesActivity : AppCompatActivity() {
     private fun fetchDiseasesAndPests() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val diseases = diseaseService.getDiseasesByCropId(1) // Replace with actual crop ID
-                val pests = pestService.getPestsByCropId(1) // Replace with actual crop ID
+                val diseases = diseaseService.getDiseasesByCropId(5) // Replace with actual crop ID
+                val pests = pestService.getPestsByCropId(5) // Replace with actual crop ID
                 withContext(Dispatchers.Main) {
                     if (diseases.isNotEmpty()) {
                         diseaseAdapter = DiseaseAdapter(diseases)

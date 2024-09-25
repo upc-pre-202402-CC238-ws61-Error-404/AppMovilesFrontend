@@ -22,28 +22,22 @@
         android:fontFamily="@font/poppins_regular"
         android:textSize="18sp" />
 
-    <EditText
-        android:id="@+id/edittext_sowing_condition"
+    <Spinner
+        android:id="@+id/spinner_sowing_condition"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Conditions of leaves"
-        android:inputType="text"
         android:padding="10dp" />
 
-    <EditText
-        android:id="@+id/edittext_stem_condition"
+    <Spinner
+        android:id="@+id/spinner_stem_condition"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Stem Condition"
-        android:inputType="text"
         android:padding="10dp" />
 
-    <EditText
-        android:id="@+id/edittext_soil_moisture"
+    <Spinner
+        android:id="@+id/spinner_soil_moisture"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Soil Moisture"
-        android:inputType="text"
         android:padding="10dp" />
 
     <LinearLayout

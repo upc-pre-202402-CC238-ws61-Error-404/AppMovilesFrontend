@@ -1,3 +1,4 @@
+// ProductsActivity.kt
 package com.example.chaquitaclla_appmovil_android
 
 import DB.AppDataBase
@@ -8,8 +9,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.chaquitaclla_appmovil_android.crops_details.adapters.ProductAdapter
 import Entities.Product
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.view.LayoutInflater
@@ -17,18 +18,17 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
-import com.example.chaquitaclla_appmovil_android.crops_details.adapters.ProductAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.Date
 
 class ProductsActivity : AppCompatActivity() {
     private lateinit var productRecyclerView: RecyclerView
     private lateinit var productAdapter: ProductAdapter
     private lateinit var appDB: AppDataBase
 
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_products)
@@ -36,23 +36,23 @@ class ProductsActivity : AppCompatActivity() {
         productRecyclerView = findViewById(R.id.productRecyclerView)
         productRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        appDB = AppDataBase.getDatabase(this)
+        appDB = AppDataBase.getDatabase(this) // Initialize the database
 
-        val sowingId = intent.getIntExtra("SOWING_ID", -1)
+        val sowingId = intent.getIntExtra("SOWING_ID", 7)
         Log.d("ProductsActivity", "Received sowingId: $sowingId")
         if (sowingId != -1) {
             fetchProductsBySowingId(sowingId)
         } else {
             Log.e("ProductsActivity", "Invalid sowing ID")
             Toast.makeText(this, "Invalid sowing ID", Toast.LENGTH_SHORT).show()
-        }
-
-        val addButton: Button = findViewById(R.id.addProductButton)
-        addButton.setOnClickListener {
-            showAddProductDialog()
+            finish() // Close the activity if the sowing ID is invalid
         }
 
         setupSpinner()
+
+        findViewById<Button>(R.id.addProductButton).setOnClickListener {
+            showAddProductDialog()
+        }
     }
 
     private fun fetchProductsBySowingId(sowingId: Int) {
@@ -75,8 +75,8 @@ class ProductsActivity : AppCompatActivity() {
     private fun showAddProductDialog() {
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_product, null)
         val productNameEditText = dialogView.findViewById<EditText>(R.id.edittext_product_name)
-        val productTypeEditText = dialogView.findViewById<EditText>(R.id.edittext_product_type)
         val productQuantityEditText = dialogView.findViewById<EditText>(R.id.edittext_product_quantity)
+        val productTypeEditText = dialogView.findViewById<EditText>(R.id.edittext_product_type)
         val addProductButton = dialogView.findViewById<Button>(R.id.addProductButton)
         val cancelButton = dialogView.findViewById<Button>(R.id.button_cancel)
 
@@ -86,11 +86,15 @@ class ProductsActivity : AppCompatActivity() {
             .create()
 
         addProductButton.setOnClickListener {
-            val sowingId = intent.getIntExtra("SOWING_ID", -1)
+            val sowingId = intent.getIntExtra("SOWING_ID", 7)
             val productName = productNameEditText.text.toString()
+            val productQuantity = productQuantityEditText.text.toString()
+            if (productQuantity.toFloatOrNull() == null) {
+                Toast.makeText(this, "Invalid quantity", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             val productType = productTypeEditText.text.toString()
-            val productQuantity = productQuantityEditText.text.toString().toFloat()
-            addProduct(sowingId, productName, productType, productQuantity)
+            addProduct(sowingId, productName, productType, productQuantity.toFloat())
             dialog.dismiss()
         }
 
@@ -101,15 +105,15 @@ class ProductsActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun addProduct(sowingId: Int, productName: String, productType: String, quantity: Float) {
+    private fun addProduct(sowingId: Int, productName: String, productType: String, productQuantity: Float) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val newProduct = Product(
-                    id = 0, // 0 because it will be auto-generated
+                    id = 0,
                     sowingId = sowingId,
                     name = productName,
                     type = productType,
-                    quantity = quantity
+                    quantity = productQuantity
                 )
                 appDB.productDAO().insertProduct(newProduct)
                 fetchProductsBySowingId(sowingId) // Refresh the list
@@ -125,11 +129,13 @@ class ProductsActivity : AppCompatActivity() {
     private fun onEditClick(product: Product) {
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_product, null)
         val productNameEditText = dialogView.findViewById<EditText>(R.id.edittext_product_name)
+        val productQuantityEditText = dialogView.findViewById<EditText>(R.id.edittext_product_quantity)
         val productTypeEditText = dialogView.findViewById<EditText>(R.id.edittext_product_type)
         val addProductButton = dialogView.findViewById<Button>(R.id.addProductButton)
         val cancelButton = dialogView.findViewById<Button>(R.id.button_cancel)
 
         productNameEditText.setText(product.name)
+        productQuantityEditText.setText(product.quantity.toString())
         productTypeEditText.setText(product.type)
 
         val dialog = AlertDialog.Builder(this)
@@ -139,6 +145,7 @@ class ProductsActivity : AppCompatActivity() {
 
         addProductButton.setOnClickListener {
             product.name = productNameEditText.text.toString()
+            product.quantity = productQuantityEditText.text.toString().toFloat()
             product.type = productTypeEditText.text.toString()
             updateProduct(product)
             dialog.dismiss()
@@ -221,8 +228,7 @@ class ProductsActivity : AppCompatActivity() {
             }
         }
 
-        val productsPosition = resources.getStringArray(R.array.crop_info_options).indexOf("Prodcuts")
-        spinner.setSelection(productsPosition)
+        val productPosition = resources.getStringArray(R.array.crop_info_options).indexOf("Products")
+        spinner.setSelection(productPosition)
     }
-
 }
