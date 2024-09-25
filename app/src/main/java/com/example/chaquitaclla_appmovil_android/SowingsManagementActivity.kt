@@ -42,7 +42,11 @@ class SowingsManagementActivity : AppCompatActivity() {
         fetchAndDisplaySowings()
 
         addCropButton.setOnClickListener {
-            showAddSowingDialog()
+            if (::crops.isInitialized) {
+                showAddSowingDialog()
+            } else {
+                Toast.makeText(this, "Crops data is not yet loaded. Please wait.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

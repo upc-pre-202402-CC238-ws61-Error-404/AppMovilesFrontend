@@ -35,40 +35,57 @@ class CropCareActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = CropCareAdapter(caresList) // Set an empty adapter initially
 
-        cropCareSpinner = findViewById(R.id.cropCareSpinner)
+        cropCareSpinner = findViewById(R.id.dropdown_menu)
         setupSpinner()
 
         fetchCaresByCropId(1) // Example cropId
     }
 
     private fun setupSpinner() {
-        Log.d("CropCareActivity", "Setting up spinner")
-        val options = arrayOf("General Info", "Diseases", "Pests", "Care")
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, options)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        cropCareSpinner.adapter = adapter
+        val spinner: Spinner = findViewById(R.id.dropdown_menu)
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.crop_info_options,
+            R.layout.spinner_item_white_text
+        ).also { adapter ->
+            adapter.setDropDownViewResource(R.layout.spinner_item_white_text)
+            spinner.adapter = adapter
+        }
 
-        cropCareSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            private var isFirstSelection = true
+        var isFirstSelection = true
 
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: android.view.View?, position: Int, id: Long) {
                 if (isFirstSelection) {
                     isFirstSelection = false
                     return
                 }
-                Log.d("CropCareActivity", "Spinner item selected: $position")
-                when (position) {
-                    0 -> startActivity(Intent(this@CropCareActivity, GeneralCropInfo::class.java))
-                    1 -> startActivity(Intent(this@CropCareActivity, DiseasesActivity::class.java))
-                    2 -> startActivity(Intent(this@CropCareActivity, ProductsActivity::class.java))
-                    3 -> fetchCaresByCropId(1) // Refresh current activity
+                view?.let {
+                    val sowingId = intent.getIntExtra("SOWING_ID", -1)
+                    when (position) {
+                        0 -> startActivity(Intent(this@CropCareActivity, GeneralCropInfo::class.java).apply {
+                            putExtra("SOWING_ID", sowingId)
+                        })
+                        1 -> startActivity(Intent(this@CropCareActivity, CropCareActivity::class.java))
+                        2 -> startActivity(Intent(this@CropCareActivity, ControlsActivity::class.java).apply {
+                            putExtra("SOWING_ID", sowingId)
+                        })
+                        3 -> startActivity(Intent(this@CropCareActivity, DiseasesActivity::class.java))
+                        4 -> startActivity(Intent(this@CropCareActivity, ProductsActivity::class.java).apply {
+                            putExtra("SOWING_ID", sowingId)
+                        })
+                    }
                 }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
-                Log.d("CropCareActivity", "Nothing selected in spinner")
+                // No action needed
             }
         }
+
+        // Set the selected item to "Crop Care" if in CropCareActivity
+        val cropCarePosition = resources.getStringArray(R.array.crop_info_options).indexOf("Crop Care")
+        spinner.setSelection(cropCarePosition)
     }
 
     private fun fetchCaresByCropId(cropId: Int) {

@@ -23,6 +23,7 @@
         <activity android:name=".DiseasesActivity" />
         <activity android:name=".ProductsActivity" />
         <activity android:name=".GeneralCropInfo"/>
+        <activity android:name=".StatisticsActivity"/>
         <activity android:name=".SowingsManagementActivity"/>
 
     </application>

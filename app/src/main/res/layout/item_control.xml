@@ -5,9 +5,11 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="15dp"
     android:background="@drawable/border_background"
-    android:elevation="5dp">
+    android:elevation="5dp"
+    app:cardCornerRadius="8dp">
 
     <LinearLayout
+        android:baselineAligned="false"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -23,25 +25,33 @@
                 android:id="@+id/sowingConditionTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_regular"
-                android:text="Sowing Condition"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="Leaves: "
                 android:textColor="#000000"
-                android:textSize="20sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/stemConditionTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_regular"
-                android:text="Stem Condition"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="Stem: "
                 android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/soilMoistureTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_regular"
-                android:text="Soil Moisture"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="Soil Moisture: "
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/dateTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="Date: "
                 android:textSize="14sp" />
 
             <LinearLayout

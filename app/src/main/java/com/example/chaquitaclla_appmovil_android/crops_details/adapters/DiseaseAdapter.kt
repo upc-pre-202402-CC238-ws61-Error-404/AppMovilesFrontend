@@ -1,4 +1,3 @@
-// DiseaseAdapter.kt
 package com.example.chaquitaclla_appmovil_android.crops_details.adapters
 
 import android.view.LayoutInflater
@@ -21,11 +20,9 @@ class DiseaseAdapter(private val diseases: List<Disease>) : RecyclerView.Adapter
         holder.bind(disease)
     }
 
-    override fun getItemCount(): Int {
-        return diseases.size
-    }
+    override fun getItemCount(): Int = diseases.size
 
-    class DiseaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class DiseaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val nameTextView: TextView = itemView.findViewById(R.id.nameTextView)
         private val descriptionTextView: TextView = itemView.findViewById(R.id.descriptionTextView)
         private val solutionTextView: TextView = itemView.findViewById(R.id.solutionTextView)
@@ -34,6 +31,16 @@ class DiseaseAdapter(private val diseases: List<Disease>) : RecyclerView.Adapter
             nameTextView.text = disease.name
             descriptionTextView.text = disease.description
             solutionTextView.text = disease.solution
+
+            nameTextView.setOnClickListener {
+                if (descriptionTextView.visibility == View.GONE) {
+                    descriptionTextView.visibility = View.VISIBLE
+                    solutionTextView.visibility = View.VISIBLE
+                } else {
+                    descriptionTextView.visibility = View.GONE
+                    solutionTextView.visibility = View.GONE
+                }
+            }
         }
     }
 }

@@ -31,12 +31,14 @@ class ProductAdapter(
     inner class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val productNameTextView: TextView = itemView.findViewById(R.id.productNameTextView)
         private val productTypeTextView: TextView = itemView.findViewById(R.id.productTypeTextView)
+        private val productQuantityView: TextView = itemView.findViewById(R.id.productQuantityView)
         private val editButton: ImageView = itemView.findViewById(R.id.editButton)
         private val deleteButton: ImageView = itemView.findViewById(R.id.deleteButton)
 
         fun bind(product: Product) {
             productNameTextView.text = product.name
             productTypeTextView.text = product.type
+            productQuantityView.text = product.quantity.toString()
 
             editButton.setOnClickListener { onEditClick(product) }
             deleteButton.setOnClickListener { onDeleteClick(product) }

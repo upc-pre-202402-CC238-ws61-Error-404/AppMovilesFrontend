@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 data class Product(
     @PrimaryKey(autoGenerate = true) val id: Int,
     val sowingId: Int,
-    val name: String,
-    val type: String
+    var name: String,
+    var type: String,
+    var quantity: Float
 )

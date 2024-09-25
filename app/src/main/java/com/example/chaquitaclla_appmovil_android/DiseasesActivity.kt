@@ -1,18 +1,20 @@
 // DiseasesActivity.kt
 package com.example.chaquitaclla_appmovil_android
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chaquitaclla_appmovil_android.crops_details.DiseaseService
 import com.example.chaquitaclla_appmovil_android.crops_details.PestService
-import com.example.chaquitaclla_appmovil_android.crops_details.adapters.DiseaseAdapter
 import com.example.chaquitaclla_appmovil_android.crops_details.adapters.PestAdapter
-import com.example.chaquitaclla_appmovil_android.crops_details.beans.Disease
-import com.example.chaquitaclla_appmovil_android.crops_details.beans.Pest
+import com.example.chaquitaclla_appmovil_android.crops_details.adapters.DiseaseAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -37,6 +39,8 @@ class DiseasesActivity : AppCompatActivity() {
         pestRecyclerView = findViewById(R.id.pestRecyclerView)
         diseaseRecyclerView.layoutManager = LinearLayoutManager(this)
         pestRecyclerView.layoutManager = LinearLayoutManager(this)
+
+        setupSpinner()
 
         fetchDiseasesAndPests()
     }
@@ -67,5 +71,51 @@ class DiseasesActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun setupSpinner() {
+        val spinner: Spinner = findViewById(R.id.dropdown_menu)
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.crop_info_options,
+            R.layout.spinner_item_white_text
+        ).also { adapter ->
+            adapter.setDropDownViewResource(R.layout.spinner_item_white_text)
+            spinner.adapter = adapter
+        }
+
+        var isFirstSelection = true
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: android.view.View?, position: Int, id: Long) {
+                if (isFirstSelection) {
+                    isFirstSelection = false
+                    return
+                }
+                view?.let {
+                    val sowingId = intent.getIntExtra("SOWING_ID", -1)
+                    when (position) {
+                        0 -> startActivity(Intent(this@DiseasesActivity, GeneralCropInfo::class.java).apply {
+                            putExtra("SOWING_ID", sowingId)
+                        })
+                        1 -> startActivity(Intent(this@DiseasesActivity, CropCareActivity::class.java))
+                        2 -> startActivity(Intent(this@DiseasesActivity, ControlsActivity::class.java).apply {
+                            putExtra("SOWING_ID", sowingId)
+                        })
+                        3 -> startActivity(Intent(this@DiseasesActivity, DiseasesActivity::class.java))
+                        4 -> startActivity(Intent(this@DiseasesActivity, ProductsActivity::class.java).apply {
+                            putExtra("SOWING_ID", sowingId)
+                        })
+                    }
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // No action needed
+            }
+        }
+
+        val diseasePosition = resources.getStringArray(R.array.crop_info_options).indexOf("Diseases")
+        spinner.setSelection(diseasePosition)
     }
 }

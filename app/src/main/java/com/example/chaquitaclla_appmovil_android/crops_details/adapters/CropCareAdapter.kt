@@ -27,7 +27,7 @@ class CropCareAdapter(private val caresList: List<Cares>) : RecyclerView.Adapter
     }
 
     class CropCareViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val suggestionTextView: TextView = itemView.findViewById(R.id.suggestionTextView)
+        private val suggestionTextView: TextView = itemView.findViewById(R.id.suggesetionTextView)
         private val dateTextView: TextView = itemView.findViewById(R.id.dateTextView)
         private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 

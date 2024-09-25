@@ -1,4 +1,3 @@
-// ControlAdapter.kt
 package com.example.chaquitaclla_appmovil_android.crops_details.adapters
 
 import android.view.LayoutInflater
@@ -32,6 +31,7 @@ class ControlAdapter(
         private val sowingConditionTextView: TextView = itemView.findViewById(R.id.sowingConditionTextView)
         private val stemConditionTextView: TextView = itemView.findViewById(R.id.stemConditionTextView)
         private val soilMoistureTextView: TextView = itemView.findViewById(R.id.soilMoistureTextView)
+        private val dateTextView: TextView = itemView.findViewById(R.id.dateTextView)
         private val editButton: ImageView = itemView.findViewById(R.id.editButton)
         private val deleteButton: ImageView = itemView.findViewById(R.id.deleteButton)
 
@@ -39,6 +39,7 @@ class ControlAdapter(
             sowingConditionTextView.text = control.sowingCondition
             stemConditionTextView.text = control.stemCondition
             soilMoistureTextView.text = control.sowingSoilMoisture
+            dateTextView.text = control.date.toString()
 
             editButton.setOnClickListener { onEditClick(control) }
             deleteButton.setOnClickListener { onDeleteClick(control) }
