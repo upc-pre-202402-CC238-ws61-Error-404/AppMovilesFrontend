@@ -207,26 +207,40 @@ class ForumManagementActivity : AppCompatActivity() {
     }
 
     fun showDeleteQuestionDialog(question: Question) {
+        val dialogView = layoutInflater.inflate(R.layout.delete_question_dialog, null)
+        val deleteTitle: TextView = dialogView.findViewById(R.id.titleDeleteDialog)
+        val deleteText: TextView = dialogView.findViewById(R.id.textDeleteDialog)
+        val btnYes: Button = dialogView.findViewById(R.id.btnYes)
+        val btnNo: Button = dialogView.findViewById(R.id.btnNo)
+
+        deleteTitle.text = "Delete Question"
+        deleteText.text = "Are you sure you want to delete this question?"
+
+
         val dialog = AlertDialog.Builder(this)
-            .setTitle("Delete Question")
-            .setMessage("Are you sure you want to delete this question?")
-            .setPositiveButton("Yes") { _, _ ->
-                CoroutineScope(Dispatchers.IO).launch {
-                    try {
-                        questionsService.deleteQuestion(question.questionId)
-                        withContext(Dispatchers.Main) {
-                            fetchAndDisplayQuestionsUser()
-                            Toast.makeText(this@ForumManagementActivity, "Question deleted successfully", Toast.LENGTH_SHORT).show()
-                        }
-                    } catch (e: Exception) {
-                        withContext(Dispatchers.Main) {
-                            Toast.makeText(this@ForumManagementActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
-                        }
+            .setView(dialogView)
+            .create()
+
+        btnYes.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    questionsService.deleteQuestion(question.questionId)
+                    withContext(Dispatchers.Main) {
+                        fetchAndDisplayQuestionsUser()
+                        Toast.makeText(this@ForumManagementActivity, "Question deleted successfully", Toast.LENGTH_SHORT).show()
+                        dialog.dismiss()
+                    }
+                } catch (e: Exception) {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@ForumManagementActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
-            .setNegativeButton("No", null)
-            .create()
+        }
+
+        btnNo.setOnClickListener {
+            dialog.dismiss()
+        }
 
         dialog.show()
     }
