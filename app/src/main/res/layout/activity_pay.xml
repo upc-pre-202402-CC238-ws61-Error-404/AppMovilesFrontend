@@ -165,7 +165,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="@font/poppins"
-                    android:layout_below="@id/payTitle"
                     android:textStyle="bold"
                     android:textColor="#FFFFFF"
                     android:textSize="17dp" />
@@ -182,7 +181,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/poppins"
-                        android:layout_below="@id/payCost"
                         android:textColor="#FFFFFF"
                         android:textSize="20dp" />
 
@@ -216,7 +214,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/poppins"
-                        android:layout_below="@id/payText1"
                         android:textColor="#FFFFFF"
                         android:textSize="13dp" />
 
@@ -240,7 +237,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/poppins"
-                        android:layout_below="@id/payText2"
                         android:textColor="#FFFFFF"
                         android:textSize="13dp" />
 

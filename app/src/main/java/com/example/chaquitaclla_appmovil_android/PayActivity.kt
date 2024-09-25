@@ -11,8 +11,10 @@ import android.text.InputFilter
 import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chaquitaclla_appmovil_android.MainActivity.Companion.goLogin
+import com.google.android.material.card.MaterialCardView
 import java.util.regex.Pattern
 
 class PayActivity : AppCompatActivity() {
@@ -24,6 +26,32 @@ class PayActivity : AppCompatActivity() {
         val btnPay: Button = findViewById(R.id.btnPay)
         btnPay.setOnClickListener {
             startActivity(goProfile(this))
+        }
+
+        // Recibe los datos del intent
+        val title = intent.getStringExtra("title")
+        val cost = intent.getStringExtra("cost")
+        val text1 = intent.getStringExtra("text1")
+        val text2 = intent.getStringExtra("text2")
+
+        // Actualiza el contenido del card
+        val payTitle: TextView = findViewById(R.id.payTitle)
+        val payCost: TextView = findViewById(R.id.payCost)
+        val payText1: TextView = findViewById(R.id.payText1)
+        val payText2: TextView = findViewById(R.id.payText2)
+        val cardButton: MaterialCardView = findViewById(R.id.cardButton)
+
+        payTitle.text = title
+        payCost.text = cost
+        payText1.text = text1
+        payText2.text = text2
+
+        // Aplica la validación para cambiar el color según el título
+        when (title) {
+            "Basic" -> cardButton.setCardBackgroundColor(getColor(R.color.basic))
+            "Regular" -> cardButton.setCardBackgroundColor(getColor(R.color.regular))
+            "Premium" -> cardButton.setCardBackgroundColor(getColor(R.color.premium))
+            else -> cardButton.setCardBackgroundColor(getColor(R.color.defaultColor))
         }
 
         val edtSecuCode: EditText = findViewById(R.id.edtSecuCode)

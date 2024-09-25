@@ -1,6 +1,7 @@
 package com.example.chaquitaclla_appmovil_android.iam.services
 
 import com.example.chaquitaclla_appmovil_android.iam.beans.ProfileRequest
+import com.example.chaquitaclla_appmovil_android.iam.beans.ProfileRequestUpdate
 import com.example.chaquitaclla_appmovil_android.iam.beans.ProfileResponse
 import com.example.chaquitaclla_appmovil_android.iam.interfaces.ProfileService
 import retrofit2.Call
@@ -60,9 +61,9 @@ class ProfileServiceImpl(private val profileService: ProfileService) {
         })
     }
 
-    fun updateProfile(token: String, profileId: Int, request: ProfileRequest, callback: (ProfileResponse?) -> Unit) {
-        val call = profileService.updateProfile("Bearer $token", profileId, request)
-        call.enqueue(object : Callback<ProfileResponse> {
+    fun updateProfile(token: String, id: Int, updatedProfile: ProfileRequestUpdate, callback: (ProfileResponse?) -> Unit) {
+        val call = profileService.updateProfile(token, id, updatedProfile)
+        call.enqueue(object : retrofit2.Callback<ProfileResponse> {
             override fun onResponse(call: Call<ProfileResponse>, response: Response<ProfileResponse>) {
                 if (response.isSuccessful) {
                     callback(response.body())

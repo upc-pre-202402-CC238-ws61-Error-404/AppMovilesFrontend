@@ -70,32 +70,13 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:fontFamily="@font/poppins"
-            android:text="Email:"
-            android:textStyle="bold"
-            android:textColor="#000000"
-            android:textSize="20dp" />
-
-        <EditText
-            android:id="@+id/edtEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:fontFamily="@font/poppins"
-            android:background="@drawable/pay_background"
-            android:paddingLeft="10dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:fontFamily="@font/poppins"
             android:text="Country:"
             android:textStyle="bold"
             android:textColor="#000000"
             android:textSize="20dp" />
 
-        <EditText
-            android:id="@+id/edtCountry"
+        <Spinner
+            android:id="@+id/spinnerCountry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -113,8 +94,8 @@
             android:textColor="#000000"
             android:textSize="20dp" />
 
-        <EditText
-            android:id="@+id/edtCity"
+        <Spinner
+            android:id="@+id/spinnerCity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -139,7 +120,19 @@
             android:layout_margin="10dp"
             android:fontFamily="@font/poppins"
             android:background="@drawable/pay_background"
-            android:paddingLeft="10dp"/>
+            android:paddingLeft="10dp"
+            android:enabled="false"/>
+
+        <Button
+            android:id="@+id/btnEdit"
+            android:layout_width="160dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/poppins"
+            android:text="Edit"
+            android:textSize="18dp"
+            android:backgroundTint="#005F40"
+            app:cornerRadius="10dp"/>
 
     </LinearLayout>
 
