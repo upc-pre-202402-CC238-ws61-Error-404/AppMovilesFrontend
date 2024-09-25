@@ -13,5 +13,10 @@
     <string name="select_crop">Select Crop</string>
     <string name="description_add_sowing">Enter the name and cultivated area. The start date will be recorded as the current date</string>
     <string name="title_add_sowing">Add Crop</string>
+    <string name="description_add_control"> Enter leaf condition, stem condition and soil moisture</string>
+    <string name="title_add_control">Add Control</string>
+    <string name="title_search_diseases_pests">Search for diseases or pests</string>
+    <string name="description_add_product">Enter the type of input, name and quantity used</string>
+    <string name="title_add_product">Add Product</string>
     <string name="crops_history">Crops History</string>
 </resources>

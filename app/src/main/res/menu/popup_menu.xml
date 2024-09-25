@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_crop_care"
+        android:title="Crop Care" />
+    <item
+        android:id="@+id/menu_controls"
+        android:title="Controls" />
+    <item
+        android:id="@+id/menu_diseases"
+        android:title="Diseases" />
+    <item
+        android:id="@+id/menu_products"
+        android:title="Products" />
+</menu>
