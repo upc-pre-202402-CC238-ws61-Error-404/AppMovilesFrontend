@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="edittext_soil_moisture" type="id" />
+    <item name="edittext_stem_condition" type="id" />
+    <item name="edittext_sowing_condition" type="id" />
+</resources>

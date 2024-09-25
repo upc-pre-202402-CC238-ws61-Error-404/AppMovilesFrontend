@@ -1,0 +1,71 @@
+<!-- res/layout/dialog_add_control.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/title_add_control"
+        android:fontFamily="@font/poppins_semibold"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/description_add_control"
+        android:fontFamily="@font/poppins_regular"
+        android:textSize="18sp" />
+
+    <Spinner
+        android:id="@+id/spinner_sowing_condition"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp" />
+
+    <Spinner
+        android:id="@+id/spinner_stem_condition"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp" />
+
+    <Spinner
+        android:id="@+id/spinner_soil_moisture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/button_add"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Add"
+            android:backgroundTint="#116811"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp" />
+
+        <Button
+            android:id="@+id/button_cancel"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:backgroundTint="#D3D3D3"
+            android:textColor="#000000"
+            android:textSize="24sp" />
+    </LinearLayout>
+</LinearLayout>
