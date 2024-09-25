@@ -1,3 +1,4 @@
+// SowingsManagementActivity.kt
 package com.example.chaquitaclla_appmovil_android.sowingsManagement
 
 import DB.AppDataBase
@@ -11,11 +12,9 @@ import android.view.LayoutInflater
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import com.example.chaquitaclla_appmovil_android.BaseActivity
 import com.example.chaquitaclla_appmovil_android.GeneralCropInfo
 import com.example.chaquitaclla_appmovil_android.R
 import com.example.chaquitaclla_appmovil_android.sowingsManagement.beans.Crop
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -48,7 +47,11 @@ class SowingsManagementActivity : BaseActivity() {
         fetchAndDisplaySowings()
 
         addCropButton.setOnClickListener {
-            showAddSowingDialog()
+            if (::crops.isInitialized) {
+                showAddSowingDialog()
+            } else {
+                Toast.makeText(this, "Crops data is not yet loaded. Please wait.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -100,10 +103,13 @@ class SowingsManagementActivity : BaseActivity() {
 
             imgViewIcon.setOnClickListener {
                 Log.d("SowingsManagement", "Viewing details for sowing ID: ${sowing.id}")
-                val intent = Intent(this, GeneralCropInfo::class.java).apply {
-                    putExtra("SOWING_ID", sowing.id)
+                val sowingId = sowing.id
+
+                // Intent for GeneralCropInfo
+                val generalCropInfoIntent = Intent(this, GeneralCropInfo::class.java).apply {
+                    putExtra("SOWING_ID", sowingId)
                 }
-                startActivity(intent)
+                startActivity(generalCropInfoIntent)
             }
 
             imgTrashIcon.setOnClickListener {
@@ -151,7 +157,7 @@ class SowingsManagementActivity : BaseActivity() {
                 addSowing(selectedCrop.id, area)
                 dialog.dismiss()
             } else {
-                Toast.makeText(this, "Please select a crop and enter a valid area", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Please select a valid crop and enter a valid area.", Toast.LENGTH_SHORT).show()
             }
         }
 

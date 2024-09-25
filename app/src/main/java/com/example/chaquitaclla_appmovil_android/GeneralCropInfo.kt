@@ -1,7 +1,9 @@
 package com.example.chaquitaclla_appmovil_android
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
@@ -40,6 +42,8 @@ class GeneralCropInfo : AppCompatActivity() {
         if (sowingId != -1) {
             fetchSowingDetails(sowingId)
         }
+
+        setupSpinner()
     }
 
     private fun fetchSowingDetails(sowingId: Int) {
@@ -61,18 +65,50 @@ class GeneralCropInfo : AppCompatActivity() {
                     findViewById<TextView>(R.id.right_text_2).text = formattedDate
                     findViewById<TextView>(R.id.right_text_3).text = "$area m²"
                     findViewById<TextView>(R.id.crop_description).text = description
-
-                    val spinner: Spinner = findViewById(R.id.dropdown_menu)
-                    ArrayAdapter.createFromResource(
-                        this@GeneralCropInfo,
-                        R.array.crop_info_options,
-                        R.layout.spinner_item_white_text
-                    ).also { adapter ->
-                        adapter.setDropDownViewResource(R.layout.spinner_item_white_text)
-                        spinner.adapter = adapter
-                    }
-                    spinner.setSelection(0)
                 }
+            }
+        }
+    }
+
+    private fun setupSpinner() {
+        val spinner: Spinner = findViewById(R.id.dropdown_menu)
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.crop_info_options,
+            R.layout.spinner_item_white_text
+        ).also { adapter ->
+            adapter.setDropDownViewResource(R.layout.spinner_item_white_text)
+            spinner.adapter = adapter
+        }
+
+        var isFirstSelection = true
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: android.view.View?, position: Int, id: Long) {
+                if (isFirstSelection) {
+                    isFirstSelection = false
+                    return
+                }
+                view?.let {
+                    val sowingId = intent.getIntExtra("SOWING_ID", -1)
+                    when (position) {
+                        0 -> startActivity(Intent(this@GeneralCropInfo, GeneralCropInfo::class.java).apply {
+                            putExtra("SOWING_ID", sowingId)
+                        })
+                        1 -> startActivity(Intent(this@GeneralCropInfo, CropCareActivity::class.java))
+                        2 -> startActivity(Intent(this@GeneralCropInfo, ControlsActivity::class.java).apply {
+                            putExtra("SOWING_ID", sowingId)
+                        })
+                        3 -> startActivity(Intent(this@GeneralCropInfo, DiseasesActivity::class.java))
+                        4 -> startActivity(Intent(this@GeneralCropInfo, ProductsActivity::class.java).apply {
+                            putExtra("SOWING_ID", sowingId)
+                        })
+                    }
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // No action needed
             }
         }
     }

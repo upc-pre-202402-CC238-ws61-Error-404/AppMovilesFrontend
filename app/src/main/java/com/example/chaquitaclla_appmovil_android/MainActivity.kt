@@ -9,7 +9,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.chaquitaclla_appmovil_android.sowingsManagement.SowingsManagementActivity
 
 class MainActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
