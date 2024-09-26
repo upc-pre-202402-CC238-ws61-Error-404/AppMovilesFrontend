@@ -56,6 +56,8 @@ class ControlsActivity : BaseActivity() {
         findViewById<Button>(R.id.addControlButton).setOnClickListener {
             showAddControlDialog()
         }
+
+        setupSpinner()
     }
 
     private fun fetchControlsBySowingId(sowingId: Int) {
