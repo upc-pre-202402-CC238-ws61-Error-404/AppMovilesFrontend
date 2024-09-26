@@ -19,4 +19,14 @@
     <string name="description_add_product">Enter the type of input, name and quantity used</string>
     <string name="title_add_product">Add Product</string>
     <string name="crops_history">Crops History</string>
+    <string name="item_label">User Type</string>
+
+    <style name="GreenAutoCompleteTextView" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="endIconTint">#005F40</item>
+    </style>
+    <string name="title_activity_create_profile">CreateProfileActivity</string>
+    <string name="title_forum_management">Consultation Forum</string>
+    <string name="delete_question">Delete Question</string>
+    <string name="edit_question">Edit Question</string>
+    <string name="see_question">See Question</string>
 </resources>
