@@ -42,7 +42,7 @@ class StatisticsActivity : BaseActivity() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigationView.selectedItemId = R.id.navigation_statistics
 
-        statisticsService = StatisticsService()
+        statisticsService = StatisticsService(this)
         barChart = findViewById(R.id.bar_chart)
         pieChart = findViewById(R.id.pie_chart)
         progressBar = findViewById(R.id.progressBar)
@@ -61,7 +61,7 @@ class StatisticsActivity : BaseActivity() {
                 setupBarChart(statisticBars)
 
                 val pieEntries = withContext(Dispatchers.IO) {
-                    statisticsService.getQuantityOfControlsBySowingId()
+                    statisticsService.getQuantityOfControlsBySowingIdByDB()
                 }
                 Log.d("com.example.chaquitaclla_appmovil_android.StaticsActivity", "Pie Entries: $pieEntries")
                 setupPieChart(pieEntries)
