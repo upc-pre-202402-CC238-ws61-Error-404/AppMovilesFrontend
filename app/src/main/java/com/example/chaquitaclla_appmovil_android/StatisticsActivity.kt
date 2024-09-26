@@ -50,6 +50,11 @@ class StatisticsActivity : BaseActivity() {
         fetchData()
     }
 
+    override fun onResume() {
+        super.onResume()
+        fetchData()
+    }
+
     private fun fetchData() {
         showLoading(true)
         lifecycleScope.launch {
