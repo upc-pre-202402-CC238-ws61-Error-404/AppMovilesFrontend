@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">Chaquitaclla_appmovil_android</string>
-    <string name="title_forum_management">Consultation Forum</string>
-    <string name="delete_question">Delete Question</string>
-    <string name="edit_question">Edit Question</string>
-    <string name="see_question">See Question</string>
+    <string name="item_label">User Type</string>
+
+    <style name="GreenAutoCompleteTextView" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="endIconTint">#005F40</item>
+    </style>
+    <string name="title_activity_create_profile">CreateProfileActivity</string>
+
 </resources>
+

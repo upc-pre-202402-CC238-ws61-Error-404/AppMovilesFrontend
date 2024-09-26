@@ -9,7 +9,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.chaquitaclla_appmovil_android.forum.activitys.ForumManagementActivity
 
 class MainActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
@@ -18,24 +17,32 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
-
+        // Ajustar el padding para los system bars
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        // Botón para ir a LogInActivity
+        val button: Button = findViewById(R.id.buttonLogin)
+        button.setOnClickListener {
+            startActivity(goLogin(this))
+        }
 
-
-        val buttonForum: Button = findViewById(R.id.btnForum)
-
-        buttonForum.setOnClickListener {
-            startActivity(newIntentForum(this))
+        // Botón para ir a SignUpActivity
+        val buttonSignUp: Button = findViewById(R.id.buttonRegister)
+        buttonSignUp.setOnClickListener {
+            startActivity(GoSignup(this))
         }
     }
 
     companion object {
-        fun newIntentForum(context: Context): Intent{
-            return Intent(context, ForumManagementActivity::class.java)
+        fun goLogin(context: Context): Intent {
+            return Intent(context, SignInActivity::class.java)
+        }
+
+        fun GoSignup(context: Context): Intent {
+            return Intent(context, SignUpActivity::class.java)
         }
     }
 }
