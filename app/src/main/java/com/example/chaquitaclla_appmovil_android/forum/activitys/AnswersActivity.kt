@@ -1,4 +1,4 @@
-package com.example.chaquitaclla_appmovil_android
+package com.example.chaquitaclla_appmovil_android.forum.activitys
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -13,6 +13,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.chaquitaclla_appmovil_android.R
 import com.example.chaquitaclla_appmovil_android.forum.adapter.AdapterAnswer
 import com.example.chaquitaclla_appmovil_android.forum.services.AnswersService
 import com.example.chaquitaclla_appmovil_android.forum.beans.Answer

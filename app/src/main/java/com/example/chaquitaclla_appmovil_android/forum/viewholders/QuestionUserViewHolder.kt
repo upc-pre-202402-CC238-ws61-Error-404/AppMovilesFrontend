@@ -6,8 +6,8 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.chaquitaclla_appmovil_android.AnswersActivity
-import com.example.chaquitaclla_appmovil_android.ForumManagementActivity
+import com.example.chaquitaclla_appmovil_android.forum.activitys.AnswersActivity
+import com.example.chaquitaclla_appmovil_android.forum.activitys.ForumManagementActivity
 import com.example.chaquitaclla_appmovil_android.R
 import com.example.chaquitaclla_appmovil_android.forum.beans.Category
 import com.example.chaquitaclla_appmovil_android.forum.beans.Question

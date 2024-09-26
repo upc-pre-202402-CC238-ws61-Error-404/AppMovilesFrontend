@@ -1,7 +1,6 @@
-package com.example.chaquitaclla_appmovil_android
+package com.example.chaquitaclla_appmovil_android.forum.activitys
 
 import android.app.AlertDialog
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.AdapterView
@@ -14,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.chaquitaclla_appmovil_android.R
 import com.example.chaquitaclla_appmovil_android.forum.adapter.AdapterQuestionCommunity
 import com.example.chaquitaclla_appmovil_android.forum.adapter.AdapterQuestionUser
 import com.example.chaquitaclla_appmovil_android.forum.beans.Category

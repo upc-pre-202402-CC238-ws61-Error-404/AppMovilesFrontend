@@ -4,7 +4,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.chaquitaclla_appmovil_android.AnswersActivity
+import com.example.chaquitaclla_appmovil_android.forum.activitys.AnswersActivity
 import com.example.chaquitaclla_appmovil_android.forum.viewholders.QuestionCommunityViewHolder
 import com.example.chaquitaclla_appmovil_android.R
 import com.example.chaquitaclla_appmovil_android.forum.beans.Question
