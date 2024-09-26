@@ -60,7 +60,7 @@ dependencies {
     implementation("io.github.cdimascio:dotenv-kotlin:6.4.2")
 
     //Coroutines dependences
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0")
+    //implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.6")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.6")
 
@@ -82,9 +82,8 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.12.0")
     kapt("com.github.bumptech.glide:compiler:4.12.0")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
-    implementation("com.squareup.retrofit2:retrofit:2.11.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
-    implementation("io.github.cdimascio:dotenv-kotlin:6.4.2")
+
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
