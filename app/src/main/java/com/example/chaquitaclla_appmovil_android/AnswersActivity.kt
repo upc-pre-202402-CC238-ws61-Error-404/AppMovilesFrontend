@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -101,6 +102,12 @@ class AnswersActivity : AppCompatActivity() {
 
         btnAddAnswer.setOnClickListener {
             val answerText = editTextAnswer.text.toString()
+
+            if (answerText.isBlank()) {
+                Toast.makeText(this, "Please enter the answer content", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             val answer= AnswerPost(
                 questionId = question.questionId,
                 answerText = answerText,

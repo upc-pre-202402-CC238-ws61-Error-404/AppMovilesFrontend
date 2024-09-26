@@ -117,6 +117,13 @@ class ForumManagementActivity : AppCompatActivity() {
         btnAddQuestion.setOnClickListener {
             val questionText = editTextQuestion.text.toString()
             val categoryId = selectedCategoryId
+
+            if (selectedCategoryId == 0 || questionText.isBlank()) {
+                Toast.makeText(this, "Please select a category and enter the question content", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+
             val date = DateFormat.format(Date())
 
             //TODO: Cambiar el id del usuario
