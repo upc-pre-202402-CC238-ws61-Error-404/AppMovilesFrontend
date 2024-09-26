@@ -14,12 +14,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chaquitaclla_appmovil_android.R
+import com.example.chaquitaclla_appmovil_android.SessionManager
 import com.example.chaquitaclla_appmovil_android.forum.adapter.AdapterAnswer
 import com.example.chaquitaclla_appmovil_android.forum.services.AnswersService
 import com.example.chaquitaclla_appmovil_android.forum.beans.Answer
 import com.example.chaquitaclla_appmovil_android.forum.beans.AnswerPost
 import com.example.chaquitaclla_appmovil_android.forum.beans.Question
 import com.example.chaquitaclla_appmovil_android.forum.services.CategoriesService
+import com.example.chaquitaclla_appmovil_android.forum.services.ProfileServiceForum
+import com.example.chaquitaclla_appmovil_android.iam.beans.ProfileResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,7 +32,7 @@ class AnswersActivity : AppCompatActivity() {
 
     private lateinit var answersService: AnswersService
     private lateinit var categoriesService: CategoriesService
-
+    private lateinit var profileService: ProfileServiceForum
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -37,19 +40,20 @@ class AnswersActivity : AppCompatActivity() {
 
         answersService = AnswersService()
         categoriesService = CategoriesService()
-
+        profileService = ProfileServiceForum()
 
 
         val question = intent.getSerializableExtra("question") as Question
         val isFromCommunity = intent.getBooleanExtra("isFromCommunity", false)
+        val profileId = SessionManager.profileId?:-1
 
         setupBackButton()
-        displayQuestionDetails(question)
-        fetchAndDisplayAnswers(question.questionId)
-        setupAddAnswerButton(question, isFromCommunity)
+        displayQuestionDetails(question, profileId)
+        fetchAndDisplayAnswers(question.questionId, profileId)
+        setupAddAnswerButton(question, isFromCommunity, profileId)
     }
 
-    private fun displayQuestionDetails(question: Question) {
+    private fun displayQuestionDetails(question: Question, profileId: Int) {
         val txtQuestionAnswers: TextView = findViewById(R.id.txtQuestionAnswers)
         val txtUserQuestion: TextView = findViewById(R.id.txtUserQuestion)
         val txtDateQuestion: TextView = findViewById(R.id.txtDateQuestion)
@@ -58,8 +62,10 @@ class AnswersActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val category = categoriesService.getCategoryById(question.categoryId)
+                val profile = profileService.getProfileById(profileId)
                 withContext(Dispatchers.Main) {
                     txtCategoryQuestion.text = category.name
+                    txtUserQuestion.text = profile?.fullName ?: "Unknown"
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
@@ -70,10 +76,10 @@ class AnswersActivity : AppCompatActivity() {
 
 
         txtQuestionAnswers.text = question.questionText
-        txtUserQuestion.text = question.authorId.toString()
+
         txtDateQuestion.text = question.date.toString().take(10)
     }
-    private fun setupAddAnswerButton(question: Question, isFromCommunity:Boolean) {
+    private fun setupAddAnswerButton(question: Question, isFromCommunity:Boolean, profileId: Int) {
         val addQuestionButton: Button = findViewById(R.id.btnAddAnswer)
 
 
@@ -84,10 +90,10 @@ class AnswersActivity : AppCompatActivity() {
         }
 
         addQuestionButton.setOnClickListener {
-            showAddAnswerDialog(question)
+            showAddAnswerDialog(question, profileId)
         }
     }
-    private fun showAddAnswerDialog(question: Question) {
+    private fun showAddAnswerDialog(question: Question, profileId: Int) {
         val dialogView = layoutInflater.inflate(R.layout.add_answer_dialog, null)
         val answerDialogTitle: TextView = dialogView.findViewById(R.id.answerDialogTitle)
         val editTextAnswer: EditText = dialogView.findViewById(R.id.editTextAnswer)
@@ -112,14 +118,14 @@ class AnswersActivity : AppCompatActivity() {
             val answer= AnswerPost(
                 questionId = question.questionId,
                 answerText = answerText,
-                authorId = 1
+                authorId = profileId
             )
             // Aquí puedes agregar la lógica para agregar la respuesta
             CoroutineScope(Dispatchers.IO).launch {
                 try {
                     answersService.addAnswer(answer)
                     withContext(Dispatchers.Main) {
-                        fetchAndDisplayAnswers(question.questionId)
+                        fetchAndDisplayAnswers(question.questionId, profileId)
                     }
                 } catch (e: Exception) {
                     withContext(Dispatchers.Main) {
@@ -137,13 +143,17 @@ class AnswersActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun fetchAndDisplayAnswers(questionId: Int) {
+    private fun fetchAndDisplayAnswers(questionId: Int, profileId:Int) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val answers = answersService.getAllAnswersByQuestionId(questionId)
-                withContext(Dispatchers.Main) {
-                    displayAnswers(answers)
+                val profile = profileService.getProfileById(profileId)
+                if (profile != null) {
+                    withContext(Dispatchers.Main) {
+                        displayAnswers(answers, profile)
+                    }
                 }
+
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     Log.e("AnswersActivity", "Error: ${e.message}")
@@ -152,10 +162,10 @@ class AnswersActivity : AppCompatActivity() {
         }
     }
 
-    private fun displayAnswers(answers: List<Answer>) {
+    private fun displayAnswers(answers: List<Answer>, profile: ProfileResponse) {
         val recyclerView: RecyclerView = findViewById(R.id.recyclerViewAnswers)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = AdapterAnswer(answers)
+        recyclerView.adapter = AdapterAnswer(answers, profile)
 
     }
 
