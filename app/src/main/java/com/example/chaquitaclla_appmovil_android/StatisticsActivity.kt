@@ -55,7 +55,7 @@ class StatisticsActivity : BaseActivity() {
         lifecycleScope.launch {
             try {
                 val statisticBars = withContext(Dispatchers.IO) {
-                    statisticsService.getQuantityOfCrops()
+                    statisticsService.getQuantityOfCropsByDB()
                 }
                 Log.d("com.example.chaquitaclla_appmovil_android.StaticsActivity", "Statistic Bars: $statisticBars")
                 setupBarChart(statisticBars)
