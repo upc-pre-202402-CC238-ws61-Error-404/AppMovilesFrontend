@@ -6,6 +6,7 @@ import com.example.chaquitaclla_appmovil_android.forum.beans.Category
 import com.example.chaquitaclla_appmovil_android.forum.beans.Question
 import com.example.chaquitaclla_appmovil_android.forum.beans.QuestionPost
 import com.example.chaquitaclla_appmovil_android.forum.beans.QuestionPut
+import com.example.chaquitaclla_appmovil_android.iam.beans.ProfileResponse
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -43,4 +44,8 @@ interface ForumApi {
 
     @GET("forum/categories/{categoryId}")
     suspend fun getCategoryById(@Path("categoryId") categoryId: Int): Category
+
+    //Profile
+    @GET("profiles/{profileId}")
+    suspend fun getProfileById(@Path("profileId") profileId: Int) : ProfileResponse
 }

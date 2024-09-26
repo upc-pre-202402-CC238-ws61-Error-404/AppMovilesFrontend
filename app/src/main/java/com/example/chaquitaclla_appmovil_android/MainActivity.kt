@@ -9,6 +9,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.chaquitaclla_appmovil_android.forum.activitys.ForumManagementActivity
+import com.example.chaquitaclla_appmovil_android.iam.activitys.SignInActivity
+import com.example.chaquitaclla_appmovil_android.iam.activitys.SignUpActivity
 
 class MainActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
@@ -34,6 +37,12 @@ class MainActivity : AppCompatActivity() {
         buttonSignUp.setOnClickListener {
             startActivity(GoSignup(this))
         }
+
+        val buttonForum: Button = findViewById(R.id.btnForum)
+
+        buttonForum.setOnClickListener {
+            startActivity(newIntentForum(this))
+        }
     }
 
     companion object {
@@ -43,6 +52,9 @@ class MainActivity : AppCompatActivity() {
 
         fun GoSignup(context: Context): Intent {
             return Intent(context, SignUpActivity::class.java)
+        }
+        fun newIntentForum(context: Context): Intent{
+            return Intent(context, ForumManagementActivity::class.java)
         }
     }
 }

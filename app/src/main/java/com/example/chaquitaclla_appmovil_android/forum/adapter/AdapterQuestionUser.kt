@@ -7,6 +7,7 @@ import com.example.chaquitaclla_appmovil_android.forum.viewholders.QuestionUserV
 import com.example.chaquitaclla_appmovil_android.R
 import com.example.chaquitaclla_appmovil_android.forum.beans.Category
 import com.example.chaquitaclla_appmovil_android.forum.beans.Question
+import com.example.chaquitaclla_appmovil_android.iam.beans.ProfileResponse
 
 class AdapterQuestionUser(
     val questionsList: List<Question>,

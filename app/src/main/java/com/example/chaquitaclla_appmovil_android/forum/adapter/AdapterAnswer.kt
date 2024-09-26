@@ -6,11 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.chaquitaclla_appmovil_android.forum.viewholders.AnswerViewHolder
 import com.example.chaquitaclla_appmovil_android.R
 import com.example.chaquitaclla_appmovil_android.forum.beans.Answer
+import com.example.chaquitaclla_appmovil_android.iam.beans.ProfileResponse
 
-class AdapterAnswer(val answersList: List<Answer>): RecyclerView.Adapter<AnswerViewHolder>() {
+class AdapterAnswer(val answersList: List<Answer>, val profile: ProfileResponse): RecyclerView.Adapter<AnswerViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnswerViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        return AnswerViewHolder(layoutInflater.inflate(R.layout.answer_item, parent, false))
+        return AnswerViewHolder(layoutInflater.inflate(R.layout.answer_item, parent, false), profile)
     }
 
     override fun getItemCount(): Int = answersList.size

@@ -9,8 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.chaquitaclla_appmovil_android.forum.activitys.AnswersActivity
 import com.example.chaquitaclla_appmovil_android.forum.activitys.ForumManagementActivity
 import com.example.chaquitaclla_appmovil_android.R
+import com.example.chaquitaclla_appmovil_android.SessionManager
 import com.example.chaquitaclla_appmovil_android.forum.beans.Category
 import com.example.chaquitaclla_appmovil_android.forum.beans.Question
+import com.example.chaquitaclla_appmovil_android.iam.beans.ProfileResponse
 
 class QuestionUserViewHolder(view: View, private val categories: List<Category>): RecyclerView.ViewHolder(view) {
 
@@ -25,6 +27,7 @@ class QuestionUserViewHolder(view: View, private val categories: List<Category>)
     fun render(question: Question){
         questionCont.text = question.questionText
         date.text = question.date.toString().take(10)
+        val profileId = SessionManager.profileId?: 0
 
         val categoryName = categories.find { it.categoryId == question.categoryId }?.name ?: "Unknown"
         category.text = categoryName
@@ -40,12 +43,12 @@ class QuestionUserViewHolder(view: View, private val categories: List<Category>)
 
         btnEditQuestion.setOnClickListener {
             val context = itemView.context as AppCompatActivity
-            (context as ForumManagementActivity).showEditQuestionDialog(question, categoryName)
+            (context as ForumManagementActivity).showEditQuestionDialog(question, categoryName, profileId)
         }
 
         btnDeleteQuestion.setOnClickListener {
             val context = itemView.context as AppCompatActivity
-            (context as ForumManagementActivity).showDeleteQuestionDialog(question)
+            (context as ForumManagementActivity).showDeleteQuestionDialog(question, profileId)
         }
     }
 

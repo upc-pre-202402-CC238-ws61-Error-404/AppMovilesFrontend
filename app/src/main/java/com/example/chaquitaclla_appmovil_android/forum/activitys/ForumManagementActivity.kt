@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chaquitaclla_appmovil_android.R
+import com.example.chaquitaclla_appmovil_android.SessionManager
 import com.example.chaquitaclla_appmovil_android.forum.adapter.AdapterQuestionCommunity
 import com.example.chaquitaclla_appmovil_android.forum.adapter.AdapterQuestionUser
 import com.example.chaquitaclla_appmovil_android.forum.beans.Category
@@ -23,6 +24,10 @@ import com.example.chaquitaclla_appmovil_android.forum.services.QuestionsService
 import com.example.chaquitaclla_appmovil_android.forum.beans.Question
 import com.example.chaquitaclla_appmovil_android.forum.beans.QuestionPost
 import com.example.chaquitaclla_appmovil_android.forum.beans.QuestionPut
+import com.example.chaquitaclla_appmovil_android.forum.services.ProfileServiceForum
+import com.example.chaquitaclla_appmovil_android.iam.RetrofitClient
+import com.example.chaquitaclla_appmovil_android.iam.beans.ProfileResponse
+import com.example.chaquitaclla_appmovil_android.iam.services.ProfileServiceImpl
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,6 +38,8 @@ class ForumManagementActivity : AppCompatActivity() {
 
     private lateinit var questionsService: QuestionsService
     private lateinit var categoriesService: CategoriesService
+    private lateinit var profileService: ProfileServiceForum
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,14 +47,17 @@ class ForumManagementActivity : AppCompatActivity() {
 
         questionsService = QuestionsService()
         categoriesService = CategoriesService()
+        profileService = ProfileServiceForum()
+
+        val profileId = SessionManager.profileId?:-1
 
 
-        setupAutoCompleteTextView()
-        setupAddQuestionButton()
+        setupAutoCompleteTextView(profileId)
+        setupAddQuestionButton(profileId)
         fetchAndDisplayQuestionsCommunity()
     }
 
-    private fun setupAutoCompleteTextView() {
+    private fun setupAutoCompleteTextView(profileId: Int) {
         val item = listOf("Community", "My Questions")
         val autoComplete: AutoCompleteTextView = findViewById(R.id.spinnerForum)
 
@@ -62,20 +72,20 @@ class ForumManagementActivity : AppCompatActivity() {
                 fetchAndDisplayQuestionsCommunity()
             }else if (selectedItem == "My Questions") {
                 clearQuestions()
-                fetchAndDisplayQuestionsUser()
+                fetchAndDisplayQuestionsUser(profileId)
             }
             Toast.makeText(this, " $selectedItem", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun setupAddQuestionButton() {
+    private fun setupAddQuestionButton(profileId:Int) {
         val addQuestionButton: Button = findViewById(R.id.btnAddQuestion)
         addQuestionButton.setOnClickListener {
-            showAddQuestionDialog()
+            showAddQuestionDialog(profileId)
         }
     }
 
-    private fun showAddQuestionDialog(categories: List<String> = emptyList()) {
+    private fun showAddQuestionDialog(profileId:Int) {
         val dialogView = layoutInflater.inflate(R.layout.add_edit_question_dialog, null)
         val editTextQuestion: EditText = dialogView.findViewById(R.id.editTextQuestion)
         val spinnerCategory: AutoCompleteTextView = dialogView.findViewById(R.id.spinnerCategory)
@@ -126,8 +136,7 @@ class ForumManagementActivity : AppCompatActivity() {
 
             val date = DateFormat.format(Date())
 
-            //TODO: Cambiar el id del usuario
-            val question = QuestionPost(1, categoryId, questionText, date)
+            val question = QuestionPost(profileId, categoryId, questionText, date)
 
             CoroutineScope(Dispatchers.IO).launch {
                 try {
@@ -152,7 +161,7 @@ class ForumManagementActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    fun showEditQuestionDialog(question: Question, categoryName: String){
+    fun showEditQuestionDialog(question: Question, categoryName: String, profileId:Int){
         val dialogView = layoutInflater.inflate(R.layout.add_edit_question_dialog, null)
         val editTextQuestion: EditText = dialogView.findViewById(R.id.editTextQuestion)
         val spinnerCategory: AutoCompleteTextView = dialogView.findViewById(R.id.spinnerCategory)
@@ -194,7 +203,7 @@ class ForumManagementActivity : AppCompatActivity() {
                 try {
                     questionsService.updateQuestion(question.questionId, updatedQuestion)
                     withContext(Dispatchers.Main) {
-                        fetchAndDisplayQuestionsUser()
+                        fetchAndDisplayQuestionsUser(profileId)
                         Toast.makeText(this@ForumManagementActivity, "Question updated successfully", Toast.LENGTH_SHORT).show()
                         dialog.dismiss()
                     }
@@ -213,7 +222,7 @@ class ForumManagementActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    fun showDeleteQuestionDialog(question: Question) {
+    fun showDeleteQuestionDialog(question: Question, profileId:Int) {
         val dialogView = layoutInflater.inflate(R.layout.delete_question_dialog, null)
         val deleteTitle: TextView = dialogView.findViewById(R.id.titleDeleteDialog)
         val deleteText: TextView = dialogView.findViewById(R.id.textDeleteDialog)
@@ -233,7 +242,7 @@ class ForumManagementActivity : AppCompatActivity() {
                 try {
                     questionsService.deleteQuestion(question.questionId)
                     withContext(Dispatchers.Main) {
-                        fetchAndDisplayQuestionsUser()
+                        fetchAndDisplayQuestionsUser(profileId)
                         Toast.makeText(this@ForumManagementActivity, "Question deleted successfully", Toast.LENGTH_SHORT).show()
                         dialog.dismiss()
                     }
@@ -276,12 +285,11 @@ class ForumManagementActivity : AppCompatActivity() {
         recyclerView.adapter = AdapterQuestionCommunity(emptyList())
     }
 
-    private fun fetchAndDisplayQuestionsUser(){
+    private fun fetchAndDisplayQuestionsUser(profileId: Int){
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val categories = categoriesService.getAllCategories()
-                //TODO: Cambiar el id del usuario
-                val questions = questionsService.getQuestionsByAuthorId(1)
+                val questions = questionsService.getQuestionsByAuthorId(profileId)
                 withContext(Dispatchers.Main){
                     displayQuestionsUser(questions, categories)
                 }
