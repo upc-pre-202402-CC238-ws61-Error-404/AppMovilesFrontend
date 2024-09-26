@@ -1,4 +1,4 @@
-package com.example.chaquitaclla_appmovil_android
+package com.example.chaquitaclla_appmovil_android.iam.activitys
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.chaquitaclla_appmovil_android.R
 import com.example.chaquitaclla_appmovil_android.iam.RetrofitClient
 import com.example.chaquitaclla_appmovil_android.iam.beans.SignUpRequest
 import com.example.chaquitaclla_appmovil_android.iam.services.AuthServiceImpl

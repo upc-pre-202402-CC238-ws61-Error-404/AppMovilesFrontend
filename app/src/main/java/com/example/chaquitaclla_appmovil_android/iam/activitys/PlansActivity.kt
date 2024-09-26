@@ -1,11 +1,12 @@
 // src/main/java/com/example/chaquitaclla_appmovil_android/PlansActivity.kt
-package com.example.chaquitaclla_appmovil_android
+package com.example.chaquitaclla_appmovil_android.iam.activitys
 
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.chaquitaclla_appmovil_android.R
 import com.google.android.material.card.MaterialCardView
 
 class PlansActivity : AppCompatActivity() {

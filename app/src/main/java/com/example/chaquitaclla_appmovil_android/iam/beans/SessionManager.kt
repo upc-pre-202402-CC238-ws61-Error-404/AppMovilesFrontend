@@ -14,4 +14,5 @@ object SessionManager {
     val token: String?
         get() = signInResponse?.token
 
+    var profileId: Int? = 0
 }

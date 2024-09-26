@@ -1,4 +1,4 @@
-package com.example.chaquitaclla_appmovil_android
+package com.example.chaquitaclla_appmovil_android.iam.activitys
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -11,6 +11,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.chaquitaclla_appmovil_android.R
+import com.example.chaquitaclla_appmovil_android.SessionManager
 import com.example.chaquitaclla_appmovil_android.iam.RetrofitClient
 import com.example.chaquitaclla_appmovil_android.iam.beans.SignInRequest
 import com.example.chaquitaclla_appmovil_android.iam.services.AuthServiceImpl
@@ -48,6 +50,7 @@ class SignInActivity : AppCompatActivity() {
                         profileServiceImpl.getAllProfiles(SessionManager.token!!) { profiles ->
                             val profileExists = profiles?.any { it.email == username } ?: false
                             if (profileExists) {
+                                SessionManager.profileId = profiles?.find { it.email == username }?.id
                                 startActivity(GoProfile(this))
                             } else {
                                 startActivity(GoPlans(this))

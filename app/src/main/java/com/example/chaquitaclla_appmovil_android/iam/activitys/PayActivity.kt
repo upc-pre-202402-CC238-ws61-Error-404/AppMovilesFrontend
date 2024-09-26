@@ -1,7 +1,6 @@
-package com.example.chaquitaclla_appmovil_android
+package com.example.chaquitaclla_appmovil_android.iam.activitys
 
 import android.annotation.SuppressLint
-import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.icu.util.Calendar
@@ -13,7 +12,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.chaquitaclla_appmovil_android.MainActivity.Companion.goLogin
+import com.example.chaquitaclla_appmovil_android.R
 import com.google.android.material.card.MaterialCardView
 import java.util.regex.Pattern
 
