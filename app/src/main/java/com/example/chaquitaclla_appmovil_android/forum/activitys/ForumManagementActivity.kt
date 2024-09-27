@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.chaquitaclla_appmovil_android.BaseActivity
 import com.example.chaquitaclla_appmovil_android.R
 import com.example.chaquitaclla_appmovil_android.SessionManager
 import com.example.chaquitaclla_appmovil_android.forum.adapter.AdapterQuestionCommunity
@@ -28,13 +29,14 @@ import com.example.chaquitaclla_appmovil_android.forum.services.ProfileServiceFo
 import com.example.chaquitaclla_appmovil_android.iam.RetrofitClient
 import com.example.chaquitaclla_appmovil_android.iam.beans.ProfileResponse
 import com.example.chaquitaclla_appmovil_android.iam.services.ProfileServiceImpl
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Date
 
-class ForumManagementActivity : AppCompatActivity() {
+class ForumManagementActivity : BaseActivity() {
 
     private lateinit var questionsService: QuestionsService
     private lateinit var categoriesService: CategoriesService
@@ -43,7 +45,10 @@ class ForumManagementActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_forum_management)
+        layoutInflater.inflate(R.layout.activity_forum_management, findViewById(R.id.container))
+
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView.selectedItemId = R.id.navigation_forum
 
         questionsService = QuestionsService()
         categoriesService = CategoriesService()

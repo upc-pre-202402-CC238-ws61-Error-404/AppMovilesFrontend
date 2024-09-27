@@ -3,6 +3,9 @@ package com.example.chaquitaclla_appmovil_android
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.chaquitaclla_appmovil_android.forum.activitys.AnswersActivity
+import com.example.chaquitaclla_appmovil_android.forum.activitys.ForumManagementActivity
+import com.example.chaquitaclla_appmovil_android.iam.activitys.ProfileActivity
 import com.example.chaquitaclla_appmovil_android.sowingsManagement.SowingsManagementActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -23,11 +26,19 @@ open class BaseActivity : AppCompatActivity() {
                     true
                 }
                 R.id.navigation_forum -> {
-                    // TODO: Call intent to go to ForumActivity
+                    if (this !is ForumManagementActivity) {
+                        val intent = Intent(this, ForumManagementActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                        startActivity(intent)
+                    }
                     true
                 }
                 R.id.navigation_profile -> {
-                    // TODO: Call intent to go to ProfileActivity
+                    if (this !is ProfileActivity) {
+                        val intent = Intent(this, ProfileActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+                        startActivity(intent)
+                    }
                     true
                 }
                 R.id.navigation_history -> {
@@ -58,7 +69,8 @@ open class BaseActivity : AppCompatActivity() {
             is SowingsManagementActivity -> bottomNavigationView.selectedItemId = R.id.navigation_home
             is SowingsHistoryActivity -> bottomNavigationView.selectedItemId = R.id.navigation_history
             is StatisticsActivity -> bottomNavigationView.selectedItemId = R.id.navigation_statistics
-            //TODO: Add cases for ForumActivity and ProfileActivity
+            is ProfileActivity -> bottomNavigationView.selectedItemId = R.id.navigation_profile
+            is ForumManagementActivity -> bottomNavigationView.selectedItemId = R.id.navigation_forum
         }
     }
 }

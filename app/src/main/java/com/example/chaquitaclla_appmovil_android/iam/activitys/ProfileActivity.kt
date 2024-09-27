@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
+import com.example.chaquitaclla_appmovil_android.BaseActivity
 import com.example.chaquitaclla_appmovil_android.CountryCityData
 import com.example.chaquitaclla_appmovil_android.R
 import com.example.chaquitaclla_appmovil_android.SessionManager
@@ -16,8 +17,9 @@ import com.example.chaquitaclla_appmovil_android.iam.RetrofitClient
 import com.example.chaquitaclla_appmovil_android.iam.beans.ProfileRequestUpdate
 import com.example.chaquitaclla_appmovil_android.iam.beans.ProfileResponse
 import com.example.chaquitaclla_appmovil_android.iam.services.ProfileServiceImpl
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class ProfileActivity : AppCompatActivity() {
+class ProfileActivity : BaseActivity() {
     private lateinit var edtName: EditText
     private lateinit var spinnerCountry: Spinner
     private lateinit var spinnerCity: Spinner
@@ -28,7 +30,10 @@ class ProfileActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_profile)
+        layoutInflater.inflate(R.layout.activity_profile, findViewById(R.id.container))
+
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView.selectedItemId = R.id.navigation_profile
 
         edtName = findViewById(R.id.edtName)
         spinnerCountry = findViewById(R.id.spinnerCountry)

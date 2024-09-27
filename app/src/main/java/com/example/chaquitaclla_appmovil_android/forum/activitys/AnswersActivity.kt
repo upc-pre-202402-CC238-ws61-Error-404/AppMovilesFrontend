@@ -13,6 +13,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.chaquitaclla_appmovil_android.BaseActivity
 import com.example.chaquitaclla_appmovil_android.R
 import com.example.chaquitaclla_appmovil_android.SessionManager
 import com.example.chaquitaclla_appmovil_android.forum.adapter.AdapterAnswer
@@ -23,20 +24,20 @@ import com.example.chaquitaclla_appmovil_android.forum.beans.Question
 import com.example.chaquitaclla_appmovil_android.forum.services.CategoriesService
 import com.example.chaquitaclla_appmovil_android.forum.services.ProfileServiceForum
 import com.example.chaquitaclla_appmovil_android.iam.beans.ProfileResponse
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class AnswersActivity : AppCompatActivity() {
+class AnswersActivity : BaseActivity() {
 
     private lateinit var answersService: AnswersService
     private lateinit var categoriesService: CategoriesService
     private lateinit var profileService: ProfileServiceForum
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_answers)
+        layoutInflater.inflate(R.layout.activity_answers, findViewById(R.id.container))
 
         answersService = AnswersService()
         categoriesService = CategoriesService()
