@@ -1,11 +1,14 @@
-// DiseasesActivity.kt
 package com.example.chaquitaclla_appmovil_android
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
+import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -14,9 +17,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chaquitaclla_appmovil_android.crops_details.DiseaseService
 import com.example.chaquitaclla_appmovil_android.crops_details.PestService
-import com.example.chaquitaclla_appmovil_android.crops_details.adapters.PestAdapter
 import com.example.chaquitaclla_appmovil_android.crops_details.adapters.DiseaseAdapter
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.example.chaquitaclla_appmovil_android.crops_details.adapters.PestAdapter
+import com.example.chaquitaclla_appmovil_android.crops_details.beans.Disease
+import com.example.chaquitaclla_appmovil_android.crops_details.beans.Pest
+import com.example.chaquitaclla_appmovil_android.databinding.ActivityDiseasesBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -44,35 +49,17 @@ class DiseasesActivity : BaseActivity() {
         pestRecyclerView.layoutManager = LinearLayoutManager(this)
 
         setupSpinner()
+        setupSearch()
 
-        fetchDiseasesAndPests()
-    }
-
-    private fun fetchDiseasesAndPests() {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val diseases = diseaseService.getDiseasesByCropId(5) // Replace with actual crop ID
-                val pests = pestService.getPestsByCropId(5) // Replace with actual crop ID
-                withContext(Dispatchers.Main) {
-                    if (diseases.isNotEmpty()) {
-                        diseaseAdapter = DiseaseAdapter(diseases)
-                        diseaseRecyclerView.adapter = diseaseAdapter
-                    } else {
-                        Toast.makeText(this@DiseasesActivity, "No diseases found", Toast.LENGTH_LONG).show()
-                    }
-                    if (pests.isNotEmpty()) {
-                        pestAdapter = PestAdapter(pests)
-                        pestRecyclerView.adapter = pestAdapter
-                    } else {
-                        Toast.makeText(this@DiseasesActivity, "No pests found", Toast.LENGTH_LONG).show()
-                    }
-                }
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    Log.e("DiseasesActivity", "Error fetching data", e)
-                    Toast.makeText(this@DiseasesActivity, "Failed to fetch data", Toast.LENGTH_LONG).show()
-                }
-            }
+        val cropId = intent.getIntExtra("CROP_ID", 5)
+        val sowingId = intent.getIntExtra("SOWING_ID", 1)
+        Log.d("DiseasesActivity", "Received cropId from intent: $cropId")
+        Log.d("DiseasesActivity", "Received sowingId from intent: $sowingId")
+        if (cropId != -1) {
+            fetchDiseasesAndPests(cropId)
+        } else {
+            Log.e("DiseasesActivity", "Invalid crop ID")
+            Toast.makeText(this, "Invalid crop ID", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -96,7 +83,8 @@ class DiseasesActivity : BaseActivity() {
                     return
                 }
                 view?.let {
-                    val sowingId = intent.getIntExtra("SOWING_ID", -1)
+                    val sowingId = intent.getIntExtra("SOWING_ID", 1)
+                    Log.d("CropCareActivity", "Spinner item selected, sowingId: $sowingId")
                     when (position) {
                         0 -> startActivity(Intent(this@DiseasesActivity, GeneralCropInfo::class.java).apply {
                             putExtra("SOWING_ID", sowingId)
@@ -118,7 +106,66 @@ class DiseasesActivity : BaseActivity() {
             }
         }
 
-        val diseasePosition = resources.getStringArray(R.array.crop_info_options).indexOf("Diseases")
-        spinner.setSelection(diseasePosition)
+        val cropCarePosition = resources.getStringArray(R.array.crop_info_options).indexOf("Diseases or Pest")
+        spinner.setSelection(cropCarePosition)
+    }
+
+    private fun setupSearch() {
+        val searchEditText: EditText = findViewById(R.id.searchEditText)
+        searchEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val query = s.toString()
+                if (::diseaseAdapter.isInitialized) {
+                    diseaseAdapter.filter(query)
+                }
+                if (::pestAdapter.isInitialized) {
+                    pestAdapter.filter(query)
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        searchEditText.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                val query = searchEditText.text.toString()
+                if (::diseaseAdapter.isInitialized) {
+                    diseaseAdapter.filter(query)
+                }
+                true
+            } else {
+                false
+            }
+        }
+    }
+
+    private fun fetchDiseasesAndPests(cropId: Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val diseases = diseaseService.getDiseasesByCropId(cropId)
+                val pests = pestService.getPestsByCropId(cropId)
+                withContext(Dispatchers.Main) {
+                    if (diseases.isNotEmpty()) {
+                        diseaseAdapter = DiseaseAdapter(diseases)
+                        diseaseRecyclerView.adapter = diseaseAdapter
+                    } else {
+                        Toast.makeText(this@DiseasesActivity, "No diseases found", Toast.LENGTH_LONG).show()
+                    }
+                    if (pests.isNotEmpty()) {
+                        pestAdapter = PestAdapter(pests)
+                        pestRecyclerView.adapter = pestAdapter
+                    } else {
+                        Toast.makeText(this@DiseasesActivity, "No pests found", Toast.LENGTH_LONG).show()
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Log.e("DiseasesActivity", "Error fetching data", e)
+                    Toast.makeText(this@DiseasesActivity, "Failed to fetch data", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
     }
 }

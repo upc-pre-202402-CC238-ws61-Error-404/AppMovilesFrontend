@@ -34,7 +34,7 @@ class CropCareActivity : BaseActivity() {
 
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = CropCareAdapter(caresList) // Set an empty adapter initially
+        recyclerView.adapter = CropCareAdapter(caresList)
 
         cropCareSpinner = findViewById(R.id.dropdown_menu)
         setupSpinner()
@@ -62,7 +62,6 @@ class CropCareActivity : BaseActivity() {
 
         var isFirstSelection = true
 
-        // CropCareActivity.kt
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: android.view.View?, position: Int, id: Long) {
                 if (isFirstSelection) {
@@ -93,7 +92,6 @@ class CropCareActivity : BaseActivity() {
             }
         }
 
-        // Set the selected item to "Crop Care" if in CropCareActivity
         val cropCarePosition = resources.getStringArray(R.array.crop_info_options).indexOf("Crop Care")
         spinner.setSelection(cropCarePosition)
     }

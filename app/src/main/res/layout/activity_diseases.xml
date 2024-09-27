@@ -5,22 +5,18 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="20dp"
+    android:orientation="vertical"
     tools:context=".DiseasesActivity">
 
     <TextView
-        android:id="@+id/titleTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/title_crop_information"
         android:fontFamily="@font/poppins_semibold"
         android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -47,7 +43,6 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp" />
 
-    <!-- Filter Search -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -57,36 +52,36 @@
 
         <EditText
             android:id="@+id/searchEditText"
+            android:autofillHints="name"
             android:layout_width="0dp"
+            android:inputType="text"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Search for disease or pest"
+            android:hint="@string/search_for_disease_or_pest"
             android:padding="10dp"
+            android:textSize="16sp"
             android:background="@color/white"
             android:textColor="@android:color/black"
-            android:textColorHint="@android:color/darker_gray" />
-
+            android:textColorHint="@android:color/darker_gray"
+            android:imeOptions="actionSearch" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/diseaseRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:layout_constraintBottom_toTopOf="@id/pestRecyclerView"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dropdown_menu" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pestRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="20dp"
-        android:layout_marginBottom="108dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/diseaseRecyclerView" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </LinearLayout>

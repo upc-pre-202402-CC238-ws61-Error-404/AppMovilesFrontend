@@ -29,4 +29,7 @@
     <string name="delete_question">Delete Question</string>
     <string name="edit_question">Edit Question</string>
     <string name="see_question">See Question</string>
+    <string name="add_control">Add Control</string>
+    <string name="search_for_disease_or_pest">Search for diseases or pest</string>
+    <string name="add_product">Add Product</string>
 </resources>
