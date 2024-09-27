@@ -25,7 +25,14 @@
             android:exported="true"/>
         <activity
             android:name=".iam.activitys.SignInActivity"
-            android:exported="true" />
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+
         <activity
             android:name=".iam.activitys.SignUpActivity"
             android:exported="true" />
@@ -55,10 +62,6 @@
 
         <activity android:name=".sowingsManagement.SowingsManagementActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
