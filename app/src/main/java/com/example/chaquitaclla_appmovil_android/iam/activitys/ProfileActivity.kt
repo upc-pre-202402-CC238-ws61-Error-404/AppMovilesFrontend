@@ -93,6 +93,7 @@ class ProfileActivity : BaseActivity() {
 
         btnLogout.setOnClickListener {
             //Start the login activity
+            SessionManager.signOut()
             startActivity(Intent(this, SignInActivity::class.java))
 
         }

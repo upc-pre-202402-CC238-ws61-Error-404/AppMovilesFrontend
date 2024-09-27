@@ -15,4 +15,9 @@ object SessionManager {
         get() = signInResponse?.token
 
     var profileId: Int? = 0
+
+    fun signOut() {
+        signInResponse = null
+        profileId = null
+    }
 }

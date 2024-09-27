@@ -48,9 +48,9 @@ class SignInActivity : AppCompatActivity() {
                         SessionManager.signInResponse = signInResponse
                         Toast.makeText(this, "Welcome ${signInResponse.username}", Toast.LENGTH_LONG).show()
                         profileServiceImpl.getAllProfiles(SessionManager.token!!) { profiles ->
-                            val profileExists = profiles?.any { it.email == username } ?: false
-                            if (profileExists) {
-                                SessionManager.profileId = profiles?.find { it.email == username }?.id
+                            val profile = profiles?.find { it.email == username }
+                            if (profile != null) {
+                                SessionManager.profileId = profile.id
                                 startActivity(GoProfile(this))
                             } else {
                                 startActivity(GoPlans(this))
