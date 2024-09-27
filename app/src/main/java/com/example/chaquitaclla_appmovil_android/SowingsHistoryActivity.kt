@@ -1,3 +1,4 @@
+// SowingsHistoryActivity.kt
 package com.example.chaquitaclla_appmovil_android
 
 import DB.AppDataBase
@@ -13,6 +14,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -31,14 +33,12 @@ class SowingsHistoryActivity : BaseActivity() {
     private lateinit var database: AppDataBase
     private lateinit var sowingsService: SowingsService
     private var sowings: List<Sowing> = listOf()
-    private var sowingsFiltered: List<Sowing> = listOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         layoutInflater.inflate(R.layout.activity_sowings_history, findViewById(R.id.container))
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigationView.selectedItemId = R.id.navigation_history
-
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -51,21 +51,15 @@ class SowingsHistoryActivity : BaseActivity() {
         recyclerView = findViewById(R.id.recycler_view)
         recyclerView.layoutManager = GridLayoutManager(this, 2)
 
-        fetchAndDisplaySowings()
+        observeSowings()
     }
 
-    private fun fetchAndDisplaySowings() {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                sowings = database.sowingDAO().getAllSowings()
-                sowingsFiltered = sowings
-                withContext(Dispatchers.Main) {
-                    displaySowings(sowingsFiltered)
-                }
-            } catch (e: Exception) {
-                Log.e("SowingsHistoryActivity", "Error fetching sowings: ${e.message}")
+    private fun observeSowings() {
+        database.sowingDAO().getAllSowingsLive().observe(this, Observer { sowings ->
+            sowings?.let {
+                displaySowings(it)
             }
-        }
+        })
     }
 
     private fun displaySowings(sowings: List<Sowing>) {

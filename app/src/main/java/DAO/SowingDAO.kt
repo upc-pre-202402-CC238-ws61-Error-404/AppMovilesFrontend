@@ -1,6 +1,7 @@
 package DAO
 
 import Entities.Sowing
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -23,4 +24,8 @@ interface SowingDAO {
 
     @Update
     fun updateSowing(sowing: Sowing)
+
+        @Query("SELECT * FROM sowing WHERE status = 1")
+        fun getAllSowingsLive(): LiveData<List<Sowing>>
+
 }

@@ -1,4 +1,3 @@
-// SowingsManagementActivity.kt
 package com.example.chaquitaclla_appmovil_android.sowingsManagement
 
 import DB.AppDataBase
@@ -39,7 +38,6 @@ class SowingsManagementActivity : BaseActivity() {
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigationView.selectedItemId = R.id.navigation_home
 
-
         sowingsService = SowingsService()
         sowingsContainer = findViewById(R.id.sowings_container)
         addCropButton = findViewById(R.id.button_add_crop)
@@ -60,7 +58,7 @@ class SowingsManagementActivity : BaseActivity() {
     private fun fetchAndDisplaySowings() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val sowings = appDB.sowingDAO().getAllSowings()
+                val sowings = appDB.sowingDAO().getAllSowings().filter { !it.status }
                 crops = sowingsService.getAllCrops()
                 val cropMap = crops.associateBy { it.id }
                 withContext(Dispatchers.Main) {
@@ -280,7 +278,7 @@ class SowingsManagementActivity : BaseActivity() {
             try {
                 val sowing = appDB.sowingDAO().getSowingById(sowingId)
                 if (sowing != null) {
-                    val updatedSowing = sowing.copy(
+                    var updatedSowing = sowing.copy(
                         phenologicalPhase = (sowing.phenologicalPhase + 1) % 5,
                         phenologicalPhaseName = when ((sowing.phenologicalPhase + 1) % 5) {
                             0 -> "Germination"
@@ -291,8 +289,13 @@ class SowingsManagementActivity : BaseActivity() {
                             else -> sowing.phenologicalPhaseName
                         }
                     )
+                    if (updatedSowing.phenologicalPhaseName == "Harvest Ready") {
+                        updatedSowing = updatedSowing.copy(status = true)
+                    }
                     appDB.sowingDAO().updateSowing(updatedSowing)
-                    fetchAndDisplaySowings()
+                    withContext(Dispatchers.Main) {
+                        fetchAndDisplaySowings()
+                    }
                 }
             } catch (e: Exception) {
                 Log.e("SowingsManagement", "Error updating phenological phase: ${e.message}")
