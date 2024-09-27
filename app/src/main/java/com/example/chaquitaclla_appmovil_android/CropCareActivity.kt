@@ -39,7 +39,7 @@ class CropCareActivity : BaseActivity() {
         cropCareSpinner = findViewById(R.id.dropdown_menu)
         setupSpinner()
 
-        val cropId = intent.getIntExtra("CROP_ID", 5)
+        val cropId = intent.getIntExtra("CROP_ID", 1)
         Log.d("CropCareActivity", "Received cropId from intent: $cropId")
         if (cropId != -1) {
             fetchCaresByCropId(cropId)

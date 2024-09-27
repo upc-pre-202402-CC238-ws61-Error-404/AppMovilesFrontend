@@ -51,7 +51,7 @@ class DiseasesActivity : BaseActivity() {
         setupSpinner()
         setupSearch()
 
-        val cropId = intent.getIntExtra("CROP_ID", 5)
+        val cropId = intent.getIntExtra("CROP_ID", 1)
         val sowingId = intent.getIntExtra("SOWING_ID", 1)
         Log.d("DiseasesActivity", "Received cropId from intent: $cropId")
         Log.d("DiseasesActivity", "Received sowingId from intent: $sowingId")
