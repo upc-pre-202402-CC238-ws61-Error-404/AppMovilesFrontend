@@ -12,6 +12,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.chaquitaclla_appmovil_android.BaseActivity
+import com.example.chaquitaclla_appmovil_android.CropCareActivity
 import com.example.chaquitaclla_appmovil_android.GeneralCropInfo
 import com.example.chaquitaclla_appmovil_android.R
 import com.example.chaquitaclla_appmovil_android.sowingsManagement.beans.Crop
@@ -104,10 +105,12 @@ class SowingsManagementActivity : BaseActivity() {
             imgViewIcon.setOnClickListener {
                 Log.d("SowingsManagement", "Viewing details for sowing ID: ${sowing.id}")
                 val sowingId = sowing.id
+                val cropId= sowing.cropId
 
                 // Intent for GeneralCropInfo
                 val generalCropInfoIntent = Intent(this, GeneralCropInfo::class.java).apply {
                     putExtra("SOWING_ID", sowingId)
+                    putExtra("CROP_ID", cropId)
                 }
                 startActivity(generalCropInfoIntent)
             }

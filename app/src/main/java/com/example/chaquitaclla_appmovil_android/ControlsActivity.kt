@@ -98,7 +98,7 @@ class ControlsActivity : BaseActivity() {
             .create()
 
         addControlButton.setOnClickListener {
-            val sowingId = intent.getIntExtra("SOWING_ID", 1)
+            val sowingId = intent.getIntExtra("SOWING_ID", -1)
             val sowingCondition = SowingCondition.valueOf(sowingConditionSpinner.selectedItem.toString())
             val stemCondition = StemCondition.valueOf(stemConditionSpinner.selectedItem.toString())
             val soilMoisture = SowingSoilMoisture.valueOf(soilMoistureSpinner.selectedItem.toString())
@@ -218,6 +218,7 @@ class ControlsActivity : BaseActivity() {
 
         var isFirstSelection = true
 
+        // ControlsActivity.kt
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: android.view.View?, position: Int, id: Long) {
                 if (isFirstSelection) {
@@ -225,18 +226,28 @@ class ControlsActivity : BaseActivity() {
                     return
                 }
                 view?.let {
+                    val cropId = intent.getIntExtra("CROP_ID", -1)
                     val sowingId = intent.getIntExtra("SOWING_ID", -1)
                     when (position) {
                         0 -> startActivity(Intent(this@ControlsActivity, GeneralCropInfo::class.java).apply {
                             putExtra("SOWING_ID", sowingId)
+                            putExtra("CROP_ID", cropId)
                         })
-                        1 -> startActivity(Intent(this@ControlsActivity, CropCareActivity::class.java))
+                        1 -> startActivity(Intent(this@ControlsActivity, CropCareActivity::class.java).apply {
+                            putExtra("SOWING_ID", sowingId)
+                            putExtra("CROP_ID", cropId)
+                        })
                         2 -> startActivity(Intent(this@ControlsActivity, ControlsActivity::class.java).apply {
                             putExtra("SOWING_ID", sowingId)
+                            putExtra("CROP_ID", cropId)
                         })
-                        3 -> startActivity(Intent(this@ControlsActivity, DiseasesActivity::class.java))
+                        3 -> startActivity(Intent(this@ControlsActivity, DiseasesActivity::class.java).apply {
+                            putExtra("SOWING_ID", sowingId)
+                            putExtra("CROP_ID", cropId)
+                        })
                         4 -> startActivity(Intent(this@ControlsActivity, ProductsActivity::class.java).apply {
                             putExtra("SOWING_ID", sowingId)
+                            putExtra("CROP_ID", cropId)
                         })
                     }
                 }

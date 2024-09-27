@@ -1,3 +1,4 @@
+// GeneralCropInfo.kt
 package com.example.chaquitaclla_appmovil_android
 
 import android.content.Intent
@@ -38,12 +39,13 @@ class GeneralCropInfo : BaseActivity() {
         sowingsService = SowingsService()
 
         val sowingId = intent.getIntExtra("SOWING_ID", -1)
-        Log.d("GeneralCropInfo", "Received sowing ID: $sowingId")
+        val cropId = intent.getIntExtra("CROP_ID", -1)
+        Log.d("GeneralCropInfo", "Received sowing ID: $sowingId and crop ID: $cropId")
         if (sowingId != -1) {
             fetchSowingDetails(sowingId)
         }
 
-        setupSpinner()
+        setupSpinner(sowingId, cropId)
     }
 
     private fun fetchSowingDetails(sowingId: Int) {
@@ -70,7 +72,7 @@ class GeneralCropInfo : BaseActivity() {
         }
     }
 
-    private fun setupSpinner() {
+    private fun setupSpinner(sowingId: Int, cropId: Int) {
         val spinner: Spinner = findViewById(R.id.dropdown_menu)
         ArrayAdapter.createFromResource(
             this,
@@ -83,6 +85,7 @@ class GeneralCropInfo : BaseActivity() {
 
         var isFirstSelection = true
 
+        // GeneralCropInfo.kt
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: android.view.View?, position: Int, id: Long) {
                 if (isFirstSelection) {
@@ -91,17 +94,28 @@ class GeneralCropInfo : BaseActivity() {
                 }
                 view?.let {
                     val sowingId = intent.getIntExtra("SOWING_ID", -1)
+                    val cropId = intent.getIntExtra("CROP_ID", -1)
+                    Log.d("GeneralCropInfo", "Spinner item selected, sowingId: $sowingId, cropId: $cropId")
                     when (position) {
                         0 -> startActivity(Intent(this@GeneralCropInfo, GeneralCropInfo::class.java).apply {
                             putExtra("SOWING_ID", sowingId)
+                            putExtra("CROP_ID", cropId)
                         })
-                        1 -> startActivity(Intent(this@GeneralCropInfo, CropCareActivity::class.java))
+                        1 -> startActivity(Intent(this@GeneralCropInfo, CropCareActivity::class.java).apply {
+                            putExtra("SOWING_ID", sowingId)
+                            putExtra("CROP_ID", cropId)
+                        })
                         2 -> startActivity(Intent(this@GeneralCropInfo, ControlsActivity::class.java).apply {
                             putExtra("SOWING_ID", sowingId)
+                            putExtra("CROP_ID", cropId)
                         })
-                        3 -> startActivity(Intent(this@GeneralCropInfo, DiseasesActivity::class.java))
+                        3 -> startActivity(Intent(this@GeneralCropInfo, DiseasesActivity::class.java).apply {
+                            putExtra("SOWING_ID", sowingId)
+                            putExtra("CROP_ID", cropId)
+                        })
                         4 -> startActivity(Intent(this@GeneralCropInfo, ProductsActivity::class.java).apply {
                             putExtra("SOWING_ID", sowingId)
+                            putExtra("CROP_ID", cropId)
                         })
                     }
                 }

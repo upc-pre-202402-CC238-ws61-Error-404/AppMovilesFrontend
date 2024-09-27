@@ -215,16 +215,23 @@ class ProductsActivity : BaseActivity() {
                     return
                 }
                 view?.let {
+                    val cropId = intent.getIntExtra("CROP_ID", -1)
                     val sowingId = intent.getIntExtra("SOWING_ID", -1)
                     when (position) {
                         0 -> startActivity(Intent(this@ProductsActivity, GeneralCropInfo::class.java).apply {
                             putExtra("SOWING_ID", sowingId)
                         })
-                        1 -> startActivity(Intent(this@ProductsActivity, CropCareActivity::class.java))
+                        1 -> startActivity(Intent(this@ProductsActivity, CropCareActivity::class.java).apply {
+                            putExtra("SOWING_ID", sowingId)
+                            putExtra("CROP_ID", cropId)
+                        })
                         2 -> startActivity(Intent(this@ProductsActivity, ControlsActivity::class.java).apply {
                             putExtra("SOWING_ID", sowingId)
                         })
-                        3 -> startActivity(Intent(this@ProductsActivity, DiseasesActivity::class.java))
+                        3 -> startActivity(Intent(this@ProductsActivity, DiseasesActivity::class.java).apply {
+                            putExtra("SOWING_ID", sowingId)
+                            putExtra("CROP_ID", cropId)
+                        })
                         4 -> startActivity(Intent(this@ProductsActivity, ProductsActivity::class.java).apply {
                             putExtra("SOWING_ID", sowingId)
                         })
@@ -236,7 +243,6 @@ class ProductsActivity : BaseActivity() {
                 // No action needed
             }
         }
-
         val productPosition = resources.getStringArray(R.array.crop_info_options).indexOf("Products Used")
         spinner.setSelection(productPosition)
     }
