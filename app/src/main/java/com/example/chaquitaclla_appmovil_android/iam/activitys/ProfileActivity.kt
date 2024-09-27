@@ -1,6 +1,7 @@
 package com.example.chaquitaclla_appmovil_android.iam.activitys
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -25,6 +26,7 @@ class ProfileActivity : BaseActivity() {
     private lateinit var spinnerCity: Spinner
     private lateinit var edtPassword: EditText
     private lateinit var btnEdit: Button
+    private lateinit var btnLogout: Button
     private var currentProfile: ProfileResponse? = null
 
     @SuppressLint("MissingInflatedId")
@@ -40,6 +42,7 @@ class ProfileActivity : BaseActivity() {
         spinnerCity = findViewById(R.id.spinnerCity)
         edtPassword = findViewById(R.id.edtPassword)
         btnEdit = findViewById(R.id.btnEdit)
+        btnLogout = findViewById(R.id.btnLogOut)
 
         // Disable EditTexts initially
         setEditTextsEnabled(false)
@@ -86,6 +89,12 @@ class ProfileActivity : BaseActivity() {
             setEditTextsEnabled(!isEnabled)
             btnEdit.text = if (isEnabled) "Edit" else "Save"
             btnEdit.setBackgroundColor(if (isEnabled) getColor(R.color.allow) else getColor(R.color.deny))
+        }
+
+        btnLogout.setOnClickListener {
+            //Start the login activity
+            startActivity(Intent(this, SignInActivity::class.java))
+
         }
 
         val token = SessionManager.token

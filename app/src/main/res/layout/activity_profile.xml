@@ -134,6 +134,19 @@
             android:backgroundTint="#005F40"
             app:cornerRadius="10dp"/>
 
+        <Button
+            android:id="@+id/btnLogOut"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/poppins"
+            android:text="Logout"
+            android:textSize="18dp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#FF0303"
+            app:cornerRadius="10dp"/>
+
     </LinearLayout>
 
 </RelativeLayout>
