@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Chaquitaclla_appmovil_android</string>
+    <string name="app_name">Chaquitaclla</string>
     <string name="title_statical_reports">Statical Reports</string>
     <string name="title_list_of_crops_in_progress">List of Crops in Progress</string>
     <string name="title_crop_information">Crop Information</string>
