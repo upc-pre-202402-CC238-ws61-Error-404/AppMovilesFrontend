@@ -1,6 +1,9 @@
 package com.example.chaquitaclla_appmovil_android.statistics
 
+import DB.AppDataBase
+import android.content.Context
 import android.util.Log
+import androidx.room.Room
 import com.example.chaquitaclla_appmovil_android.statistics.beans.StatisticBar
 import com.example.chaquitaclla_appmovil_android.statistics.interfaces.StatisticsApi
 import okhttp3.OkHttpClient
@@ -10,15 +13,19 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.net.SocketException
 import io.github.cdimascio.dotenv.dotenv
 import com.github.mikephil.charting.data.PieEntry
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 
-class StatisticsService {
+class StatisticsService(context:Context) {
     val dotenv = dotenv() {
         directory = "/assets"
         filename = "env"
     }
     private val api: StatisticsApi
     private val token = dotenv["BEARER_TOKEN"]
+
+    private val db = AppDataBase.getDatabase(context)
 
     init {
         val client = OkHttpClient.Builder().addInterceptor { chain ->
@@ -91,6 +98,62 @@ class StatisticsService {
         } catch (e: SocketException) {
             Log.e("StatisticsService", "SocketException: ${e.message}")
             emptyList()
+        }
+    }
+
+    /**
+     * This method call at the database SQL lite table with the name "controls"
+     * return an array with all the controls and the crop referent to the cropId
+     * with that cropID we can have the name of the crop
+     */
+    suspend fun getQuantityOfControlsBySowingIdByDB(): List<PieEntry> {
+        return withContext(Dispatchers.IO) {
+            val controls = db.controlDAO().getAllControls()
+            Log.d("StatisticsService", "Controls from DB: $controls")
+            val quantityOfControls = mutableMapOf<Int, Int>()
+
+            for (control in controls) {
+                val sowingId = control.sowingId
+                quantityOfControls[sowingId] = quantityOfControls.getOrDefault(sowingId, 0) + 1
+            }
+
+            val pieEntries = mutableListOf<PieEntry>()
+            for ((sowingId, count) in quantityOfControls) {
+                val sowing = db.sowingDAO().getSowingById(sowingId)
+                if (sowing != null) {
+                    val crop = api.getCropName(sowing.cropId)
+                    pieEntries.add(PieEntry(count.toFloat(), crop.name))
+                }
+            }
+
+            pieEntries
+        }
+    }
+
+    /**
+     * This method call at the database SQL lite table with the name "sowings"
+     * return an array with all the sowings and the crop referent to the cropId
+     * with that cropID we can have the name of the crop
+     */
+    suspend fun getQuantityOfCropsByDB(): List<StatisticBar> {
+        return withContext(Dispatchers.IO) {
+            val sowings = db.sowingDAO().getAllSowings()
+            val quantityOfCrops = mutableMapOf<Int, Int>()
+
+            // Count the number of sowings for each cropId
+            for (sowing in sowings) {
+                val cropId = sowing.cropId
+                quantityOfCrops[cropId] = quantityOfCrops.getOrDefault(cropId, 0) + 1
+            }
+
+            // Call the API to get the crop name for each cropId
+            val statisticBars = mutableListOf<StatisticBar>()
+            for ((cropId, count) in quantityOfCrops) {
+                val crop = api.getCropName(cropId) // API call to get the crop name
+                statisticBars.add(StatisticBar(crop.name, count.toFloat()))
+            }
+
+            statisticBars
         }
     }
 

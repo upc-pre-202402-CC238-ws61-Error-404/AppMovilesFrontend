@@ -21,12 +21,14 @@ class ControlAdapter(
         return ControlViewHolder(view)
     }
 
+    override fun getItemCount(): Int {
+        return controls.size
+    }
+
     override fun onBindViewHolder(holder: ControlViewHolder, position: Int) {
         val control = controls[position]
         holder.bind(control)
     }
-
-    override fun getItemCount(): Int = controls.size
 
     inner class ControlViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val sowingConditionTextView: TextView = itemView.findViewById(R.id.sowingConditionTextView)

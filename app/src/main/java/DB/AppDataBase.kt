@@ -14,7 +14,7 @@ import Entities.Control
 import Entities.Product
 import com.example.chaquitaclla_appmovil_android.sowingsManagement.beans.DateConverter
 
-@Database(entities = [Sowing::class, Control::class, Product::class], version = 4, exportSchema = false)
+@Database(entities = [Sowing::class, Control::class, Product::class], version = 5, exportSchema = false)
 @TypeConverters(DateConverter::class)
 abstract class AppDataBase : RoomDatabase() {
     abstract fun sowingDAO(): SowingDAO

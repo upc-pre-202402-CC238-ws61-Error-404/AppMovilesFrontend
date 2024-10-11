@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Chaquitaclla_appmovil_android</string>
+    <string name="app_name">Chaquitaclla</string>
     <string name="title_statical_reports">Statical Reports</string>
     <string name="title_list_of_crops_in_progress">List of Crops in Progress</string>
     <string name="title_crop_information">Crop Information</string>
@@ -19,4 +19,17 @@
     <string name="description_add_product">Enter the type of input, name and quantity used</string>
     <string name="title_add_product">Add Product</string>
     <string name="crops_history">Crops History</string>
+    <string name="item_label">User Type</string>
+
+    <style name="GreenAutoCompleteTextView" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="endIconTint">#005F40</item>
+    </style>
+    <string name="title_activity_create_profile">CreateProfileActivity</string>
+    <string name="title_forum_management">Consultation Forum</string>
+    <string name="delete_question">Delete Question</string>
+    <string name="edit_question">Edit Question</string>
+    <string name="see_question">See Question</string>
+    <string name="add_control">Add Control</string>
+    <string name="search_for_disease_or_pest">Search for diseases or pest</string>
+    <string name="add_product">Add Product</string>
 </resources>

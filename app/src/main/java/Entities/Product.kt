@@ -2,6 +2,7 @@ package Entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.Date
 
 @Entity(tableName = "products")
 data class Product(
@@ -9,5 +10,6 @@ data class Product(
     val sowingId: Int,
     var name: String,
     var type: String,
-    var quantity: Float
+    var quantity: Float,
+    var date: Date
 )
