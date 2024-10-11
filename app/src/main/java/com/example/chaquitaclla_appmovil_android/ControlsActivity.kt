@@ -1,4 +1,3 @@
-// ControlsActivity.kt
 package com.example.chaquitaclla_appmovil_android
 
 import DB.AppDataBase
@@ -41,21 +40,23 @@ class ControlsActivity : BaseActivity() {
         controlRecyclerView = findViewById(R.id.controlRecyclerView)
         controlRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        appDB = AppDataBase.getDatabase(this) // Initialize the database
+        appDB = AppDataBase.getDatabase(this)
 
-        val sowingId = intent.getIntExtra("SOWING_ID", -1)
+        val sowingId = intent.getIntExtra("SOWING_ID", 1)
         Log.d("ControlsActivity", "Received sowingId: $sowingId")
         if (sowingId != -1) {
             fetchControlsBySowingId(sowingId)
         } else {
             Log.e("ControlsActivity", "Invalid sowing ID")
             Toast.makeText(this, "Invalid sowing ID", Toast.LENGTH_SHORT).show()
-            finish() // Close the activity if the sowing ID is invalid
+            finish()
         }
 
         findViewById<Button>(R.id.addControlButton).setOnClickListener {
             showAddControlDialog()
         }
+
+        setupSpinner()
     }
 
     private fun fetchControlsBySowingId(sowingId: Int) {
@@ -97,7 +98,7 @@ class ControlsActivity : BaseActivity() {
             .create()
 
         addControlButton.setOnClickListener {
-            val sowingId = intent.getIntExtra("SOWING_ID", 1)
+            val sowingId = intent.getIntExtra("SOWING_ID", -1)
             val sowingCondition = SowingCondition.valueOf(sowingConditionSpinner.selectedItem.toString())
             val stemCondition = StemCondition.valueOf(stemConditionSpinner.selectedItem.toString())
             val soilMoisture = SowingSoilMoisture.valueOf(soilMoistureSpinner.selectedItem.toString())
@@ -126,7 +127,7 @@ class ControlsActivity : BaseActivity() {
                     date = date
                 )
                 appDB.controlDAO().insertControl(newControl)
-                fetchControlsBySowingId(sowingId) // Refresh the list
+                fetchControlsBySowingId(sowingId)
             } catch (e: Exception) {
                 Log.e("ControlsActivity", "Error adding control: ${e.message}")
                 withContext(Dispatchers.Main) {
@@ -138,23 +139,23 @@ class ControlsActivity : BaseActivity() {
 
     private fun onEditClick(control: Control) {
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_control, null)
-        val sowingConditionEditText = dialogView.findViewById<EditText>(R.id.spinner_sowing_condition)
-        val stemConditionEditText = dialogView.findViewById<EditText>(R.id.spinner_stem_condition)
-        val soilMoistureEditText = dialogView.findViewById<EditText>(R.id.spinner_soil_moisture)
+        val sowingConditionSpinner = dialogView.findViewById<Spinner>(R.id.spinner_sowing_condition)
+        val stemConditionSpinner = dialogView.findViewById<Spinner>(R.id.spinner_stem_condition)
+        val soilMoistureSpinner = dialogView.findViewById<Spinner>(R.id.spinner_soil_moisture)
         val addControlButton = dialogView.findViewById<Button>(R.id.button_add)
         val cancelButton = dialogView.findViewById<Button>(R.id.button_cancel)
 
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.crop_info_options,
-            R.layout.spinner_item_white_text
-        ).also { adapter ->
-            adapter.setDropDownViewResource(R.layout.spinner_item_white_text)
-        }
+        val conditions = SowingCondition.entries.map { it.name }
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, conditions)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-        sowingConditionEditText.setText(control.sowingCondition)
-        stemConditionEditText.setText(control.stemCondition)
-        soilMoistureEditText.setText(control.sowingSoilMoisture)
+        sowingConditionSpinner.adapter = adapter
+        stemConditionSpinner.adapter = adapter
+        soilMoistureSpinner.adapter = adapter
+
+        sowingConditionSpinner.setSelection(conditions.indexOf(control.sowingCondition))
+        stemConditionSpinner.setSelection(conditions.indexOf(control.stemCondition))
+        soilMoistureSpinner.setSelection(conditions.indexOf(control.sowingSoilMoisture))
 
         val dialog = AlertDialog.Builder(this)
             .setView(dialogView)
@@ -162,9 +163,9 @@ class ControlsActivity : BaseActivity() {
             .create()
 
         addControlButton.setOnClickListener {
-            control.sowingCondition = sowingConditionEditText.text.toString()
-            control.stemCondition = stemConditionEditText.text.toString()
-            control.sowingSoilMoisture = soilMoistureEditText.text.toString()
+            control.sowingCondition = sowingConditionSpinner.selectedItem.toString()
+            control.stemCondition = stemConditionSpinner.selectedItem.toString()
+            control.sowingSoilMoisture = soilMoistureSpinner.selectedItem.toString()
             updateControl(control)
             dialog.dismiss()
         }
@@ -180,7 +181,7 @@ class ControlsActivity : BaseActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 appDB.controlDAO().updateControl(control)
-                fetchControlsBySowingId(control.sowingId) // Refresh the list
+                fetchControlsBySowingId(control.sowingId)
             } catch (e: Exception) {
                 Log.e("ControlsActivity", "Error updating control: ${e.message}")
                 withContext(Dispatchers.Main) {
@@ -194,7 +195,7 @@ class ControlsActivity : BaseActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 appDB.controlDAO().deleteControl(control.id)
-                fetchControlsBySowingId(control.sowingId) // Refresh the list
+                fetchControlsBySowingId(control.sowingId)
             } catch (e: Exception) {
                 Log.e("ControlsActivity", "Error deleting control: ${e.message}")
                 withContext(Dispatchers.Main) {
@@ -217,6 +218,7 @@ class ControlsActivity : BaseActivity() {
 
         var isFirstSelection = true
 
+        // ControlsActivity.kt
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: android.view.View?, position: Int, id: Long) {
                 if (isFirstSelection) {
@@ -224,18 +226,28 @@ class ControlsActivity : BaseActivity() {
                     return
                 }
                 view?.let {
+                    val cropId = intent.getIntExtra("CROP_ID", -1)
                     val sowingId = intent.getIntExtra("SOWING_ID", -1)
                     when (position) {
                         0 -> startActivity(Intent(this@ControlsActivity, GeneralCropInfo::class.java).apply {
                             putExtra("SOWING_ID", sowingId)
+                            putExtra("CROP_ID", cropId)
                         })
-                        1 -> startActivity(Intent(this@ControlsActivity, CropCareActivity::class.java))
+                        1 -> startActivity(Intent(this@ControlsActivity, CropCareActivity::class.java).apply {
+                            putExtra("SOWING_ID", sowingId)
+                            putExtra("CROP_ID", cropId)
+                        })
                         2 -> startActivity(Intent(this@ControlsActivity, ControlsActivity::class.java).apply {
                             putExtra("SOWING_ID", sowingId)
+                            putExtra("CROP_ID", cropId)
                         })
-                        3 -> startActivity(Intent(this@ControlsActivity, DiseasesActivity::class.java))
+                        3 -> startActivity(Intent(this@ControlsActivity, DiseasesActivity::class.java).apply {
+                            putExtra("SOWING_ID", sowingId)
+                            putExtra("CROP_ID", cropId)
+                        })
                         4 -> startActivity(Intent(this@ControlsActivity, ProductsActivity::class.java).apply {
                             putExtra("SOWING_ID", sowingId)
+                            putExtra("CROP_ID", cropId)
                         })
                     }
                 }

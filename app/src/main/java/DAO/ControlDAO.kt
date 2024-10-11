@@ -19,4 +19,7 @@ interface ControlDAO {
 
     @Update
     fun updateControl(control: Control)
+
+    @Query("SELECT * FROM controls")
+    fun getAllControls(): List<Control>
 }
