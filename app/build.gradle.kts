@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id("kotlin-kapt")
+    kotlin("kapt")
 }
 
 android {
@@ -42,7 +42,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.14"
     }
     packaging {
         resources {
@@ -53,25 +53,24 @@ android {
 }
 
 dependencies {
-
-    //Retrofit dependences
+    // Retrofit dependencies
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("io.github.cdimascio:dotenv-kotlin:6.4.2")
 
-    //Coroutines dependences
-    //implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0")
+    // Coroutines dependencies
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.6")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.6")
 
-    //Coil dependences for image loading
+    // Coil dependencies for image loading
     implementation("io.coil-kt:coil-compose:2.6.0")
 
-    //navegacion entre pantallas
-    //implementation("androidx.navigation:navigation-compose:2.7.7")
+    // Navigation dependencies
+    // implementation("androidx.navigation:navigation-compose:2.7.7")
 
     implementation(libs.car.ui.lib)
     val room_version = "2.5.0"
+    kapt("androidx.room:room-compiler:$room_version")
 
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
@@ -82,7 +81,6 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.12.0")
     kapt("com.github.bumptech.glide:compiler:4.12.0")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
-
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
