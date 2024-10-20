@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.chaquitaclla_appmovil_android.crops_details.DiseaseService
 import com.example.chaquitaclla_appmovil_android.crops_details.adapters.DiseaseAdapter
 import com.example.chaquitaclla_appmovil_android.crops_details.beans.Disease
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
 
 class DiseasesActivity : BaseActivity() {
@@ -25,6 +26,10 @@ class DiseasesActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         layoutInflater.inflate(R.layout.activity_diseases, findViewById(R.id.container))
         enableEdgeToEdge()
+
+        // Configurar el BottomNavigationView
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView.selectedItemId = R.id.navigation_home
 
         recyclerView = findViewById(R.id.diseaseRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
