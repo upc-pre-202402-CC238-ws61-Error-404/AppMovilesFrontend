@@ -2,6 +2,7 @@ package com.example.chaquitaclla_appmovil_android.crops_details
 
 import CustomDateTypeAdapter
 import android.util.Log
+import com.example.chaquitaclla_appmovil_android.SessionManager
 import com.example.chaquitaclla_appmovil_android.crops_details.beans.Cares
 import com.example.chaquitaclla_appmovil_android.crops_details.interfaces.CropCaresApi
 import com.google.gson.Gson
@@ -20,7 +21,7 @@ class CropCaresService {
         filename = "env"
     }
     private val api: CropCaresApi
-    private val token = dotenv["BEARER_TOKEN"]
+    private val token = SessionManager.token
 
     init {
         val client = OkHttpClient.Builder().addInterceptor { chain ->

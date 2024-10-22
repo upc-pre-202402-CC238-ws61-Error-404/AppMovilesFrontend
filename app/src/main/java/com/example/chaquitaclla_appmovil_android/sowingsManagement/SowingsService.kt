@@ -2,6 +2,7 @@
 package com.example.chaquitaclla_appmovil_android.sowingsManagement
 
 import android.util.Log
+import com.example.chaquitaclla_appmovil_android.SessionManager
 import com.example.chaquitaclla_appmovil_android.sowingsManagement.beans.SowingDos
 import com.example.chaquitaclla_appmovil_android.sowingsManagement.beans.Crop
 import com.example.chaquitaclla_appmovil_android.sowingsManagement.interfaces.SowingsApi
@@ -18,7 +19,7 @@ class SowingsService {
         filename = "env"
     }
     private val api: SowingsApi
-    private val token: String? = dotenv["BEARER_TOKEN"]
+    private val token: String? = SessionManager.token
 
     init {
         Log.d("SowingsService", "Initializing SowingsService")
