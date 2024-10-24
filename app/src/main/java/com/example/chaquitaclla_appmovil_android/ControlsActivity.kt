@@ -21,6 +21,7 @@ import androidx.activity.enableEdgeToEdge
 import com.example.chaquitaclla_appmovil_android.crops_details.SowingCondition
 import com.example.chaquitaclla_appmovil_android.crops_details.SowingSoilMoisture
 import com.example.chaquitaclla_appmovil_android.crops_details.StemCondition
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -36,6 +37,10 @@ class ControlsActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         layoutInflater.inflate(R.layout.activity_controls, findViewById(R.id.container))
         enableEdgeToEdge()
+
+        // Configurar el BottomNavigationView
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView.selectedItemId = R.id.navigation_home
 
         controlRecyclerView = findViewById(R.id.controlRecyclerView)
         controlRecyclerView.layoutManager = LinearLayoutManager(this)

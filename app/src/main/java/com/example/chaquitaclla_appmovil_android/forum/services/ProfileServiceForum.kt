@@ -1,6 +1,7 @@
 package com.example.chaquitaclla_appmovil_android.forum.services
 
 import android.util.Log
+import com.example.chaquitaclla_appmovil_android.SessionManager
 import com.example.chaquitaclla_appmovil_android.forum.interfaces.ForumApi
 import com.example.chaquitaclla_appmovil_android.iam.beans.ProfileResponse
 import io.github.cdimascio.dotenv.dotenv
@@ -16,7 +17,7 @@ class ProfileServiceForum {
     }
 
     private val api: ForumApi
-    private val token = dotenv["BEARER_TOKEN"]
+    private val token = SessionManager.token
 
     init {
         val client = OkHttpClient.Builder().addInterceptor { chain ->

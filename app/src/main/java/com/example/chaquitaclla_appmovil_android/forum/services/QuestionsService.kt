@@ -1,6 +1,7 @@
 package com.example.chaquitaclla_appmovil_android.forum.services
 
 import android.util.Log
+import com.example.chaquitaclla_appmovil_android.SessionManager
 import com.example.chaquitaclla_appmovil_android.forum.beans.Question
 import com.example.chaquitaclla_appmovil_android.forum.beans.QuestionPost
 import com.example.chaquitaclla_appmovil_android.forum.beans.QuestionPut
@@ -19,7 +20,7 @@ class QuestionsService {
     }
 
     private val api: ForumApi
-    private val token = dotenv["BEARER_TOKEN"]
+    private val token = SessionManager.token
 
     init {
         val client = OkHttpClient.Builder().addInterceptor { chain ->

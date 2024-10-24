@@ -18,7 +18,7 @@ open class BaseActivity : AppCompatActivity() {
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
-                    if (this !is SowingsManagementActivity) {
+                    if (!isSowingsManagementActivity()) {
                         val intent = Intent(this, SowingsManagementActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                         startActivity(intent)
@@ -60,6 +60,11 @@ open class BaseActivity : AppCompatActivity() {
                 else -> false
             }
         }
+    }
+
+    private fun isSowingsManagementActivity(): Boolean {
+        return this is SowingsManagementActivity || this is ControlsActivity || this is CropCareActivity || this is DiseasesActivity || this is ProductsActivity
+                || this is GeneralCropInfo
     }
 
     override fun onResume() {

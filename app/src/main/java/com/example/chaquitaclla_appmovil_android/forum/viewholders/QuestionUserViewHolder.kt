@@ -27,7 +27,7 @@ class QuestionUserViewHolder(view: View, private val categories: List<Category>)
     fun render(question: Question){
         questionCont.text = question.questionText
         date.text = question.date.toString().take(10)
-        val profileId = SessionManager.profileId?: 0
+        val profileId = SessionManager.profileId
 
         val categoryName = categories.find { it.categoryId == question.categoryId }?.name ?: "Unknown"
         category.text = categoryName

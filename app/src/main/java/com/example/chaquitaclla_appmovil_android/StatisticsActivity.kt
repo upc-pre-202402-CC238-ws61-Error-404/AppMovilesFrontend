@@ -87,9 +87,18 @@ class StatisticsActivity : BaseActivity() {
             BarEntry(index.toFloat(), statisticBar.value)
         }
         val colors = listOf(
-            Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.MAGENTA,
-            Color.CYAN, Color.GRAY, Color.DKGRAY, Color.LTGRAY, Color.BLACK
+            Color.rgb(0, 128, 128),      // Teal
+            Color.rgb(255, 165, 0),      // Orange
+            Color.rgb(75, 0, 130),       // Indigo
+            Color.rgb(255, 192, 203),    // Pink
+            Color.rgb(144, 238, 144),    // Light Green
+            Color.rgb(240, 128, 128),    // Light Coral
+            Color.rgb(32, 178, 170),     // Light Sea Green
+            Color.rgb(100, 149, 237),    // Cornflower Blue
+            Color.rgb(255, 228, 181),    // Moccasin
+            Color.rgb(47, 79, 79)        // Dark Slate Gray
         )
+
         val dataSet = BarDataSet(entries, "Crops")
         dataSet.colors = colors
         val barData = BarData(dataSet)
@@ -110,9 +119,18 @@ class StatisticsActivity : BaseActivity() {
         val dataSet = PieDataSet(pieEntries, "Controls per Sowing")
 
         val colors = listOf(
-            Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.MAGENTA,
-            Color.CYAN, Color.GRAY, Color.DKGRAY, Color.LTGRAY, Color.BLACK
+            Color.rgb(0, 128, 128),      // Teal
+            Color.rgb(255, 165, 0),      // Orange
+            Color.rgb(75, 0, 130),       // Indigo
+            Color.rgb(255, 192, 203),    // Pink
+            Color.rgb(144, 238, 144),    // Light Green
+            Color.rgb(240, 128, 128),    // Light Coral
+            Color.rgb(32, 178, 170),     // Light Sea Green
+            Color.rgb(100, 149, 237),    // Cornflower Blue
+            Color.rgb(255, 228, 181),    // Moccasin
+            Color.rgb(47, 79, 79)        // Dark Slate Gray
         )
+
         dataSet.colors = colors
 
         val pieData = PieData(dataSet)

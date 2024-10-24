@@ -14,10 +14,10 @@ object SessionManager {
     val token: String?
         get() = signInResponse?.token
 
-    var profileId: Int? = 0
+    var profileId: Int = 0
 
     fun signOut() {
         signInResponse = null
-        profileId = null
+        profileId = 0
     }
 }

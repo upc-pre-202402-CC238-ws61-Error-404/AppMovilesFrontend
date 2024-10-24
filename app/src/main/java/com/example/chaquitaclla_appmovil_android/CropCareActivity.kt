@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.chaquitaclla_appmovil_android.crops_details.CropCaresService
 import com.example.chaquitaclla_appmovil_android.crops_details.adapters.CropCareAdapter
 import com.example.chaquitaclla_appmovil_android.crops_details.beans.Cares
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
 
 class CropCareActivity : BaseActivity() {
@@ -26,6 +27,10 @@ class CropCareActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         layoutInflater.inflate(R.layout.activity_crop_care, findViewById(R.id.container))
         enableEdgeToEdge()
+
+        // Configurar el BottomNavigationView
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView.selectedItemId = R.id.navigation_home
 
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
