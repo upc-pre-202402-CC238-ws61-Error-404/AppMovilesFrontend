@@ -65,8 +65,11 @@ class ForumManagementActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        fetchAndDisplayQuestionsUser()
-        fetchAndDisplayQuestionsCommunity()
+        setupAutoCompleteTextView()
+        setupAddQuestionButton(SessionManager.profileId)
+
+        val autoComplete: AutoCompleteTextView = findViewById(R.id.spinnerForum)
+        autoComplete.setText("Community", false)
     }
 
     private fun setupAutoCompleteTextView() {
