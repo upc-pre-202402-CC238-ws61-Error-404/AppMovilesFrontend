@@ -4,6 +4,7 @@ import DB.AppDataBase
 import android.content.Context
 import android.util.Log
 import androidx.room.Room
+import com.example.chaquitaclla_appmovil_android.SessionManager
 import com.example.chaquitaclla_appmovil_android.statistics.beans.StatisticBar
 import com.example.chaquitaclla_appmovil_android.statistics.interfaces.StatisticsApi
 import okhttp3.OkHttpClient
@@ -23,7 +24,7 @@ class StatisticsService(context:Context) {
         filename = "env"
     }
     private val api: StatisticsApi
-    private val token = dotenv["BEARER_TOKEN"]
+    private val token = SessionManager.token
 
     private val db = AppDataBase.getDatabase(context)
 

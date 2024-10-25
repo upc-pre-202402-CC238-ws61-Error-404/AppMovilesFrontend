@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -43,24 +44,33 @@ class SignInActivity : AppCompatActivity() {
             val password = findViewById<EditText>(R.id.edtPassword).text.toString()
             if (username.isNotEmpty() && password.isNotEmpty()) {
                 val signInRequest = SignInRequest(username, password)
+                val url = "https://localhost:7071/api/v1/authentication/sign-in"
+                Log.d("SignInActivity", "Sending sign-in request to URL: $url")
+                Log.d("SignInActivity", "Request body: $signInRequest")
+
                 authServiceImpl.signIn(signInRequest) { signInResponse ->
                     if (signInResponse != null) {
+                        Log.d("SignInActivity", "Received sign-in response: $signInResponse")
                         SessionManager.signInResponse = signInResponse
                         Toast.makeText(this, "Welcome ${signInResponse.username}", Toast.LENGTH_LONG).show()
                         profileServiceImpl.getAllProfiles(SessionManager.token!!) { profiles ->
                             val profile = profiles?.find { it.email == username }
                             if (profile != null) {
+                                Log.d("SignInActivity", "Profile found: $profile")
                                 SessionManager.profileId = profile.id
                                 startActivity(GoProfile(this))
                             } else {
+                                Log.d("SignInActivity", "Profile not found, going to plans")
                                 startActivity(GoPlans(this))
                             }
                         }
                     } else {
+                        Log.e("SignInActivity", "Login failed: response is null")
                         Toast.makeText(this, "Login failed", Toast.LENGTH_LONG).show()
                     }
                 }
             } else {
+                Log.w("SignInActivity", "Username or password is empty")
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_LONG).show()
             }
         }

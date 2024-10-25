@@ -54,15 +54,25 @@ class ForumManagementActivity : BaseActivity() {
         categoriesService = CategoriesService()
         profileService = ProfileServiceForum()
 
-        val profileId = SessionManager.profileId?:-1
+        val profileId = SessionManager.profileId
 
 
-        setupAutoCompleteTextView(profileId)
+        setupAutoCompleteTextView()
         setupAddQuestionButton(profileId)
         fetchAndDisplayQuestionsCommunity()
+        fetchAndDisplayQuestionsUser()
     }
 
-    private fun setupAutoCompleteTextView(profileId: Int) {
+    override fun onResume() {
+        super.onResume()
+        setupAutoCompleteTextView()
+        setupAddQuestionButton(SessionManager.profileId)
+
+        val autoComplete: AutoCompleteTextView = findViewById(R.id.spinnerForum)
+        autoComplete.setText("Community", false)
+    }
+
+    private fun setupAutoCompleteTextView() {
         val item = listOf("Community", "My Questions")
         val autoComplete: AutoCompleteTextView = findViewById(R.id.spinnerForum)
 
@@ -77,7 +87,7 @@ class ForumManagementActivity : BaseActivity() {
                 fetchAndDisplayQuestionsCommunity()
             }else if (selectedItem == "My Questions") {
                 clearQuestions()
-                fetchAndDisplayQuestionsUser(profileId)
+                fetchAndDisplayQuestionsUser()
             }
             Toast.makeText(this, " $selectedItem", Toast.LENGTH_SHORT).show()
         }
@@ -141,7 +151,7 @@ class ForumManagementActivity : BaseActivity() {
 
             val date = DateFormat.format(Date())
 
-            val question = QuestionPost(profileId, categoryId, questionText, date)
+            val question = QuestionPost(SessionManager.profileId, categoryId, questionText, date)
 
             CoroutineScope(Dispatchers.IO).launch {
                 try {
@@ -208,7 +218,7 @@ class ForumManagementActivity : BaseActivity() {
                 try {
                     questionsService.updateQuestion(question.questionId, updatedQuestion)
                     withContext(Dispatchers.Main) {
-                        fetchAndDisplayQuestionsUser(profileId)
+                        fetchAndDisplayQuestionsUser()
                         Toast.makeText(this@ForumManagementActivity, "Question updated successfully", Toast.LENGTH_SHORT).show()
                         dialog.dismiss()
                     }
@@ -247,7 +257,7 @@ class ForumManagementActivity : BaseActivity() {
                 try {
                     questionsService.deleteQuestion(question.questionId)
                     withContext(Dispatchers.Main) {
-                        fetchAndDisplayQuestionsUser(profileId)
+                        fetchAndDisplayQuestionsUser()
                         Toast.makeText(this@ForumManagementActivity, "Question deleted successfully", Toast.LENGTH_SHORT).show()
                         dialog.dismiss()
                     }
@@ -290,11 +300,11 @@ class ForumManagementActivity : BaseActivity() {
         recyclerView.adapter = AdapterQuestionCommunity(emptyList())
     }
 
-    private fun fetchAndDisplayQuestionsUser(profileId: Int){
+    private fun fetchAndDisplayQuestionsUser(){
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val categories = categoriesService.getAllCategories()
-                val questions = questionsService.getQuestionsByAuthorId(profileId)
+                val questions = questionsService.getQuestionsByAuthorId(SessionManager.profileId)
                 withContext(Dispatchers.Main){
                     displayQuestionsUser(questions, categories)
                 }
