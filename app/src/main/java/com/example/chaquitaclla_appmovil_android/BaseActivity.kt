@@ -22,6 +22,7 @@ open class BaseActivity : AppCompatActivity() {
                         val intent = Intent(this, SowingsManagementActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                         startActivity(intent)
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                     }
                     true
                 }
@@ -30,6 +31,7 @@ open class BaseActivity : AppCompatActivity() {
                         val intent = Intent(this, ForumManagementActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                         startActivity(intent)
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                     }
                     true
                 }
@@ -38,6 +40,7 @@ open class BaseActivity : AppCompatActivity() {
                         val intent = Intent(this, ProfileActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                         startActivity(intent)
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                     }
                     true
                 }
@@ -46,6 +49,7 @@ open class BaseActivity : AppCompatActivity() {
                         val intent = Intent(this, SowingsHistoryActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                         startActivity(intent)
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                     }
                     true
                 }
@@ -54,6 +58,7 @@ open class BaseActivity : AppCompatActivity() {
                         val intent = Intent(this, StatisticsActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                         startActivity(intent)
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                     }
                     true
                 }
