@@ -26,7 +26,7 @@ open class BaseActivity : AppCompatActivity() {
                     true
                 }
                 R.id.navigation_forum -> {
-                    if (this !is ForumManagementActivity) {
+                    if (!isForumActivity()) {
                         val intent = Intent(this, ForumManagementActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                         startActivity(intent)
@@ -65,6 +65,10 @@ open class BaseActivity : AppCompatActivity() {
     private fun isSowingsManagementActivity(): Boolean {
         return this is SowingsManagementActivity || this is ControlsActivity || this is CropCareActivity || this is DiseasesActivity || this is ProductsActivity
                 || this is GeneralCropInfo
+    }
+
+    private fun isForumActivity(): Boolean {
+        return this is ForumManagementActivity || this is AnswersActivity
     }
 
     override fun onResume() {

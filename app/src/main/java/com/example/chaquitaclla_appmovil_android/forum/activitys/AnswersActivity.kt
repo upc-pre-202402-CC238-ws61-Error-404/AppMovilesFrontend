@@ -10,7 +10,6 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chaquitaclla_appmovil_android.BaseActivity
@@ -35,14 +34,15 @@ class AnswersActivity : BaseActivity() {
     private lateinit var answersService: AnswersService
     private lateinit var categoriesService: CategoriesService
     private lateinit var profileService: ProfileServiceForum
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         layoutInflater.inflate(R.layout.activity_answers, findViewById(R.id.container))
+        enableEdgeToEdge()
 
         answersService = AnswersService()
         categoriesService = CategoriesService()
         profileService = ProfileServiceForum()
-
 
         val question = intent.getSerializableExtra("question") as Question
         val isFromCommunity = intent.getBooleanExtra("isFromCommunity", false)
@@ -52,6 +52,12 @@ class AnswersActivity : BaseActivity() {
         displayQuestionDetails(question, profileId)
         fetchAndDisplayAnswers(question.questionId, profileId)
         setupAddAnswerButton(question, isFromCommunity, profileId)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        bottomNavigationView.selectedItemId = R.id.navigation_forum
     }
 
     private fun displayQuestionDetails(question: Question, profileId: Int) {
@@ -75,14 +81,12 @@ class AnswersActivity : BaseActivity() {
             }
         }
 
-
         txtQuestionAnswers.text = question.questionText
-
         txtDateQuestion.text = question.date.toString().take(10)
     }
-    private fun setupAddAnswerButton(question: Question, isFromCommunity:Boolean, profileId: Int) {
-        val addQuestionButton: Button = findViewById(R.id.btnAddAnswer)
 
+    private fun setupAddAnswerButton(question: Question, isFromCommunity: Boolean, profileId: Int) {
+        val addQuestionButton: Button = findViewById(R.id.btnAddAnswer)
 
         if (isFromCommunity) {
             addQuestionButton.visibility = View.VISIBLE
@@ -94,6 +98,7 @@ class AnswersActivity : BaseActivity() {
             showAddAnswerDialog(question, profileId)
         }
     }
+
     private fun showAddAnswerDialog(question: Question, profileId: Int) {
         val dialogView = layoutInflater.inflate(R.layout.add_answer_dialog, null)
         val answerDialogTitle: TextView = dialogView.findViewById(R.id.answerDialogTitle)
@@ -116,12 +121,11 @@ class AnswersActivity : BaseActivity() {
                 return@setOnClickListener
             }
 
-            val answer= AnswerPost(
+            val answer = AnswerPost(
                 questionId = question.questionId,
                 answerText = answerText,
                 authorId = profileId
             )
-            // Aquí puedes agregar la lógica para agregar la respuesta
             CoroutineScope(Dispatchers.IO).launch {
                 try {
                     answersService.addAnswer(answer)
@@ -144,7 +148,7 @@ class AnswersActivity : BaseActivity() {
         dialog.show()
     }
 
-    private fun fetchAndDisplayAnswers(questionId: Int, profileId:Int) {
+    private fun fetchAndDisplayAnswers(questionId: Int, profileId: Int) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val answers = answersService.getAllAnswersByQuestionId(questionId)
@@ -154,7 +158,6 @@ class AnswersActivity : BaseActivity() {
                         displayAnswers(answers, profiles)
                     }
                 }
-
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     Log.e("AnswersActivity", "Error: ${e.message}")
@@ -167,7 +170,6 @@ class AnswersActivity : BaseActivity() {
         val recyclerView: RecyclerView = findViewById(R.id.recyclerViewAnswers)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = AdapterAnswer(answers, profiles)
-
     }
 
     private fun setupBackButton() {
