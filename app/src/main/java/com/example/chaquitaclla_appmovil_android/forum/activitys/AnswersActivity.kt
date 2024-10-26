@@ -46,7 +46,7 @@ class AnswersActivity : BaseActivity() {
 
         val question = intent.getSerializableExtra("question") as Question
         val isFromCommunity = intent.getBooleanExtra("isFromCommunity", false)
-        val profileId = SessionManager.profileId?:-1
+        val profileId = SessionManager.profileId
 
         setupBackButton()
         displayQuestionDetails(question, profileId)
@@ -63,7 +63,7 @@ class AnswersActivity : BaseActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val category = categoriesService.getCategoryById(question.categoryId)
-                val profile = profileService.getProfileById(profileId)
+                val profile = profileService.getProfileById(question.authorId)
                 withContext(Dispatchers.Main) {
                     txtCategoryQuestion.text = category.name
                     txtUserQuestion.text = profile?.fullName ?: "Unknown"
@@ -148,10 +148,10 @@ class AnswersActivity : BaseActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val answers = answersService.getAllAnswersByQuestionId(questionId)
-                val profile = profileService.getProfileById(profileId)
-                if (profile != null) {
+                val profiles = profileService.getAllProfiles()
+                if (profiles != null) {
                     withContext(Dispatchers.Main) {
-                        displayAnswers(answers, profile)
+                        displayAnswers(answers, profiles)
                     }
                 }
 
@@ -163,10 +163,10 @@ class AnswersActivity : BaseActivity() {
         }
     }
 
-    private fun displayAnswers(answers: List<Answer>, profile: ProfileResponse) {
+    private fun displayAnswers(answers: List<Answer>, profiles: List<ProfileResponse>) {
         val recyclerView: RecyclerView = findViewById(R.id.recyclerViewAnswers)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = AdapterAnswer(answers, profile)
+        recyclerView.adapter = AdapterAnswer(answers, profiles)
 
     }
 
