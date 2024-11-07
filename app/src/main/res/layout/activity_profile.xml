@@ -38,10 +38,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:fontFamily="@font/poppins"
-                android:text="My Profile"
-                android:textColor="#000000"
-                android:textSize="25dp" />
+                style="@style/TitleTextStyle"
+                android:text="My Profile" />
 
         </LinearLayout>
 
@@ -50,10 +48,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
-            android:fontFamily="@font/poppins"
+            style="@style/CommonTextStyle"
             android:text="Name:"
             android:textStyle="bold"
-            android:textColor="#000000"
             android:textSize="20dp" />
 
         <EditText
@@ -69,10 +66,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:fontFamily="@font/poppins"
+            style="@style/CommonTextStyle"
             android:text="Country:"
             android:textStyle="bold"
-            android:textColor="#000000"
             android:textSize="20dp" />
 
         <Spinner
@@ -88,10 +84,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:fontFamily="@font/poppins"
+            style="@style/CommonTextStyle"
             android:text="City:"
             android:textStyle="bold"
-            android:textColor="#000000"
             android:textSize="20dp" />
 
         <Spinner
@@ -107,10 +102,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:fontFamily="@font/poppins"
+            style="@style/CommonTextStyle"
             android:text="Password:"
             android:textStyle="bold"
-            android:textColor="#000000"
             android:textSize="20dp" />
 
         <EditText

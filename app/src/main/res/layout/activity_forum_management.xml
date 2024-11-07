@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -11,30 +10,19 @@
     tools:context=".forum.activitys.ForumManagementActivity"
     android:padding="10dp">
 
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        style="@style/TitleTextStyle"
         android:text="@string/title_forum_management"
-        android:fontFamily="@font/poppins_semibold"
-        android:textSize="30sp"
-        android:textStyle="bold"
         android:padding="10dp"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="#8B4513"
-        android:fontFamily="@font/poppins_semibold"
+        style="@style/ButtonOptionStyle"
         android:text="Add Question"
-        android:textColor="@android:color/white"
-        android:textSize="24sp"
-        android:textStyle="bold"
         android:id="@+id/btnAddQuestion"/>
-        />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -42,8 +30,7 @@
         android:layout_margin="16dp"
         android:textColor="@color/white"
         android:textStyle="bold"
-        style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
-        >
+        style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu">
         <AutoCompleteTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,15 +39,11 @@
             android:backgroundTint="@color/green"
             android:popupBackground="@color/green"
             android:textColor="@color/white"
-            android:textStyle="bold"
-            />
-
+            android:textStyle="bold"/>
     </com.google.android.material.textfield.TextInputLayout>
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/recyclerViewQuestions"/>
-
 </LinearLayout>

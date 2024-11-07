@@ -10,33 +10,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="----------"
-        android:fontFamily="@font/poppins_semibold"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:id="@+id/questionDialogTitle"/>
+        style="@style/TitleTextStyle"
+        android:id="@+id/questionDialogTitle"
+        android:text="----------"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        style="@style/CommonTextStyle"
         android:text="Enter the category and question"
         android:textSize="20sp"
-        android:fontFamily="@font/poppins_semibold"
         android:textStyle="bold"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
-        >
+        style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu">
         <AutoCompleteTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/spinnerCategory"
             android:inputType="none"
-            android:hint="Category"
-            />
+            android:hint="Category"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <EditText
@@ -63,8 +60,7 @@
             android:layout_gravity="center"
             android:text="---"
             android:id="@+id/btnAddQuestion"
-            android:backgroundTint="#006D18"
-            />
+            android:backgroundTint="#006D18"/>
 
         <Button
             android:layout_width="120dp"

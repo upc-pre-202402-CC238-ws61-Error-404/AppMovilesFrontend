@@ -25,7 +25,7 @@
                 android:id="@+id/sowingConditionTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_semibold"
+                style="@style/CommonTextStyle"
                 android:text="Leaves: "
                 android:textColor="#000000"
                 android:textSize="14sp" />
@@ -34,7 +34,7 @@
                 android:id="@+id/stemConditionTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_semibold"
+                style="@style/CommonTextStyle"
                 android:text="Stem: "
                 android:textSize="14sp" />
 
@@ -42,7 +42,7 @@
                 android:id="@+id/soilMoistureTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_semibold"
+                style="@style/CommonTextStyle"
                 android:text="Soil Moisture: "
                 android:textSize="14sp" />
 
@@ -50,7 +50,7 @@
                 android:id="@+id/dateTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins_semibold"
+                style="@style/CommonTextStyle"
                 android:text="Date: "
                 android:textSize="14sp" />
 

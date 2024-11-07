@@ -27,20 +27,16 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
-            android:fontFamily="@font/poppins"
-            android:text="Payment"
-            android:textColor="#000000"
-            android:textSize="25dp" />
+            style="@style/TitleTextStyle"
+            android:text="Payment" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
-            android:fontFamily="@font/poppins"
-            android:text="Card number:"
-            android:textColor="#000000"
-            android:textSize="15dp" />
+            style="@style/CommonTextStyle"
+            android:text="Card number:" />
 
         <EditText
             android:id="@+id/edtCardNumber"
@@ -62,16 +58,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="5dp"
-                android:fontFamily="@font/poppins"
-                android:textSize="15dp"
+                style="@style/CommonTextStyle"
                 android:text="Due Date:"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="80dp"
                 android:layout_marginTop="5dp"
-                android:fontFamily="@font/poppins"
-                android:textSize="15dp"
+                style="@style/CommonTextStyle"
                 android:text="Security code:"/>
 
         </LinearLayout>
@@ -111,10 +105,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
-            android:fontFamily="@font/poppins"
-            android:text="Email:"
-            android:textColor="#000000"
-            android:textSize="15dp" />
+            style="@style/CommonTextStyle"
+            android:text="Email:" />
 
         <EditText
             android:id="@+id/edtEmail"
@@ -130,10 +122,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:fontFamily="@font/poppins"
-            android:text="Name:"
-            android:textColor="#000000"
-            android:textSize="15dp" />
+            style="@style/CommonTextStyle"
+            android:text="Name:" />
 
         <EditText
             android:id="@+id/edtName"

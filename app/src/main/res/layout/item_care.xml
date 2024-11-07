@@ -16,14 +16,14 @@
             android:id="@+id/dateTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_semibold"
+            style="@style/TitleTextStyle"
             android:text="Date:" />
 
         <TextView
             android:id="@+id/suggesetionTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_regular"
+            style="@style/CommonTextStyle"
             android:text="Suggestion:"
             android:layout_below="@id/dateTextView"
             android:layout_marginTop="8dp" />

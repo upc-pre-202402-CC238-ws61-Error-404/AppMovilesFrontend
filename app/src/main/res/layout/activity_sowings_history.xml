@@ -12,10 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/crops_history"
-        android:fontFamily="@font/poppins_semibold"
-        android:textSize="30sp"
-        android:textStyle="bold"/>
+        style="@style/TitleTextStyle"
+        android:text="@string/crops_history"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
