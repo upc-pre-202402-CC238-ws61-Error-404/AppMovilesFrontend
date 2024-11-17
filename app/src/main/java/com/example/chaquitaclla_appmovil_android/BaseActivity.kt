@@ -22,14 +22,16 @@ open class BaseActivity : AppCompatActivity() {
                         val intent = Intent(this, SowingsManagementActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                         startActivity(intent)
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                     }
                     true
                 }
                 R.id.navigation_forum -> {
-                    if (this !is ForumManagementActivity) {
+                    if (!isForumActivity()) {
                         val intent = Intent(this, ForumManagementActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                         startActivity(intent)
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                     }
                     true
                 }
@@ -38,6 +40,7 @@ open class BaseActivity : AppCompatActivity() {
                         val intent = Intent(this, ProfileActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                         startActivity(intent)
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                     }
                     true
                 }
@@ -46,6 +49,7 @@ open class BaseActivity : AppCompatActivity() {
                         val intent = Intent(this, SowingsHistoryActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                         startActivity(intent)
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                     }
                     true
                 }
@@ -54,6 +58,7 @@ open class BaseActivity : AppCompatActivity() {
                         val intent = Intent(this, StatisticsActivity::class.java)
                         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
                         startActivity(intent)
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                     }
                     true
                 }
@@ -65,6 +70,10 @@ open class BaseActivity : AppCompatActivity() {
     private fun isSowingsManagementActivity(): Boolean {
         return this is SowingsManagementActivity || this is ControlsActivity || this is CropCareActivity || this is DiseasesActivity || this is ProductsActivity
                 || this is GeneralCropInfo
+    }
+
+    private fun isForumActivity(): Boolean {
+        return this is ForumManagementActivity || this is AnswersActivity
     }
 
     override fun onResume() {

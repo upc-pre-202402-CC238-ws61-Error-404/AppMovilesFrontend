@@ -5,24 +5,23 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="----------"
-        android:fontFamily="@font/poppins_semibold"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:id="@+id/answerDialogTitle"/>
+        style="@style/TitleTextStyle"
+        android:id="@+id/answerDialogTitle"
+        android:text="----------"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        style="@style/CommonTextStyle"
         android:text="Enter the answer to the question"
         android:textSize="20sp"
-        android:fontFamily="@font/poppins_semibold"
         android:textStyle="bold"/>
-
 
     <EditText
         android:layout_width="match_parent"
@@ -48,8 +47,7 @@
             android:layout_gravity="center"
             android:text="---"
             android:id="@+id/btnAddAnswer"
-            android:backgroundTint="#006D18"
-            />
+            android:backgroundTint="#006D18"/>
 
         <Button
             android:layout_width="120dp"

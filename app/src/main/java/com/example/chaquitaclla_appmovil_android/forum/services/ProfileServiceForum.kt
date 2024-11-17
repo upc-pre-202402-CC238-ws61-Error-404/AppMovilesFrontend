@@ -47,4 +47,15 @@ class ProfileServiceForum {
             null
         }
     }
+
+    suspend fun getAllProfiles():List<ProfileResponse>? {
+        return try {
+            val profiles = api.getAllProfiles()
+            Log.d("ProfilesService","Raw JSON response: $profiles")
+            profiles
+        }catch (e: Exception) {
+            Log.e("ProfilesService", "Error: ${e.message}")
+            null
+        }
+    }
 }

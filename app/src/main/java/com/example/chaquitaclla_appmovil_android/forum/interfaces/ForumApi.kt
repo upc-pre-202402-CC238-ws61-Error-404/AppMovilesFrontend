@@ -48,4 +48,7 @@ interface ForumApi {
     //Profile
     @GET("profiles/{profileId}")
     suspend fun getProfileById(@Path("profileId") profileId: Int) : ProfileResponse
+
+    @GET("profiles")
+    suspend fun getAllProfiles(): List<ProfileResponse>
 }

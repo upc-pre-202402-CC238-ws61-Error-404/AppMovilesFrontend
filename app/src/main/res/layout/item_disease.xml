@@ -17,12 +17,14 @@
             android:id="@+id/nameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/TitleTextStyle"
             android:text="Name" />
 
         <TextView
             android:id="@+id/descriptionTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/CommonTextStyle"
             android:text="Description: "
             android:visibility="gone" />
 
@@ -30,6 +32,7 @@
             android:id="@+id/solutionTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/CommonTextStyle"
             android:text="Solution: "
             android:visibility="gone" />
     </LinearLayout>
