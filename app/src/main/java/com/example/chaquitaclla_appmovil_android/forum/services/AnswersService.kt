@@ -41,7 +41,6 @@ class AnswersService {
     suspend fun getAllAnswersByQuestionId(questionId: Int): List<Answer> {
         return try {
             val answers = api.getAnswersByQuestionId(questionId)
-            Log.d("AnswersService","Raw JSON response: $answers")
             answers
         } catch (e: SocketException){
             Log.e("AnswersService", "Error: ${e.message}")

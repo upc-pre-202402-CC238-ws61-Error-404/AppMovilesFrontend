@@ -57,7 +57,6 @@ class StatisticsService(context:Context) {
     suspend fun getQuantityOfCrops(): List<StatisticBar> {
         return try {
             val sowings = api.getSowings()
-            Log.d("StatisticsService", "Raw JSON response: $sowings")
 
             val quantityOfCrops = mutableMapOf<String, Int>()
 
@@ -68,10 +67,8 @@ class StatisticsService(context:Context) {
             }
 
             val statisticBars = quantityOfCrops.map { StatisticBar(it.key, it.value.toFloat()) }
-            Log.d("StatisticsService", "Converted data: $statisticBars")
             statisticBars
         } catch (e: SocketException) {
-            Log.e("StatisticsService", "SocketException: ${e.message}")
             emptyList()
         }
     }
@@ -85,7 +82,6 @@ class StatisticsService(context:Context) {
     suspend fun getQuantityOfControlsBySowingId(): List<PieEntry> {
         return try {
             val sowingsControls = api.getSowingsControls()
-            Log.d("StatisticsService", "Raw JSON response: $sowingsControls")
 
             val quantityOfControls = mutableMapOf<Int, Int>()
             for (control in sowingsControls) {
@@ -94,7 +90,6 @@ class StatisticsService(context:Context) {
             }
 
             val pieEntries = quantityOfControls.map { PieEntry(it.value.toFloat(), it.key.toString()) }
-            Log.d("StatisticsService", "Converted data: $pieEntries")
             pieEntries
         } catch (e: SocketException) {
             Log.e("StatisticsService", "SocketException: ${e.message}")
@@ -110,7 +105,6 @@ class StatisticsService(context:Context) {
     suspend fun getQuantityOfControlsBySowingIdByDB(): List<PieEntry> {
         return withContext(Dispatchers.IO) {
             val controls = db.controlDAO().getAllControls()
-            Log.d("StatisticsService", "Controls from DB: $controls")
             val quantityOfControls = mutableMapOf<Int, Int>()
 
             for (control in controls) {

@@ -39,7 +39,6 @@ class CategoriesService {
     suspend fun getAllCategories(): List<Category> {
         return try {
             val categories = api.getCategories()
-            Log.d("CategoriesService","Raw JSON response: $categories")
             categories
         } catch (e: Exception){
             Log.e("CategoriesService", "Error: ${e.message}")
@@ -50,7 +49,6 @@ class CategoriesService {
     suspend fun getCategoryById(categoryId: Int): Category {
         return try {
             val category = api.getCategoryById(categoryId)
-            Log.d("CategoriesService","Raw JSON response: $category")
             category
         } catch (e: Exception){
             Log.e("CategoriesService", "Error: ${e.message}")

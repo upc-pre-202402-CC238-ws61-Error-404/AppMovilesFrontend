@@ -24,6 +24,8 @@ import java.util.*
 class GeneralCropInfo : BaseActivity() {
     private lateinit var appDB: AppDataBase
     private lateinit var sowingsService: SowingsService
+    private var sowingId: Int = -1
+    private var cropId: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,14 +44,13 @@ class GeneralCropInfo : BaseActivity() {
         appDB = AppDataBase.getDatabase(this)
         sowingsService = SowingsService()
 
-        val sowingId = intent.getIntExtra("SOWING_ID", -1)
-        val cropId = intent.getIntExtra("CROP_ID", -1)
-        Log.d("GeneralCropInfo", "Received sowing ID: $sowingId and crop ID: $cropId")
+        sowingId = intent.getIntExtra("SOWING_ID", -1)
+        cropId = intent.getIntExtra("CROP_ID", -1)
         if (sowingId != -1) {
             fetchSowingDetails(sowingId)
         }
 
-        setupSpinner(sowingId, cropId)
+        setupSpinner()
     }
 
     private fun fetchSowingDetails(sowingId: Int) {
@@ -58,8 +59,6 @@ class GeneralCropInfo : BaseActivity() {
             val crop = sowing?.let { sowingsService.getCropById(it.cropId) }
             withContext(Dispatchers.Main) {
                 sowing?.let {
-                    Log.d("GeneralCropInfo", "Fetched sowing details: $it")
-                    Log.d("GeneralCropInfo", "Sowing start date: ${it.startDate}")
                     val cropName = crop?.name ?: "Unknown"
                     val area = it.areaLand
                     val description = crop?.description ?: "No description available"
@@ -76,7 +75,7 @@ class GeneralCropInfo : BaseActivity() {
         }
     }
 
-    private fun setupSpinner(sowingId: Int, cropId: Int) {
+    private fun setupSpinner() {
         val spinner: Spinner = findViewById(R.id.dropdown_menu)
         ArrayAdapter.createFromResource(
             this,
@@ -89,7 +88,6 @@ class GeneralCropInfo : BaseActivity() {
 
         var isFirstSelection = true
 
-        // GeneralCropInfo.kt
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: android.view.View?, position: Int, id: Long) {
                 if (isFirstSelection) {
@@ -97,30 +95,37 @@ class GeneralCropInfo : BaseActivity() {
                     return
                 }
                 view?.let {
-                    val sowingId = intent.getIntExtra("SOWING_ID", -1)
-                    val cropId = intent.getIntExtra("CROP_ID", -1)
-                    Log.d("GeneralCropInfo", "Spinner item selected, sowingId: $sowingId, cropId: $cropId")
                     when (position) {
-                        0 -> startActivity(Intent(this@GeneralCropInfo, GeneralCropInfo::class.java).apply {
-                            putExtra("SOWING_ID", sowingId)
-                            putExtra("CROP_ID", cropId)
-                        })
-                        1 -> startActivity(Intent(this@GeneralCropInfo, CropCareActivity::class.java).apply {
-                            putExtra("SOWING_ID", sowingId)
-                            putExtra("CROP_ID", cropId)
-                        })
-                        2 -> startActivity(Intent(this@GeneralCropInfo, ControlsActivity::class.java).apply {
-                            putExtra("SOWING_ID", sowingId)
-                            putExtra("CROP_ID", cropId)
-                        })
-                        3 -> startActivity(Intent(this@GeneralCropInfo, DiseasesActivity::class.java).apply {
-                            putExtra("SOWING_ID", sowingId)
-                            putExtra("CROP_ID", cropId)
-                        })
-                        4 -> startActivity(Intent(this@GeneralCropInfo, ProductsActivity::class.java).apply {
-                            putExtra("SOWING_ID", sowingId)
-                            putExtra("CROP_ID", cropId)
-                        })
+                        0 -> {
+                            startActivity(Intent(this@GeneralCropInfo, GeneralCropInfo::class.java).apply {
+                                putExtra("SOWING_ID", sowingId)
+                                putExtra("CROP_ID", cropId)
+                            })
+                        }
+                        1 -> {
+                            startActivity(Intent(this@GeneralCropInfo, CropCareActivity::class.java).apply {
+                                putExtra("SOWING_ID", sowingId)
+                                putExtra("CROP_ID", cropId)
+                            })
+                        }
+                        2 -> {
+                            startActivity(Intent(this@GeneralCropInfo, ControlsActivity::class.java).apply {
+                                putExtra("SOWING_ID", sowingId)
+                                putExtra("CROP_ID", cropId)
+                            })
+                        }
+                        3 -> {
+                            startActivity(Intent(this@GeneralCropInfo, DiseasesActivity::class.java).apply {
+                                putExtra("SOWING_ID", sowingId)
+                                putExtra("CROP_ID", cropId)
+                            })
+                        }
+                        4 -> {
+                            startActivity(Intent(this@GeneralCropInfo, ProductsActivity::class.java).apply {
+                                putExtra("SOWING_ID", sowingId)
+                                putExtra("CROP_ID", cropId)
+                            })
+                        }
                     }
                 }
             }

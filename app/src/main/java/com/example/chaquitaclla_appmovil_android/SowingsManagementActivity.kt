@@ -103,7 +103,6 @@ class SowingsManagementActivity : BaseActivity() {
             txtArea.text = "${sowing.areaLand} m²"
 
             imgViewIcon.setOnClickListener {
-                Log.d("SowingsManagement", "Viewing details for sowing ID: ${sowing.id}")
                 val sowingId = sowing.id
                 val cropId= sowing.cropId
 

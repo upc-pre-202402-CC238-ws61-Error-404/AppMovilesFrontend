@@ -45,22 +45,17 @@ class SignInActivity : AppCompatActivity() {
             if (username.isNotEmpty() && password.isNotEmpty()) {
                 val signInRequest = SignInRequest(username, password)
                 val url = "https://localhost:7071/api/v1/authentication/sign-in"
-                Log.d("SignInActivity", "Sending sign-in request to URL: $url")
-                Log.d("SignInActivity", "Request body: $signInRequest")
 
                 authServiceImpl.signIn(signInRequest) { signInResponse ->
                     if (signInResponse != null) {
-                        Log.d("SignInActivity", "Received sign-in response: $signInResponse")
                         SessionManager.signInResponse = signInResponse
                         Toast.makeText(this, "Welcome ${signInResponse.username}", Toast.LENGTH_LONG).show()
                         profileServiceImpl.getAllProfiles(SessionManager.token!!) { profiles ->
                             val profile = profiles?.find { it.email == username }
                             if (profile != null) {
-                                Log.d("SignInActivity", "Profile found: $profile")
                                 SessionManager.profileId = profile.id
                                 startActivity(GoProfile(this))
                             } else {
-                                Log.d("SignInActivity", "Profile not found, going to plans")
                                 startActivity(GoPlans(this))
                             }
                         }

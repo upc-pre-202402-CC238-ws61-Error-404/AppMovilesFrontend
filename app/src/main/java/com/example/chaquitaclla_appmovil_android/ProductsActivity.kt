@@ -45,7 +45,6 @@ class ProductsActivity : BaseActivity() {
         appDB = AppDataBase.getDatabase(this)
 
         val sowingId = intent.getIntExtra("SOWING_ID", 1)
-        Log.d("ProductsActivity", "Received sowingId: $sowingId")
         if (sowingId != -1) {
             fetchProductsBySowingId(sowingId)
         } else {
@@ -225,6 +224,7 @@ class ProductsActivity : BaseActivity() {
                     when (position) {
                         0 -> startActivity(Intent(this@ProductsActivity, GeneralCropInfo::class.java).apply {
                             putExtra("SOWING_ID", sowingId)
+                            putExtra("CROP_ID", cropId)
                         })
                         1 -> startActivity(Intent(this@ProductsActivity, CropCareActivity::class.java).apply {
                             putExtra("SOWING_ID", sowingId)
@@ -232,6 +232,7 @@ class ProductsActivity : BaseActivity() {
                         })
                         2 -> startActivity(Intent(this@ProductsActivity, ControlsActivity::class.java).apply {
                             putExtra("SOWING_ID", sowingId)
+                            putExtra("CROP_ID", cropId)
                         })
                         3 -> startActivity(Intent(this@ProductsActivity, DiseasesActivity::class.java).apply {
                             putExtra("SOWING_ID", sowingId)
@@ -239,6 +240,7 @@ class ProductsActivity : BaseActivity() {
                         })
                         4 -> startActivity(Intent(this@ProductsActivity, ProductsActivity::class.java).apply {
                             putExtra("SOWING_ID", sowingId)
+                            putExtra("CROP_ID", cropId)
                         })
                     }
                 }

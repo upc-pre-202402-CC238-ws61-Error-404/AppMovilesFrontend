@@ -43,7 +43,6 @@ class QuestionsService {
     suspend fun getAllQuestions(): List<Question> {
         return try {
             val questions = api.getQuestions()
-            Log.d("QuestionsService","Raw JSON response: $questions")
             questions
         } catch (e: SocketException){
             Log.e("QuestionsService", "Error: ${e.message}")
@@ -54,7 +53,6 @@ class QuestionsService {
     suspend fun getQuestionsByAuthorId(authorId: Int): List<Question> {
         return try {
             val questions = api.getQuestionsByAuthorId(authorId)
-            Log.d("QuestionsService","Raw JSON response: $questions")
             questions
         } catch (e: SocketException){
             Log.e("QuestionsService", "Error: ${e.message}")
@@ -65,7 +63,6 @@ class QuestionsService {
     suspend fun addQuestion(question: QuestionPost) {
         try {
             api.addQuestion(question)
-            Log.d("QuestionsService", "Question added successfully")
         } catch (e: Exception) {
             Log.e("QuestionsService", "Error: ${e.message}")
         }
@@ -74,7 +71,6 @@ class QuestionsService {
     suspend fun updateQuestion(questionId: Int, question: QuestionPut) {
         try {
             api.updateQuestion(questionId, question)
-            Log.d("QuestionsService", "Question updated successfully")
         } catch (e: Exception) {
             Log.e("QuestionsService", "Error: ${e.message}")
         }
@@ -83,7 +79,6 @@ class QuestionsService {
     suspend fun deleteQuestion(questionId: Int) {
         try {
             api.deleteQuestion(questionId)
-            Log.d("QuestionsService", "Question deleted successfully")
         } catch (e: Exception) {
             Log.e("QuestionsService", "Error: ${e.message}")
         }

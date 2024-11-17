@@ -40,7 +40,6 @@ class ProfileServiceForum {
     suspend fun getProfileById(profileId:Int):ProfileResponse? {
         return try {
             val profile = api.getProfileById(profileId)
-            Log.d("ProfilesService","Raw JSON response: $profile")
             profile
         }catch (e: Exception) {
             Log.e("ProfilesService", "Error: ${e.message}")
@@ -51,7 +50,6 @@ class ProfileServiceForum {
     suspend fun getAllProfiles():List<ProfileResponse>? {
         return try {
             val profiles = api.getAllProfiles()
-            Log.d("ProfilesService","Raw JSON response: $profiles")
             profiles
         }catch (e: Exception) {
             Log.e("ProfilesService", "Error: ${e.message}")

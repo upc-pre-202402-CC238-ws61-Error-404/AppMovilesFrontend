@@ -22,7 +22,6 @@ class SowingsService {
     private val token: String? = SessionManager.token
 
     init {
-        Log.d("SowingsService", "Initializing SowingsService")
         if (token.isNullOrEmpty()) {
             throw IllegalArgumentException("Bearer token is missing or empty")
         }
@@ -42,14 +41,11 @@ class SowingsService {
             .build()
 
         api = retrofit.create(SowingsApi::class.java)
-        Log.d("SowingsService", "SowingsService initialized")
     }
 
     suspend fun getCropById(id: Int): Crop? {
-        Log.d("SowingsService", "Fetching crop with ID: $id")
         return try {
             val crop = api.getCropById(id)
-            Log.d("SowingsService", "Raw JSON response: $crop")
             crop
         } catch (e: SocketException) {
             Log.e("SowingsService", "SocketException: ${e.message}")
@@ -58,10 +54,8 @@ class SowingsService {
     }
 
     suspend fun getAllCrops(): List<Crop> {
-        Log.d("SowingsService", "Fetching all crops")
         return try {
             val crops = api.getAllCrops()
-            Log.d("SowingsService", "Raw JSON response: $crops")
             crops
         } catch (e: SocketException) {
             Log.e("SowingsService", "SocketException: ${e.message}")

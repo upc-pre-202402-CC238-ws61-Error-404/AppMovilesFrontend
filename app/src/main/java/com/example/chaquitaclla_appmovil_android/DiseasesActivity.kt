@@ -37,12 +37,9 @@ class DiseasesActivity : BaseActivity() {
 
         val cropId = intent.getIntExtra("CROP_ID", -1)
         val sowingId = intent.getIntExtra("SOWING_ID", -1)
-        Log.d("DiseasesActivity", "Received cropId from intent: $cropId")
-        Log.d("DiseasesActivity", "Received sowingId from intent: $sowingId")
         if (cropId != -1) {
             fetchDiseasesByCropId(cropId)
         } else {
-            Log.e("DiseasesActivity", "Invalid crop ID")
             Toast.makeText(this, "Invalid crop ID", Toast.LENGTH_SHORT).show()
         }
 
@@ -72,10 +69,10 @@ class DiseasesActivity : BaseActivity() {
                 view?.let {
                     val cropId = intent.getIntExtra("CROP_ID", -1)
                     val sowingId = intent.getIntExtra("SOWING_ID", -1)
-                    Log.d("CropCareActivity", "Spinner item selected, sowingId: $sowingId")
                     when (position) {
                         0 -> startActivity(Intent(this@DiseasesActivity, GeneralCropInfo::class.java).apply {
                             putExtra("SOWING_ID", sowingId)
+                            putExtra("CROP_ID", cropId)
                         })
                         1 -> startActivity(Intent(this@DiseasesActivity, CropCareActivity::class.java).apply{
                             putExtra("SOWING_ID", sowingId)
@@ -83,6 +80,7 @@ class DiseasesActivity : BaseActivity() {
                         })
                         2 -> startActivity(Intent(this@DiseasesActivity, ControlsActivity::class.java).apply {
                             putExtra("SOWING_ID", sowingId)
+                            putExtra("CROP_ID", cropId)
                         })
                         3 -> startActivity(Intent(this@DiseasesActivity, DiseasesActivity::class.java).apply{
                             putExtra("SOWING_ID", sowingId)
@@ -90,6 +88,7 @@ class DiseasesActivity : BaseActivity() {
                         })
                         4 -> startActivity(Intent(this@DiseasesActivity, ProductsActivity::class.java).apply {
                             putExtra("SOWING_ID", sowingId)
+                            putExtra("CROP_ID", cropId)
                         })
                     }
                 }
@@ -104,17 +103,13 @@ class DiseasesActivity : BaseActivity() {
     }
 
     private fun fetchDiseasesByCropId(cropId: Int) {
-        Log.d("DiseasesActivity", "Fetching diseases by crop ID: $cropId")
         lifecycleScope.launch {
             try {
                 diseaseList = diseaseService.getDiseasesByCropId(cropId)
-                Log.d("DiseasesActivity", "Diseases fetched: ${diseaseList.size} items")
                 if (diseaseList.isNotEmpty()) {
                     recyclerView.adapter = DiseaseAdapter(diseaseList)
-                    Log.d("DiseasesActivity", "Adapter set with diseases list")
                 } else {
                     Toast.makeText(this@DiseasesActivity, "No diseases found", Toast.LENGTH_LONG).show()
-                    Log.d("DiseasesActivity", "No diseases found")
                 }
             } catch (e: retrofit2.HttpException) {
                 Log.e("DiseasesActivity", "HTTP Exception: ${e.message}", e)

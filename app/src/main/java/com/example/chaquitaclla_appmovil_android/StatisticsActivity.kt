@@ -62,13 +62,11 @@ class StatisticsActivity : BaseActivity() {
                 val statisticBars = withContext(Dispatchers.IO) {
                     statisticsService.getQuantityOfCropsByDB()
                 }
-                Log.d("com.example.chaquitaclla_appmovil_android.StaticsActivity", "Statistic Bars: $statisticBars")
                 setupBarChart(statisticBars)
 
                 val pieEntries = withContext(Dispatchers.IO) {
                     statisticsService.getQuantityOfControlsBySowingIdByDB()
                 }
-                Log.d("com.example.chaquitaclla_appmovil_android.StaticsActivity", "Pie Entries: $pieEntries")
                 setupPieChart(pieEntries)
             } catch (e: Exception) {
                 Log.e("com.example.chaquitaclla_appmovil_android.StaticsActivity", "Error loading data", e)

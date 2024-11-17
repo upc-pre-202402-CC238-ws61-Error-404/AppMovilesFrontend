@@ -15,7 +15,6 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.EditText
 import android.widget.Spinner
 import androidx.activity.enableEdgeToEdge
 import com.example.chaquitaclla_appmovil_android.crops_details.SowingCondition
@@ -48,7 +47,6 @@ class ControlsActivity : BaseActivity() {
         appDB = AppDataBase.getDatabase(this)
 
         val sowingId = intent.getIntExtra("SOWING_ID", 1)
-        Log.d("ControlsActivity", "Received sowingId: $sowingId")
         if (sowingId != -1) {
             fetchControlsBySowingId(sowingId)
         } else {
@@ -223,7 +221,6 @@ class ControlsActivity : BaseActivity() {
 
         var isFirstSelection = true
 
-        // ControlsActivity.kt
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: android.view.View?, position: Int, id: Long) {
                 if (isFirstSelection) {
@@ -234,26 +231,36 @@ class ControlsActivity : BaseActivity() {
                     val cropId = intent.getIntExtra("CROP_ID", -1)
                     val sowingId = intent.getIntExtra("SOWING_ID", -1)
                     when (position) {
-                        0 -> startActivity(Intent(this@ControlsActivity, GeneralCropInfo::class.java).apply {
-                            putExtra("SOWING_ID", sowingId)
-                            putExtra("CROP_ID", cropId)
-                        })
-                        1 -> startActivity(Intent(this@ControlsActivity, CropCareActivity::class.java).apply {
-                            putExtra("SOWING_ID", sowingId)
-                            putExtra("CROP_ID", cropId)
-                        })
-                        2 -> startActivity(Intent(this@ControlsActivity, ControlsActivity::class.java).apply {
-                            putExtra("SOWING_ID", sowingId)
-                            putExtra("CROP_ID", cropId)
-                        })
-                        3 -> startActivity(Intent(this@ControlsActivity, DiseasesActivity::class.java).apply {
-                            putExtra("SOWING_ID", sowingId)
-                            putExtra("CROP_ID", cropId)
-                        })
-                        4 -> startActivity(Intent(this@ControlsActivity, ProductsActivity::class.java).apply {
-                            putExtra("SOWING_ID", sowingId)
-                            putExtra("CROP_ID", cropId)
-                        })
+                        0 -> {
+                            startActivity(Intent(this@ControlsActivity, GeneralCropInfo::class.java).apply {
+                                putExtra("SOWING_ID", sowingId)
+                                putExtra("CROP_ID", cropId)
+                            })
+                        }
+                        1 -> {
+                            startActivity(Intent(this@ControlsActivity, CropCareActivity::class.java).apply {
+                                putExtra("SOWING_ID", sowingId)
+                                putExtra("CROP_ID", cropId)
+                            })
+                        }
+                        2 -> {
+                            startActivity(Intent(this@ControlsActivity, ControlsActivity::class.java).apply {
+                                putExtra("SOWING_ID", sowingId)
+                                putExtra("CROP_ID", cropId)
+                            })
+                        }
+                        3 -> {
+                            startActivity(Intent(this@ControlsActivity, DiseasesActivity::class.java).apply {
+                                putExtra("SOWING_ID", sowingId)
+                                putExtra("CROP_ID", cropId)
+                            })
+                        }
+                        4 -> {
+                            startActivity(Intent(this@ControlsActivity, ProductsActivity::class.java).apply {
+                                putExtra("SOWING_ID", sowingId)
+                                putExtra("CROP_ID", cropId)
+                            })
+                        }
                     }
                 }
             }

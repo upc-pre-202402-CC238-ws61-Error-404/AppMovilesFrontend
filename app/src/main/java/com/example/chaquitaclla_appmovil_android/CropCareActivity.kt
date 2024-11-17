@@ -37,7 +37,6 @@ class CropCareActivity : BaseActivity() {
         recyclerView.adapter = CropCareAdapter(caresList)
 
         val cropId = intent.getIntExtra("CROP_ID", -1)
-        Log.d("CropCareActivity", "Received cropId from intent: $cropId")
         if (cropId != -1) {
             fetchCaresByCropId(cropId)
         } else {
@@ -61,7 +60,6 @@ class CropCareActivity : BaseActivity() {
 
         var isFirstSelection = true
 
-
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: android.view.View?, position: Int, id: Long) {
                 if (isFirstSelection) {
@@ -71,21 +69,23 @@ class CropCareActivity : BaseActivity() {
                 view?.let {
                     val cropId = intent.getIntExtra("CROP_ID", -1)
                     val sowingId = intent.getIntExtra("SOWING_ID", -1)
-                    Log.d("CropCareActivity", "Spinner item selected, sowingId: $sowingId")
                     when (position) {
                         0 -> startActivity(Intent(this@CropCareActivity, GeneralCropInfo::class.java).apply {
                             putExtra("SOWING_ID", sowingId)
+                            putExtra("CROP_ID", cropId)
                         })
                         1 -> startActivity(Intent(this@CropCareActivity, CropCareActivity::class.java))
                         2 -> startActivity(Intent(this@CropCareActivity, ControlsActivity::class.java).apply {
                             putExtra("SOWING_ID", sowingId)
+                            putExtra("CROP_ID", cropId)
                         })
-                        3 -> startActivity(Intent(this@CropCareActivity, DiseasesActivity::class.java).apply{
+                        3 -> startActivity(Intent(this@CropCareActivity, DiseasesActivity::class.java).apply {
                             putExtra("SOWING_ID", sowingId)
                             putExtra("CROP_ID", cropId)
                         })
                         4 -> startActivity(Intent(this@CropCareActivity, ProductsActivity::class.java).apply {
                             putExtra("SOWING_ID", sowingId)
+                            putExtra("CROP_ID", cropId)
                         })
                     }
                 }
@@ -101,17 +101,13 @@ class CropCareActivity : BaseActivity() {
     }
 
     private fun fetchCaresByCropId(cropId: Int) {
-        Log.d("CropCareActivity", "Fetching cares by crop ID: $cropId")
         lifecycleScope.launch {
             try {
                 caresList = cropCaresService.getCaresByCropId(cropId)
-                Log.d("CropCareActivity", "Cares fetched: ${caresList.size} items")
                 if (caresList.isNotEmpty()) {
                     recyclerView.adapter = CropCareAdapter(caresList)
-                    Log.d("CropCareActivity", "Adapter set with cares list")
                 } else {
                     Toast.makeText(this@CropCareActivity, "No cares found", Toast.LENGTH_LONG).show()
-                    Log.d("CropCareActivity", "No cares found")
                 }
             } catch (e: retrofit2.HttpException) {
                 Log.e("CropCareActivity", "HTTP Exception: ${e.message}", e)
